@@ -4,10 +4,24 @@ class Robo {
     private int posicaoY;   //coordenada Y no Ambiente
 
 
-//    Construtor para inicializar os atributos;
-// mover(int deltaX, int deltaY) - Atualiza a posi ̧c ̃ao do robˆo;
-//• exibirPosicao() - Imprime a posi ̧c ̃ao atual do robˆo.
+    public Robo (nomeRobo) {    //Construtor para inicializar os atributos;
+    
+    nome = nomeRobo;
+    posicaoX = 0;
+    posicaoY = 0;
+    
+    }
 
+    public void setPosicao(int deltaX, int deltaY) { //Atualiza a posi ̧c ̃ao do robˆo;
+    
+    posicaoX = deltaX;
+    posicaoY = deltaY;
+    
+    }
+
+    public int obtemPosicao()
+    
+    //exibirPosicao() - Imprime a posi ̧c ̃ao atual do robˆo.
 
 
 
