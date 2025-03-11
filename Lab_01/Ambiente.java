@@ -9,11 +9,16 @@ public class Ambiente{
         this.altura = altura;
     }
 
+    public String nomeAmbiente(){
+        return this.ambiente;
+    }
+    
+    public int[] getLimites(){
+        int [] limites = {this.largura, this.altura};
+        return limites;
+    }
+
     public boolean dentroDosLimites(int x, int y){
-        if (x >= 0 && x <= this.largura && y >= 0 && y <= this.altura) {
-            return true;
-        }else{
-            return false;
-        }
+        return (x >= 0 && x <= this.largura && y >= 0 && y <= this.altura);
     }
 }

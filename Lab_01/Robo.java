@@ -9,17 +9,17 @@ public class Robo {
         this.posicaoY = 0;
     }
 
-    
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô;
         this.posicaoX += deltaX;
         this.posicaoY += deltaY;
     }
 
+    public String getNome(){
+        return nome;
+    }
+
     public int[] getPosicao(){
-        int[] posicao = {this.posicaoX, this.posicaoY}    
+        int[] posicao = {this.posicaoX, this.posicaoY};
         return posicao;
     }
-    
-    //exibirPosicao() - Imprime a posicao atual do robô.
-
 }
