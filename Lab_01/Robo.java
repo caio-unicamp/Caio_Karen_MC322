@@ -3,7 +3,6 @@ public class Robo {
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
 
-
     public Robo (String nomeRobo) {    //Construtor para inicializar os atributos;
         this.nome = nomeRobo;
         this.posicaoX = 0;
@@ -16,9 +15,10 @@ public class Robo {
         this.posicaoY += deltaY;
     }
 
-    // public int getPosicao(){
-        
-    // }
+    public int[] getPosicao(){
+        int[] posicao = {this.posicaoX, this.posicaoY}    
+        return posicao;
+    }
     
     //exibirPosicao() - Imprime a posicao atual do robô.
 
