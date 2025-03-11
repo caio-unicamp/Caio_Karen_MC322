@@ -14,11 +14,11 @@ public class Robo {
         this.posicaoY += deltaY;
     }
 
-    public String getNome(){
+    public String getNome(){ //Retorna o nome do robô
         return nome;
     }
 
-    public int[] getPosicao(){
+    public int[] getPosicao(){ //Retorna a posição do robô
         int[] posicao = {this.posicaoX, this.posicaoY};
         return posicao;
     }

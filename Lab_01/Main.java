@@ -12,6 +12,6 @@ public class Main {
         }
 
         System.out.println("Posição do Robô: (" +  marcos.getPosicao()[0] + " , " + marcos.getPosicao()[1] + ")");   //imprimir
-        System.out.println("O " + marcos.getNome() + " está " + dentro_ou_fora + " da " + caatinga.nomeAmbiente());
+        System.out.println("O " + marcos.getNome() + " está " + dentro_ou_fora + " da " + caatinga.getNomeAmbiente());
     }   
  }
