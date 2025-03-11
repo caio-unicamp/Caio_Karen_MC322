@@ -1,15 +1,16 @@
 public class Ambiente{
-    
-    public int largura_ambiente;
-    public int altura_ambiente;
+    public String ambiente;
+    public int largura;
+    public int altura;
 
-    public Ambiente(int largura, int altura){
-        largura_ambiente = largura;
-        altura_ambiente = altura;
+    public Ambiente(String ambiente, int largura, int altura){
+        this.ambiente = ambiente;
+        this.largura = largura;
+        this.altura = altura;
     }
-
+    
     public boolean dentroDosLimites(int x, int y){
-        if (x > 0 && x < largura_ambiente && y > 0 && y < altura_ambiente) {
+        if (x > 0 && x < largura && y > 0 && y < altura) {
             return true;
         }else{
             return false;

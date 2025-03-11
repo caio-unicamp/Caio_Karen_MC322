@@ -1,29 +1,25 @@
-class Robo {
+public class Robo {
     private String nome;    //nome do robô
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
 
 
-    public Robo (nomeRobo) {    //Construtor para inicializar os atributos;
-    
-    nome = nomeRobo;
-    posicaoX = 0;
-    posicaoY = 0;
-    
+    public Robo (String nomeRobo) {    //Construtor para inicializar os atributos;
+        this.nome = nomeRobo;
+        this.posicaoX = 0;
+        this.posicaoY = 0;
     }
 
-    public void setPosicao(int deltaX, int deltaY) { //Atualiza a posi ̧c ̃ao do robˆo;
     
-    posicaoX = deltaX;
-    posicaoY = deltaY;
-    
+    public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô;
+        this.posicaoX += deltaX;
+        this.posicaoY += deltaY;
     }
 
-    public int obtemPosicao()
+    // public int getPosicao(){
+        
+    // }
     
-    //exibirPosicao() - Imprime a posi ̧c ̃ao atual do robˆo.
-
-
-
+    //exibirPosicao() - Imprime a posicao atual do robô.
 
 }
