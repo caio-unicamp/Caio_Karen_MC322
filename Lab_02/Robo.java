@@ -11,7 +11,7 @@ public class Robo {
         this.posicaoY = y;
     }
 
-    public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô;
+    public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô
         this.posicaoX += deltaX;
         this.posicaoY += deltaY;
     }
@@ -24,4 +24,6 @@ public class Robo {
         int[] posicao = {this.posicaoX, this.posicaoY};
         return posicao;
     }
+
+    //Fazer o método identificar obstáculo!!!
 }

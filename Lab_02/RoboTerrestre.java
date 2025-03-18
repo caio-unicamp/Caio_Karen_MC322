@@ -8,12 +8,10 @@ public class RoboTerrestre extends Robo{
         this.tempoLocomocaoTerrestre = 7;
     }
 
-    public boolean mover(int deltaX){
-        if (Math.sqrt(deltaX*deltaX) < velocidadeMaxima){
-            super.mover(deltaX, 0); //Como o robô é terrestre não faz sentido ele se mover na vertical
-            return true; //Retorna se o robo puder se mover
+    public void mover(int deltaX, int deltaY){
+        if (Math.sqrt(deltaX*deltaX + deltaY*deltaY)/tempoLocomocaoTerrestre < velocidadeMaxima){
+            super.mover(deltaX, deltaY);
         }else{
-            return false; //Retorna se o robo iria ultrapassar a velocidade máxima
             // System.out.println("O " + getNome() + " quer ir rápido demais! tente desacelerar um pouco");
         }
     }
