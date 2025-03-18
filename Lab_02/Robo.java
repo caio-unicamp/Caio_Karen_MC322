@@ -25,5 +25,12 @@ public class Robo {
         return posicao;
     }
 
+    public String getDirecao(){ //Retorna a direção que o robô está encarando
+        return direcao;
+    }
+
     //Fazer o método identificar obstáculo!!!
+    public boolean identificarObstaculo(){
+        return true;
+    }
 }

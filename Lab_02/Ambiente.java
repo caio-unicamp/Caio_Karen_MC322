@@ -30,4 +30,8 @@ public class Ambiente{
     public void adicionarRobo(Robo robo){ //Adiciona os robos ativos na lista 
         listaRobosAtivos.add(robo);
     }
+
+    public ArrayList<Robo> getLista(){ //Retorna a lista de Robôs ativos no ambiente
+        return listaRobosAtivos;
+    }
 }
