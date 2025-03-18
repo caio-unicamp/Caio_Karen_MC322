@@ -2,14 +2,14 @@ import java.util.ArrayList;
 
 public class Ambiente{
     private String ambiente; //nome do ambiente
-    private int largura; //largura do ambiente
-    private int altura; //altura do ambiente
+    private int tamX; //tamX do ambiente
+    private int tamY; //tamY do ambiente
     private ArrayList<Robo> listaRobosAtivos;
 
-    public Ambiente(String ambiente, int largura, int altura){ //Construtor para inicializar os atributos
+    public Ambiente(String ambiente, int tamX, int tamY){ //Construtor para inicializar os atributos
         this.ambiente = ambiente;
-        this.largura = largura;
-        this.altura = altura;
+        this.tamX = tamX;
+        this.tamY = tamY;
         listaRobosAtivos = new ArrayList<>();
     }
 
@@ -18,15 +18,15 @@ public class Ambiente{
     }
     
     public int[] getLimites(){ //Retorna os limites do ambiente
-        int [] limites = {this.largura, this.altura};
+        int [] limites = {this.tamX, this.tamY};
         return limites;
     }
 
     public boolean dentroDosLimites(int x, int y){ //Retorna um booleano para analisar se o robô está dentro dos limites
-        return (x >= 0 && x <= this.largura && y >= 0 && y <= this.altura);
+        return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY);
     }
 
-    public void adicionarRobo(){
-
+    public void adicionarRobo(Robo robo){ //Adiciona os robos ativos na lista 
+        listaRobosAtivos.add(robo);
     }
 }
