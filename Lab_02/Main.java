@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args){
         String dentro_ou_fora;
-        Robo marcos = new Robo("Marcos");   //Criar um objeto do tipo Robo;
+        Robo marcos = new Robo("Marcos", "Sul", 0, 0);   //Criar um objeto do tipo Robo;
         Ambiente caatinga = new Ambiente("Caatinga", 10, 10);    // Criar um objeto do tipo Ambiente;
 
         marcos.mover(5, 5);     //testar o método mover
