@@ -9,15 +9,6 @@ public class Robo {
     private Ambiente ambiente; 
     private ArrayList<Robo> listaRobosAtivos; //lista de robos ativos
 
-    public Robo (String nomeRobo, String direcaoRobo, int x, int y, Ambiente ambiente) {    //Construtor para inicializar os atributos do robô terrestre;
-        this.nome = nomeRobo;
-        this.direcao = direcaoRobo;
-        this.posicaoX = x;
-        this.posicaoY = y;
-        this.ambiente = ambiente;
-        this.listaRobosAtivos = ambiente.getLista();
-    }
-
     public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z, Ambiente ambiente) {    //Construtor para inicializar os atributos do robô aéreo;
         this.nome = nomeRobo;
         this.direcao = direcaoRobo;
