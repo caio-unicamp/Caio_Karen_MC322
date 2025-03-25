@@ -42,8 +42,4 @@ public class Aspirador extends RoboTerrestre{
             //mover o robô
             super.mover(deltaX, deltaY);
         }
-        //matar o robo -> pegar a lista de robos e tirar o robo da lista
-
-        //se não encontrar nada
-        //continuar.
 }
