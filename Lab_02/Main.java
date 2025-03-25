@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        int comando;
+        int comando = 1;
 
         System.out.println("No começo de tudo, crie seu ambiente!\nNome: \n Largura: \nAltura: \nProfundidade: ");
         String nomeAmbiente = scanner.nextLine();
@@ -26,23 +26,28 @@ public class Main {
                     System.out.println("Bleh, odeio essas pestes infernizando nossos áres... Ok, como você quer que ele seja?\n1 - Drone\n2 - Pássaro\n");
                     comando = scanner.nextInt();
                     if (comando == 1){
-                        System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: \nDireção: \nPosição X: \n");    
+                        System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: \nDireção: \nPosição X: \nPosição Y: \nPosição Z: \n");    
                         String nomeDrone = scanner.nextLine();
-                        String direcao = scanner.nextLine();
+                        String direcaoDrone = scanner.nextLine();
                         int posicaoXdrone = scanner.nextInt();
                         int posicaoYdrone = scanner.nextInt();
                         int posicaoZdrone = scanner.nextInt();
-                        Drone drone = new Drone(nomeDrone, direcao, posicaoXdrone, posicaoYdrone, posicaoZdrone);
+                        Drone drone = new Drone(nomeDrone, direcaoDrone, posicaoXdrone, posicaoYdrone, posicaoZdrone);
                     }else if (comando == 2){
-                        System.out.println("Eu desisto, faz o que você quiser aí...\n1 - Nome\n2 - ");
-
-                        Passaro passaro = new Passaro(nomeAmbiente, nomeAmbiente, x, y, y)
+                        System.out.println("Eu desisto, faz o que você quiser aí...\nNome: \nDireção: \nPosição X: \nPosição Y: \nPosição Z: \n");
+                        String nomePassaro = scanner.nextLine();
+                        String direcaoPassaro = scanner.nextLine();
+                        int posicaoXpassaro = scanner.nextInt();
+                        int posicaoYpassaro = scanner.nextInt();
+                        int posicaoZpassaro = scanner.nextInt();
+                        Passaro passaro = new Passaro(nomePassaro, direcaoPassaro, posicaoXpassaro, posicaoYpassaro, posicaoZpassaro);
                     }
                 }else if (comando == 2){
                     System.out.println("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover\n");   
                     comando = scanner.nextInt();
                     if (comando == 1){
-
+                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\n Nome");
+                        Aspirador aspirador = new Aspirador();
                     }else if (comando == 2){
 
                     }
@@ -53,6 +58,7 @@ public class Main {
 
             }
         }
+        scanner.close();
     }   
 
     

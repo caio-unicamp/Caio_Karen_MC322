@@ -6,11 +6,11 @@ public class Aspirador extends RoboTerrestre{
     private int robosEliminados = 0;
    
     //Construtor para inicializar os atributos
-    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima){
-        super(nome, direcao, x, y, velocidadeMaxima);
+    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente){
+        super(nome, direcao, x, y, velocidadeMaxima, ambiente);
         this.robosEliminados = 0;   //inicializar o atritubo próprio
     }
-}
+
     //método de eliminar
     public void eliminar(int x, int y) {
         //pegar a lista de robos e percorrer procurano o nome do robo
@@ -42,4 +42,5 @@ public class Aspirador extends RoboTerrestre{
             //mover o robô
             super.mover(deltaX, deltaY);
         }
+    }   
 }

@@ -3,7 +3,7 @@ public class RoboTerrestre extends Robo{
     private int tempoLocomocaoTerrestre; //Tempo que o robô demora em uma locomoção
     
     public RoboTerrestre(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente){
-        super(nome, direcao, posicaoX, posicaoY, ambiente); //Herança da classe robô
+        super(nome, direcao, posicaoX, posicaoY, 0,ambiente); //Herança da classe robô
         this.velocidadeMaxima = velocidadeMaxima;
         this.tempoLocomocaoTerrestre = 7;
     }
@@ -16,5 +16,9 @@ public class RoboTerrestre extends Robo{
             //se a velocidade for maior que a máxima
             System.out.println("O " + getNome() + " quer ir rápido demais! tente desacelerar um pouco"); //Mudar esse print para a main!!!!!
         }
+    }
+
+    public int getVelocidadeMaxima(){
+        return velocidadeMaxima;
     }
 } 
