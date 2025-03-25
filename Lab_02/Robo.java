@@ -6,6 +6,7 @@ public class Robo {
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
+    private Ambiente ambiente; 
     private ArrayList<Robo> listaRobosAtivos; //lista de robos ativos
 
     public Robo (String nomeRobo, String direcaoRobo, int x, int y, Ambiente ambiente) {    //Construtor para inicializar os atributos do robô terrestre;
@@ -13,6 +14,7 @@ public class Robo {
         this.direcao = direcaoRobo;
         this.posicaoX = x;
         this.posicaoY = y;
+        this.ambiente = ambiente;
         this.listaRobosAtivos = ambiente.getLista();
     }
 
@@ -26,12 +28,12 @@ public class Robo {
     }
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
-        if (deltaX > 0 && !identificarRobo(this.posicaoX + 1, this.posicaoY)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + 1, this.posicaoY, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += 1;
             mover(deltaX - 1, deltaY);
-        }else if (deltaY > 0 && !identificarRobo(this.posicaoX, this.posicaoY + 1)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + 1, this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += 1;
-            mover(0, deltaY - 1);
+            mover(0, deltaY - 1); //Ele só começa a se mover em y depois de ter movido tudo em x
         }
     }
 
@@ -48,9 +50,11 @@ public class Robo {
         return direcao;
     }
     
-    //Fazer o método identificar obstáculo!!!
-    public boolean identificarRobo(int x, int y){
-        if ()
-        return true;
+    public boolean identificarRobo(int x, int y, String nome){
+        for (Robo robo: listaRobosAtivos){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
+            if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getNome() != nome){
+                return true;
+            }
+        }return false;
     }
 }

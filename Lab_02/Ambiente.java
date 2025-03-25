@@ -27,7 +27,7 @@ public class Ambiente{
     }
     
     public int[] getLimites(){ //Retorna os limites do ambiente
-        int [] limites = {this.tamX, this.tamY};
+        int [] limites = {this.tamX, this.tamY, this.tamZ};
         return limites;
     }
 
