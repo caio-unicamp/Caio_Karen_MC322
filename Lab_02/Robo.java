@@ -50,9 +50,9 @@ public class Robo {
         return direcao;
     }
     
-    public boolean identificarRobo(int x, int y, String nome){
+    public boolean identificarRobo(int x, int y, int z,String nome){
         for (Robo robo: listaRobosAtivos){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
-            if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getNome() != nome){
+            if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && robo.getNome() != nome){
                 return true;
             }
         }return false;
