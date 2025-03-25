@@ -23,7 +23,7 @@ public class Main {
                 System.out.println("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre\n");
                 comando = scanner.nextInt();
                 if (comando == 1){
-                    System.out.println("Bleh, odeio essas pestes infernizando nossos áres... Ok, como você quer que ele seja?\n1 - Drone\n2 - Pássaro\n");
+                    System.out.println("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro\n");
                     comando = scanner.nextInt();
                     if (comando == 1){
                         System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: \nDireção: \nPosição X: \nPosição Y: \nPosição Z: \n");    
@@ -46,10 +46,21 @@ public class Main {
                     System.out.println("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover\n");   
                     comando = scanner.nextInt();
                     if (comando == 1){
-                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\n Nome");
-                        Aspirador aspirador = new Aspirador();
+                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\n Nome: \nDireção: \nPosição X: \nPosição Y:\nVelocidade Máxima: \n");
+                        String nomeAspirador = scanner.nextLine();
+                        String direcaoAspirador = scanner.nextLine();
+                        int posicaoXaspirador = scanner.nextInt();
+                        int posicaoYaspirador = scanner.nextInt();
+                        int velMaxAspirador = scanner.nextInt();
+                        Aspirador aspirador = new Aspirador(nomeAspirador, direcaoAspirador, posicaoXaspirador, posicaoYaspirador, velMaxAspirador, ambiente);
                     }else if (comando == 2){
-
+                        System.out.println("Interessante... um amante de Rovers é raro hoje em dia, bom escolha como você quer que a gente crie ele\nNome: \nDireção: \nPosição X: \nPosição Y: \nVelocidade Máxima: \n");
+                        String nomeRover = scanner.nextLine();
+                        String direcaoRover = scanner.nextLine();
+                        int posicaoXrover = scanner.nextInt();
+                        int posicaoYrover = scanner.nextInt();
+                        int velMaxRover = scanner.nextInt();
+                        Rover rover = new Rover(nomeRover, direcaoRover, posicaoXrover, posicaoYrover, velMaxRover);
                     }
                 }
             }else if (comando == 2){
