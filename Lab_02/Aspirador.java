@@ -23,7 +23,7 @@ public class Aspirador extends RoboTerrestre{
 
     //método de se mover
     public void mover(int deltaX, int deltaY){      
-        //se encontrar um obstaculo
+        //se encontrar um obstáculo
         //matar o robo -> pegar a lista de robos e tirar o robo da lista
 
         //se não encontrar nada
