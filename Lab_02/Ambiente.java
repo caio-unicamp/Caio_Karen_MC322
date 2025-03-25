@@ -5,13 +5,13 @@ public class Ambiente{
     private int tamX; //tamanho em X do ambiente
     private int tamY; //tamanho em Y do ambiente
     private int altura; //Altura máxima do ambiente
-    private ArrayList<Robo> listaRobosAtivos;
+    private ArrayList<Robo> listaRobosAtivos;   //Lista de robôs ativos no ambiente
 
     public Ambiente(String ambiente, int tamX, int tamY){ //Construtor para inicializar os atributos
         this.ambiente = ambiente;
         this.tamX = tamX;
         this.tamY = tamY;
-        listaRobosAtivos = new ArrayList<>();
+        listaRobosAtivos = new ArrayList<>();   //Adicionar uma lista de robôs ativos
     }
 
     public String getNomeAmbiente(){ //retorna o nome do ambiente 

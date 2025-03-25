@@ -8,11 +8,13 @@ public class RoboTerrestre extends Robo{
         this.tempoLocomocaoTerrestre = 7;
     }
 
-    public void mover(int deltaX, int deltaY){
-        if (Math.sqrt(deltaX*deltaX + deltaY*deltaY)/tempoLocomocaoTerrestre < velocidadeMaxima){
+    public void mover(int deltaX, int deltaY){      //função de mover um robo
+        if (Math.sqrt(deltaX*deltaX + deltaY*deltaY)/tempoLocomocaoTerrestre < velocidadeMaxima){   
+            //se a velocidade for menor que a máxima
             super.mover(deltaX, deltaY);
         }else{
-            // System.out.println("O " + getNome() + " quer ir rápido demais! tente desacelerar um pouco");
+            //se a velocidade for menor que a máxima
+            System.out.println("O " + getNome() + " quer ir rápido demais! tente desacelerar um pouco");
         }
     }
 } 
