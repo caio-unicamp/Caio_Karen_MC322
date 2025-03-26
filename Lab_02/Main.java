@@ -59,12 +59,23 @@ public class Main {
                     }
                 }
             }else if (comando == 2){
-                System.out.println("Vamos ver do que esses pequeninos são capazes, mas antes escolha com qual deles você quer se divertir agora\n");
+                System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora\n");
                 int contadorRobo = 1;
                 for (Robo robo : ambiente.getLista()){
                     System.out.println(contadorRobo + " - " + robo.getNome());
                     contadorRobo++;
                 }
+                comando = scanner.nextInt();
+                if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Aspirador")){ //Mostra os métodos do robô aspirador
+                    System.out.println("Vamos fazer uma limpa nesse lugar hehehe\n");
+                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Drone")){ //Mostra os métodos do robô drone
+                    
+                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Passaro")){ //Mostra os métodos do robô passaro
+                    
+                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Rover")){ //Mostra os métodos do robô rover
+                    
+                }
+
             }else if (comando == 3){
 
             }
