@@ -20,7 +20,7 @@ public class Main {
         while (comando != 0){ //Cria um looping para as ações possíveis
             try {
                 if (sistenaOperacional.contains("win")){
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
                 }else{
                     System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
                     System.out.flush();
