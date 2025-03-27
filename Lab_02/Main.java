@@ -95,8 +95,8 @@ public class Main {
         String nome = scanner.nextLine();
         while (true){
             boolean nomeExiste = false;
-            for (Robo drone : ambiente.getLista()) {
-                if (drone.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
+            for (Robo robo : ambiente.getLista()) {
+                if (robo.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
                     String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
                     System.out.println(mensagemMostrada);
                     nome = scanner.nextLine();
@@ -115,17 +115,12 @@ public class Main {
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: \n");
         String direcao = scanner.nextLine();
-        System.out.println("Posição X: \n");
-        int posicaoX = scanner.nextInt();
-        System.out.println("Posição Y: \n");
-        int posicaoY = scanner.nextInt();
-        System.out.println("Posição Z: \n");
-        int posicaoZ = scanner.nextInt();
+        int[] coordenadas = lerCoordenadas(scanner, true);
         if (tipoRobo == 0){
-            Drone drone = new Drone(nomeRoboAereo, direcao, posicaoX, posicaoY, posicaoZ);
+            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2]);
             ambiente.adicionarRobo(drone);   
         }else if (tipoRobo == 1){
-            Passaro passaro = new Passaro(nomeRoboAereo, direcao, posicaoX, posicaoY, posicaoZ);
+            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2]);
             ambiente.adicionarRobo(passaro);
         }
     }
@@ -134,18 +129,28 @@ public class Main {
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: \n");
         String direcao = scanner.nextLine();
+        int[] coordenadas = lerCoordenadas(scanner, false);
+        System.out.print("Velocidade Máxima: \n");
+        int velMax = scanner.nextInt();
+        if (tipoRobo == 0){
+            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente);
+            ambiente.adicionarRobo(aspirador);
+        }else if (tipoRobo == 1){
+            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax);
+            ambiente.adicionarRobo(rover);
+        }
+    }
+
+    public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
         System.out.print("Posição X: \n");
         int posicaoX = scanner.nextInt();
         System.out.print("Posição Y: \n");
         int posicaoY = scanner.nextInt();
-        System.out.print("Velocidade Máxima: \n");
-        int velMax = scanner.nextInt();
-        if (tipoRobo == 0){
-            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, posicaoX, posicaoY, velMax, ambiente);
-            ambiente.adicionarRobo(aspirador);
-        }else if (tipoRobo == 1){
-            Rover rover = new Rover(nomeRoboTerrestre, direcao, posicaoX, posicaoY, velMax);
-            ambiente.adicionarRobo(rover);
+        int posicaoZ = 0;
+        if (roboVoador){ //Se o robô for voador inclui o eixo z
+            System.out.println("Posição Z: \n");
+            posicaoZ = scanner.nextInt();
         }
+        return new int[]{posicaoX, posicaoY, posicaoZ};
     }
  }
