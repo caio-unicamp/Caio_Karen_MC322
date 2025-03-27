@@ -75,15 +75,19 @@ public class Main {
                     contadorRobo++;
                 }
                 comando = scanner.nextInt();
-                if (ambiente.getLista().get(comando - 1) instanceof Aspirador){ //Mostra os métodos do robô aspirador
-                    System.out.println("Vamos fazer uma limpa nesse lugar hehehe");
-                    
-                }else if (ambiente.getLista().get(comando - 1) instanceof Drone){ //Mostra os métodos do robô drone
+                Robo roboEscolhido = ambiente.getLista().get(comando - 1);
+                if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
+                    System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
+                    Aspirador aspirador = ((Aspirador) roboEscolhido);
+                }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
-                }else if (ambiente.getLista().get(comando - 1) instanceof Passaro){ //Mostra os métodos do robô passaro
+                    Drone drone = ((Drone) roboEscolhido);
+                }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
-                }else if (ambiente.getLista().get(comando - 1) instanceof Rover){ //Mostra os métodos do robô rover
+                    Passaro passaro = ((Passaro) roboEscolhido);
+                }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
+                    Rover rover = ((Rover) roboEscolhido);
                 }
 
             }else if (comando == 3){ //Bloco para mostrar a lista de robôs
