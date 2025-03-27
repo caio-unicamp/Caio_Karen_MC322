@@ -66,13 +66,13 @@ public class Main {
                     contadorRobo++;
                 }
                 comando = scanner.nextInt();
-                if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Aspirador")){ //Mostra os métodos do robô aspirador
+                if (ambiente.getLista().get(comando - 1) instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");
-                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Drone")){ //Mostra os métodos do robô drone
+                }else if (ambiente.getLista().get(comando - 1) instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("");
-                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Passaro")){ //Mostra os métodos do robô passaro
+                }else if (ambiente.getLista().get(comando - 1) instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("");
-                }else if (ambiente.getLista().get(comando - 1).getClass().getName().equals("Rover")){ //Mostra os métodos do robô rover
+                }else if (ambiente.getLista().get(comando - 1) instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("");
                 }
 
@@ -90,26 +90,29 @@ public class Main {
         scanner.close();
     }   
 
-    public static void exibirMensagemAleatoria(ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, String nome){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
+    public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
+        String nome = scanner.nextLine();
         while (true){
-            int numDronesAnalisados = 0;
+            boolean nomeExiste = false;
             for (Robo drone : ambiente.getLista()) {
                 if (drone.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
                     String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
                     System.out.println(mensagemMostrada);
+                    nome = scanner.nextLine();
+                    nomeExiste = true;
+                    break;
                 } 
-                numDronesAnalisados++;
             }
-            if (numDronesAnalisados == ambiente.getLista().size()){ //Quando tiver analisado todos os nomes na lista de robôs ativos, pode prosseguir na criação do robô
+            if (!nomeExiste){ //Quando tiver analisado todos os nomes na lista de robôs ativos, pode prosseguir na criação do robô
                 break;
             }
         }
+        return nome;
     }
 
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
-        String nomeRoboAereo = scanner.nextLine();
-        exibirMensagemAleatoria(mensagensNomeJaExistente, ambiente, nomeRoboAereo); //Analisa se o nome escolhido já existe
+        String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: \n");
         String direcao = scanner.nextLine();
         System.out.println("Posição X: \n");
@@ -128,8 +131,7 @@ public class Main {
     }
 
     public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
-        String nomeRoboTerrestre = scanner.nextLine();
-        exibirMensagemAleatoria(mensagensNomeJaExistente, ambiente, nomeRoboTerrestre); //Analisa se o nome escolhido já existe
+        String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: \n");
         String direcao = scanner.nextLine();
         System.out.print("Posição X: \n");
