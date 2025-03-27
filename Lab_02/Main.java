@@ -69,11 +69,11 @@ public class Main {
                 if (ambiente.getLista().get(comando - 1) instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");
                 }else if (ambiente.getLista().get(comando - 1) instanceof Drone){ //Mostra os métodos do robô drone
-                    System.out.println("");
+                    System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                 }else if (ambiente.getLista().get(comando - 1) instanceof Passaro){ //Mostra os métodos do robô passaro
-                    System.out.println("");
+                    System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                 }else if (ambiente.getLista().get(comando - 1) instanceof Rover){ //Mostra os métodos do robô rover
-                    System.out.println("");
+                    System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                 }
 
             }else if (comando == 3){ //Bloco para mostrar a lista de robôs
@@ -81,9 +81,11 @@ public class Main {
                     
                 }else{
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
+                    int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
-                        System.out.println(robo.getNome());
+                        System.out.println(contadorRobo + " - " + robo.getNome());
                     }
+                    System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
             }
         }
