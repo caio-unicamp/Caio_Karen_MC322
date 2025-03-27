@@ -3,7 +3,7 @@ public class RoboAereo extends Robo{
     private int altitude; //Altitude atual do Robô
     
     public RoboAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, Ambiente ambiente){ //Constructor para inicializar os atributos do robô aéreo
-        super(nome, direcao, posicaoX, posicaoY, ambiente); //Herança da classe robô
+        super(nome, direcao, posicaoX, posicaoY, altitude,ambiente); //Herança da classe robô
         this.altitude = altitude;
     }
     
