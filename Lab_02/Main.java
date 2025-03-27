@@ -42,20 +42,20 @@ public class Main {
                     comando = scanner.nextInt();
                     if (comando == 1){
                         System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: ");    
-                        criaRoboAereo(mensagensNomeJaExistente, ambiente, 0);
+                        criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 0);
                     }else if (comando == 2){
                         System.out.println("Eu desisto, faz o que você quiser aí...\nNome: ");
-                        criaRoboAereo(mensagensNomeJaExistente, ambiente, 1);
+                        criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 1);
                     }
                 }else if (comando == 2){
                     System.out.println("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover");   
                     comando = scanner.nextInt();
                     if (comando == 1){
                         System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\n Nome: ");
-                        criaRoboTerrestre(mensagensNomeJaExistente, ambiente, 0);
+                        criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 0);
                     }else if (comando == 2){
                         System.out.println("Interessante... um amante de Rovers é raro hoje em dia. Bom, escolha como você quer que a gente crie ele\nNome: ");
-                        criaRoboTerrestre(mensagensNomeJaExistente, ambiente, 1);
+                        criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 1);
                     }
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
@@ -89,6 +89,7 @@ public class Main {
         }
         scanner.close();
     }   
+
     public static void exibirMensagemAleatoria(ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, String nome){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
         while (true){
@@ -105,9 +106,8 @@ public class Main {
             }
         }
     }
-    public static void criaRoboAereo(ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
-        Scanner scanner = new Scanner(System.in);
 
+    public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
         String nomeRoboAereo = scanner.nextLine();
         exibirMensagemAleatoria(mensagensNomeJaExistente, ambiente, nomeRoboAereo); //Analisa se o nome escolhido já existe
         System.out.println("Direção: \n");
@@ -125,12 +125,9 @@ public class Main {
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, posicaoX, posicaoY, posicaoZ);
             ambiente.adicionarRobo(passaro);
         }
-
-        scanner.close();
     }
-    public static void criaRoboTerrestre(ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
-        Scanner scanner = new Scanner(System.in);
 
+    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = scanner.nextLine();
         exibirMensagemAleatoria(mensagensNomeJaExistente, ambiente, nomeRoboTerrestre); //Analisa se o nome escolhido já existe
         System.out.print("Direção: \n");
@@ -148,7 +145,5 @@ public class Main {
             Rover rover = new Rover(nomeRoboTerrestre, direcao, posicaoX, posicaoY, velMax);
             ambiente.adicionarRobo(rover);
         }
-
-        scanner.close();
     }
  }
