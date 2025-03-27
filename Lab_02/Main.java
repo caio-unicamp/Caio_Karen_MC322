@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
+        String sistenaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = 1;
 
         System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor\nNome do Ambiente: ");
@@ -17,8 +18,16 @@ public class Main {
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         while (comando != 0){ //Cria um looping para as ações possíveis
-            System.out.print("\033[H\033[2J"); //Da clear no terminal depois de cada interação
-            System.out.flush();
+            try {
+                if (sistenaOperacional.contains("win")){
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd
+                }else{
+                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+                    System.out.flush();
+                }
+            } catch (Exception e) {
+                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            }
 
             System.out.print("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n");
             comando = scanner.nextInt();
@@ -68,6 +77,7 @@ public class Main {
                 comando = scanner.nextInt();
                 if (ambiente.getLista().get(comando - 1) instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");
+                    
                 }else if (ambiente.getLista().get(comando - 1) instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                 }else if (ambiente.getLista().get(comando - 1) instanceof Passaro){ //Mostra os métodos do robô passaro
