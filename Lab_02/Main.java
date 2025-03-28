@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        String sistenaOperacional = System.getProperty("os.name").toLowerCase();
+        String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = 1;
 
         System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor\nNome do Ambiente: ");
@@ -19,7 +19,7 @@ public class Main {
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         while (comando != 0){ //Cria um looping para as ações possíveis
             try {
-                if (sistenaOperacional.contains("win")){
+                if (sistemaOperacional.contains("win")){
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
                 }else{
                     System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação

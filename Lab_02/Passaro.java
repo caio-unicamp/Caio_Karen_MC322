@@ -1,34 +1,57 @@
 public class Passaro extends RoboAereo{
     //atributo próprio da quantidade de desvios que ele fez
-    private int qtddesvios;
-<<<<<<< HEAD
+    private int qtdDesvios = 0;
     private int posicaoXPassaro;
     private int posicaoYPassaro;
     private int posicaoZPassaro;
-=======
->>>>>>> c11ebcff98434224bad107fa547c33cfb3a46dc9
+    private Ambiente ambiente;
     //Construtor para inicializar os atributos
     public Passaro(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente){
         super(nome, direcao, x, y, altitude, ambiente);
-        this.posicaoXPassaro = x;
-        this.posicaoYPassaro = y;
-        this.posicaoZPassaro = altitude;
+        this.ambiente = ambiente;
+    }
+    
+    public void mover(int deltaX, int deltaY) {
+        int posXinicial = this.getPosicao()[0];
+        int posYinicial = this.getPosicao()[1];
+        super.mover(deltaX, deltaY);
+        if (identificarRobo(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], this.getNome())){ //Caso o pássaro identifique um obstáculo no caminho ele começa a fazer uma busca para desviar
+            if (desviar(deltaX, deltaY)) {
+                qtdDesvios++;
+                this.mover(deltaX, deltaY);
+            }else {
+                System.out.println("O pássaro não conseguiu se mover!");
+            }
+        }
     }
 
-    //método próprio de mover
-    public void mover(int deltaX, int deltaY){ 
-        mover(deltaX, deltaY);  //na função mover ele identifica se encontra outro robô no caminho
-        if ((this.posicaoXPassaro == posicaoXpassarofinal) && (this.posicaoYPassaro == posicaoYpassarofinal)){ 
-            //retornar verdadeiro
-            
-        }
-        //se não chegar na posição final, ele tenta desviar
-        else {
-            desviar();    //chama a função desviar
-            qtddesvios++; //incrementa a quantidade de desvios
-        }    
-    }    
     //método próprio de desviar, se o Pássaro se esbarrar para alguma coisa ele desvia para: direita, esquerda, cima e baixo
+
+    private boolean desviar(int deltaX, int deltaY) {
+
+        // Testa várias direções até encontrar uma possível
+        int[][] direcoes = {
+            {1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0},  
+            {1, 1, 0}, {-1, -1, 0}, {1, -1, 0}, {-1, 1, 0}, 
+            {1, 0, -1}, {-1, 0, -1}, {0, 1, -1}, {0, -1, -1},  
+            {1, 1, -1}, {-1, -1, -1}, {1, -1, -1}, {-1, 1, -1},
+            {1, 0, 1}, {-1, 0, 1}, {0, 1, 1}, {0, -1, 1},  
+            {1, 1, 1}, {-1, -1, 1}, {1, -1, 1}, {-1, 1, 1}
+        };
+
+        for (int[] dir : direcoes) {
+            int novoX = this.posicaoXPassaro + dir[0];
+            int novoY = this.posicaoYPassaro + dir[1];
+            int novoZ = this.posicaoZPassaro + dir[2];
+
+            if (!identificarRobo(novoX, novoY, novoZ, this.getNome()) && ambiente.dentroDosLimites(novoX, novoY, novoZ)){ //Se nenhum robô for encontrado na direção escolhida e ele estiver dentro dos limites, o pássaro segue nessa direção
+                super.mover(dir[0], dir[1]);
+                super.mover(deltaX - dir[0], deltaY - dir[1]);  // Tenta continuar a trajetória original
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean desviar(){
         //se ele consegue ir para a direita, ele vai 1 posição paraa direita
         if (mover(this.posicaoXPassaro + 1, this.posicaoYPassaro)){
@@ -49,6 +72,5 @@ public class Passaro extends RoboAereo{
         //caso não consiga ir para nenhum dos lados, retorna falso
         return false;
     }
-
     
 }
