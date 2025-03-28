@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Robo {
     private String nome;    //nome do robô
@@ -20,20 +21,14 @@ public class Robo {
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
         //Analisa se o passo do robô é positivo ou negativo ou nulo
-        int passoX = 0, passoY = 0;
-        if (deltaX != 0){
-            passoX = deltaX/Math.abs(deltaX);
-        }
-        if (deltaY != 0){
-            passoY = deltaY/Math.abs(deltaY);
-        }
+        int[] passos = getPasso(deltaX, deltaY);
         
         if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passoX, this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
-            this.posicaoX += passoX;
-            mover(deltaX - passoX, deltaY);
-        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passoY, 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
-            this.posicaoY += passoY;
-            mover(0, deltaY - passoY); //Ele só começa a se mover em y depois de ter movido tudo em x
+            this.posicaoX += passos[0];
+            mover(deltaX - passos[0], deltaY);
+        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+            this.posicaoY += passos[1];
+            mover(0, deltaY - passos[1]); //Ele só começa a se mover em y depois de ter movido tudo em x
         }
     }
 
@@ -62,5 +57,17 @@ public class Robo {
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;
+    }
+
+    public int[] getPasso(int deltaX, int deltaY){ //Retorna o passo negativo ou positivo
+        int passoX = 0, passoY = 0;
+        if (deltaX != 0){
+            passoX = deltaX/Math.abs(deltaX);
+        }
+        if (deltaY != 0){
+            passoY = deltaY/Math.abs(deltaY);
+        }
+        int[] listaPasso = {passoX, passoY};
+        return listaPasso;
     }
 }

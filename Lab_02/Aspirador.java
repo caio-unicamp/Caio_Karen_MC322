@@ -34,22 +34,16 @@ public class Aspirador extends RoboTerrestre{
     //método de se mover
     public void mover(int deltaX, int deltaY){ //Função para mover o aspirador              
         //Analisa se o passo do aspirador é negativo, positivo ou nulo
-        int passoX = 0, passoY = 0, posInicialX = this.getPosicao()[0], posInicialY = this.getPosicao()[1], deltaXpercorrida = 0, deltaYpercorrida = 0;
-        if (deltaX != 0){
-            passoX = deltaX/Math.abs(deltaX);
-        }
-        if (deltaY != 0){
-            passoY = deltaY/Math.abs(deltaY);
-        }
-
+        int posInicialX = this.getPosicao()[0], posInicialY = this.getPosicao()[1], deltaXpercorrida = 0, deltaYpercorrida = 0;
+        int[] passos = getPasso(deltaX, deltaY);
         super.mover(deltaX, deltaY); //Move o robô de acordo com a função mover da classe mãe 
         //Salva o quanto já foi andado
         deltaXpercorrida = this.getPosicao()[0] - posInicialX; 
         deltaYpercorrida = this.getPosicao()[1] - posInicialY;
-        if (identificarRobo(this.getPosicao()[0] + passoX, this.getPosicao()[1] + passoY, this.getPosicao()[2], this.getNome())){
+        if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], this.getNome())){
             //eliminar o robô caso ele seja encontrado
             this.eliminarRobo();
-            this.mover(deltaX - (deltaXpercorrida)*passoX, deltaY - (deltaYpercorrida)*passoY); //Como o robô eliminou o obstáculo ele continua seguindo seu caminho
+            this.mover(deltaX - (deltaXpercorrida)*passos[0], deltaY - (deltaYpercorrida)*passos[1]); //Como o robô eliminou o obstáculo ele continua seguindo seu caminho
         }
     }   
 }
