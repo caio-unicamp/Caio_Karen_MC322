@@ -1,11 +1,17 @@
 public class Passaro extends RoboAereo{
     //atributo próprio da quantidade de desvios que ele fez
     private int qtddesvios;
-
+    private int posicaoXPassaro;
+    private int posicaoYPassaro;
+    private int posicaoZPassaro;
     //Construtor para inicializar os atributos
     public Passaro(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente){
         super(nome, direcao, x, y, altitude, ambiente);
+        this.posicaoXPassaro = x;
+        this.posicaoYPassaro = y;
+        this.posicaoZPassaro = altitude;
     }
+
     //método próprio de mover
     public void mover(int deltaX, int deltaY){ 
         mover(deltaX, deltaY);  //na função mover ele identifica se encontra outro robô no caminho
@@ -41,4 +47,6 @@ public class Passaro extends RoboAereo{
         //caso não consiga ir para nenhum dos lados, retorna falso
         return false;
     }
+
+    
 }
