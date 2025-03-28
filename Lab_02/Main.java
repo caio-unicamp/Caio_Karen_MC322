@@ -100,7 +100,7 @@ public class Main {
                     drone.entregarPacote(coordenadaX, coordenadaY);
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY)){
-                        System.out.println("Seu pacote foi entregue com sucesso!")
+                        System.out.println("Seu pacote foi entregue com sucesso!");
                     }
                     //se o drone não consegiu entregar o pacote
                     else{
