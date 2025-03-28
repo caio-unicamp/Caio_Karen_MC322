@@ -49,7 +49,7 @@ public class Robo {
         }return false;
     }
 
-    public void setPosicao(int x, int y, int z){
+    public void setPosicao(int x, int y, int z){ //Função para setar a posição dos robôs
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;

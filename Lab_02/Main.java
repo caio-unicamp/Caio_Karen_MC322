@@ -127,6 +127,12 @@ public class Main {
         return nome;
     }
 
+    public static void analiseLimites(Robo robo, Ambiente ambiente){
+        if (!ambiente.dentroDosLimites(robo.getPosicao()[0], robo.getPosicao()[1], robo.getPosicao()[2])) {
+            System.out.println(null);
+        }
+    }
+
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: \n");
