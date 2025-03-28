@@ -26,8 +26,8 @@ public class Aspirador extends RoboTerrestre{
                 this.robosEliminados++; //incrementar o atributo próprio
             }
         }
-        
-        return false; // Robo não encontrado se ele não retornou True previamente
+
+        return false; //robo não encontrado se ele não retornou true previamente
     }
         
 
