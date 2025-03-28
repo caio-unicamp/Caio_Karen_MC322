@@ -32,14 +32,22 @@ public class Aspirador extends RoboTerrestre{
     }
 
     //método de se mover
-    public void mover(int deltaX, int deltaY){ //A classe aspirador              
+    public void mover(int deltaX, int deltaY){ //Função para mover o aspirador              
+        //Analisa se o passo do aspirador é negativo, positivo ou nulo
+        int passoX = 0, passoY = 0;
+        if (deltaX != 0){
+            passoX = deltaX/Math.abs(deltaX);
+        }
+        if (deltaY != 0){
+            passoY = deltaY/Math.abs(deltaY);
+        }
         super.mover(deltaX, deltaY); //Move o robô de acordo com a função mover da classe mãe 
-        if (super.identificarRobo(this.getPosicao()[0] + deltaX, this.getPosicao()[1] + deltaY, this.getPosicao()[2], this.getNome())){
+        if (super.identificarRobo(this.getPosicao()[0] + passoX, this.getPosicao()[1] + passoY, this.getPosicao()[2], this.getNome())){
             //eliminar o robô caso ele seja encontrado
             this.eliminarRobo();
         }
         else {
-            
+
         }
     }   
 }
