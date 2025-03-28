@@ -21,11 +21,11 @@ public class RoboTerrestre extends Robo{
         }
     }
 
-    public int getVelocidadeMaxima(){
+    public int getVelocidadeMaxima(){ //Função para retornar a velocidade máxima do robô
         return velocidadeMaxima;
     }
 
-    public void setVelMaxima(int velMax){
+    public void setVelMaxima(int velMax){ //Função para alterar a velocidade máxima do robô
         this.velocidadeMaxima = velMax;
     }
 } 

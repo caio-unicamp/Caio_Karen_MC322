@@ -7,8 +7,8 @@ public class Aspirador extends RoboTerrestre{
     private Ambiente ambiente;
    
     //Construtor para inicializar os atributos
-    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente){
-        super(nome, direcao, x, y, velocidadeMaxima, ambiente);
+    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
+        super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
         this.robosEliminados = 0;   //inicializar o atritubo próprio
         this.ambiente = ambiente;
     }
@@ -33,9 +33,8 @@ public class Aspirador extends RoboTerrestre{
 
     //método de se mover
     public void mover(int deltaX, int deltaY){ //A classe aspirador              
-        super.mover(deltaX, deltaY); //Move o robô de acordo com a função mover da classe mãe que já possui implementação de identificar robô
-        //se encontrar um obstáculo
-        if (super.identificarRobo(this.x + deltaX, this.y + deltaY)){
+        super.mover(deltaX, deltaY); //Move o robô de acordo com a função mover da classe mãe 
+        if (super.identificarRobo(this.getPosicao()[0] + deltaX, this.y, deltaY)){
             //eliminar o robô
             this.eliminar();
         }
