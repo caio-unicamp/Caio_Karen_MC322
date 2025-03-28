@@ -79,21 +79,62 @@ public class Main {
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
+                    //Mostrar os métodos do Aspirador
+                    System.out.println("você deseja mover para quais coordenadas?Lembre-se que destruirá todos os robôs no caminho\n, passos em x:");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.println("passos em y:");
+                    int deltaY = scanner.nextInt();
+                    aspirador.mover(deltaX, deltaY);
+                    //pegar a qtd de robos eliminados
+                    int qtdEliminados = aspirador.getRobosEliminados();
+                    //imprimir a qtd de eliminados
+                    System.out.println("você destruiu " + qtdEliminados + " robôs no caminho");
+
+                } else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
+                    System.out.println("você deseja entregar seu pacote para quais coordenadas?\n, coordenada em x: ");
+                    int coordenadaX = scanner.nextInt();
+                    System.out.println("coordanda em y: ");
+                    int coordenadaY = scanner.nextInt();
+                    drone.entregarPacote(coordenadaX, coordenadaY);
+                    //se o drone conseguiu entregar o pacote
+                    if (drone.entregarPacote(coordenadaX, coordenadaY)){
+                        System.out.println("Seu pacote foi entregue com sucesso!")
+                    }
+                    //se o drone não consegiu entregar o pacote
+                    else{
+                        System.out.println("Seu pacote foi derrubado no caminho.....suas coordenadas são: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0);
+                    }
+                } else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
+                    //mover o pássaro
+                    System.out.println("você quer mover para onde? Passos  em x:\n");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.println("passos em y:");
+                    int deltaY = scanner.nextInt();
+                    passaro.mover(deltaX, deltaY);
+                    //pegar a qtd de desvios
+                    int qtdDesvios = passaro.getQtddesvios();
+                    //imprimir a qtd de desvios
+                    System.out.println("você fez " + qtdDesvios + " desvios no caminho");
+
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
-                }
+                    //mover o Rover
+                    System.out.println("você quer mover para onde? Passos  em x:\n");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.println("passos em y:");
+                    int deltaY = scanner.nextInt();
+                    rover.mover(deltaX, deltaY);
+}
 
-            }else if (comando == 3){ //Bloco para mostrar a lista de robôs
+            } else if (comando == 3){ //Bloco para mostrar a lista de robôs
                 if (ambiente.getLista().size() == 0){
                     
-                }else{
+                } else{
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
@@ -105,7 +146,7 @@ public class Main {
         }
         scanner.close();
     }   
-
+    //quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
     public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
         String nome = scanner.nextLine();
