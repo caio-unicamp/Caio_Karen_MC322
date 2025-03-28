@@ -3,8 +3,8 @@ public class Passaro extends RoboAereo{
     private int qtddesvios;
 
     //Construtor para inicializar os atributos
-    public Passaro(String nome, String direcao, int x, int y, int altitude){
-        super(nome, direcao, x, y, altitude);
+    public Passaro(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente){
+        super(nome, direcao, x, y, altitude, ambiente);
     }
     //método próprio de mover
     //se esbarrar para alguma coisa ele desvia para: direita, esquerda, cima e baixo

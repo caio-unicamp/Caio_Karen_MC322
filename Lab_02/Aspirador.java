@@ -6,20 +6,20 @@ public class Aspirador extends RoboTerrestre{
     private int robosEliminados = 0;
    
     //Construtor para inicializar os atributos
-    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima){
-        super(nome, direcao, x, y, velocidadeMaxima);
+    public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente){
+        super(nome, direcao, x, y, velocidadeMaxima, ambiente);
         this.robosEliminados = 0;   //inicializar o atritubo próprio
     }
-}
+
     //método de eliminar
     public void eliminar(int x, int y) {
-        //pegar a lista de robos e percorrer procurano o nome do robo
+        //pegar a lista de robos e percorrer procurando o nome do robo
         private ArrayList<Robo> listaRobosEliminar; 
         listaRobosEliminar = ambiente.getLista();   //pegar a lista de robos do ambiente
         //percorrer a lista
-        for (int i = 0; i < Robo.listaRobosAtivos size(); i++) {
+        for (int i = 0; i < ambiente.getLista().size(); i++) {
             //se a posição do robo na índice i for igual a posição do robo que queremos eliminar
-            if (Robo.listaRobosAtivos.get(i).posicaoX.equals(x)) && (Robo.listaRobosAtivos.get(i).posicaoY.equals(y))  {
+            if ((Robo.listaRobosAtivos.get(i).posicaoX.equals(x)) && (Robo.listaRobosAtivos.get(i).posicaoY.equals(y))){
                 //remover o robo da lista
                 Robo.listaRobosAtivos.remove(i);
                 return true; // Removido com sucesso
@@ -42,4 +42,5 @@ public class Aspirador extends RoboTerrestre{
             //mover o robô
             super.mover(deltaX, deltaY);
         }
+    }   
 }

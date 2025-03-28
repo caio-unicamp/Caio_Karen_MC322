@@ -19,10 +19,10 @@ public class Robo {
     }
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
-        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + 1, this.posicaoY, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + 1, this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += 1;
             mover(deltaX - 1, deltaY);
-        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + 1, this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + 1, 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += 1;
             mover(0, deltaY - 1); //Ele só começa a se mover em y depois de ter movido tudo em x
         }
@@ -47,5 +47,11 @@ public class Robo {
                 return true;
             }
         }return false;
+    }
+
+    public void setPosicao(int x, int y, int z){ //Função para setar a posição dos robôs
+        this.posicaoX = x;
+        this.posicaoY = y;
+        this.posicaoZ = z;
     }
 }
