@@ -48,4 +48,10 @@ public class Robo {
             }
         }return false;
     }
+
+    public void setPosicao(int x, int y, int z){
+        this.posicaoX = x;
+        this.posicaoY = y;
+        this.posicaoZ = z;
+    }
 }
