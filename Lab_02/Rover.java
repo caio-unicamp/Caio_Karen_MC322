@@ -2,7 +2,7 @@ public class Rover extends RoboTerrestre{
     //atributo próprio
     int qtdRobosEmpurrados;
     int tempoLocomocaoTerrestre;
-    int qtdRobosDerrubados = 0
+    int qtdRobosDerrubados = 0;
     Ambiente ambiente;
     //Construtor
     public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){

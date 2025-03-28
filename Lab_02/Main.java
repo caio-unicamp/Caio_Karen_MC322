@@ -29,22 +29,22 @@ public class Main {
                 System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
             }
 
-            System.out.print("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n");
+            System.out.print("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
             if (comando == 0){ //Encerra o programa
                 break;
             }else if (comando == 1){ //Bloco para criação de robôs
-                System.out.println("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre\n");
+                System.out.println("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre");
                 comando = scanner.nextInt();
 
                 //Lista de mensagens que vão ser passadas caso o nome escolhido já exista
                 ArrayList<String> mensagensNomeJaExistente = new ArrayList<>();  
-                mensagensNomeJaExistente.add("Oooof... que azar, parece que alguém teve a mesma ideia que você, por quê não tenta de novo?\n");
-                mensagensNomeJaExistente.add("É... esse também não vai tá podendo :/\n");
-                mensagensNomeJaExistente.add("Seu dia de sorte! você tem um sósia por aí e ele já escolheu esse nome! Infelizmente ele não está disponível para contato então você vai ter que escolher outro nome\n");
-                mensagensNomeJaExistente.add("Amigo, já pensou em fazer uma aula de processo criativo? Você tá precisando, escolhe outro nome aí\n");
-                mensagensNomeJaExistente.add("Hmm... é eu acho que já ouvi esse nome, não gosto muito dele, que tal escolher outro?\n");
-                mensagensNomeJaExistente.add("naspu' duj ra'pu'bogh  eita, foi mal, escolhe outro nome aí... de preferência bem rápido\n");
+                mensagensNomeJaExistente.add("Oooof... que azar, parece que alguém teve a mesma ideia que você, por quê não tenta de novo?");
+                mensagensNomeJaExistente.add("É... esse também não vai tá podendo :/");
+                mensagensNomeJaExistente.add("Seu dia de sorte! você tem um sósia por aí e ele já escolheu esse nome! Infelizmente ele não está disponível para contato então você vai ter que escolher outro nome");
+                mensagensNomeJaExistente.add("Amigo, já pensou em fazer uma aula de processo criativo? Você tá precisando, escolhe outro nome aí");
+                mensagensNomeJaExistente.add("Hmm... é eu acho que já ouvi esse nome, não gosto muito dele, que tal escolher outro?");
+                mensagensNomeJaExistente.add("naspu' duj ra'pu'bogh  eita, foi mal, escolhe outro nome aí... de preferência bem rápido");
 
                 if (comando == 1){
                     System.out.println("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro");
@@ -100,7 +100,7 @@ public class Main {
                     drone.entregarPacote(coordenadaX, coordenadaY);
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY)){
-                        System.out.println("Seu pacote foi entregue com sucesso!")
+                        System.out.println("Seu pacote foi entregue com sucesso!");
                     }
                     //se o drone não consegiu entregar o pacote
                     else{

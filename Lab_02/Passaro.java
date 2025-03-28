@@ -24,19 +24,19 @@ public class Passaro extends RoboAereo{
     public boolean desviar(){
         //se ele consegue ir para a direita, ele vai 1 posição paraa direita
         if (mover(this.posicaoXPassaro + 1, this.posicaoYPassaro)){
-            mover(this.posicaoXPassaro + 1, this.posicaoYPassaro)
+            mover(this.posicaoXPassaro + 1, this.posicaoYPassaro);
         }
         //se ele consegue ir para a esquerda, ele vai 1 posição paraa esquerda
         else if (mover(this.posicaoXPassaro - 1, this.posicaoYPassaro)){
-            mover(this.posicaoXPassaro - 1, this.posicaoYPassaro)
+            mover(this.posicaoXPassaro - 1, this.posicaoYPassaro);
         }
         //se ele consegue ir para cima, ele vai 1 posição paraa cima
         else if (mover(this.posicaoXPassaro, this.posicaoYPassaro + 1)){
-            mover(this.posicaoXPassaro, this.posicaoYPassaro + 1)
+            mover(this.posicaoXPassaro, this.posicaoYPassaro + 1);
         }
         //se ele consegue ir para baixo, ele vai 1 posição paraa baixo
         else if (mover(this.posicaoXPassaro, this.posicaoYPassaro - 1)){
-            mover(this.posicaoXPassaro, this.posicaoYPassaro - 1)
+            mover(this.posicaoXPassaro, this.posicaoYPassaro - 1);
         }
         //caso não consiga ir para nenhum dos lados, retorna falso
         return false;
