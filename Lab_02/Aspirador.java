@@ -33,6 +33,7 @@ public class Aspirador extends RoboTerrestre{
 
     //método de se mover
     public void mover(int deltaX, int deltaY){ //A classe aspirador              
+        super.mover(deltaX, deltaY); //Move o robô de acordo com a função mover da classe mãe que já possui implementação de identificar robô
         //se encontrar um obstáculo
         if (super.identificarRobo(this.x + deltaX, this.y + deltaY)){
             //eliminar o robô
