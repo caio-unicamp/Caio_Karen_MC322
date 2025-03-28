@@ -1,9 +1,12 @@
 public class Passaro extends RoboAereo{
     //atributo próprio da quantidade de desvios que ele fez
     private int qtddesvios;
+<<<<<<< HEAD
     private int posicaoXPassaro;
     private int posicaoYPassaro;
     private int posicaoZPassaro;
+=======
+>>>>>>> c11ebcff98434224bad107fa547c33cfb3a46dc9
     //Construtor para inicializar os atributos
     public Passaro(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente){
         super(nome, direcao, x, y, altitude, ambiente);
@@ -25,7 +28,6 @@ public class Passaro extends RoboAereo{
             qtddesvios++; //incrementa a quantidade de desvios
         }    
     }    
-
     //método próprio de desviar, se o Pássaro se esbarrar para alguma coisa ele desvia para: direita, esquerda, cima e baixo
     public boolean desviar(){
         //se ele consegue ir para a direita, ele vai 1 posição paraa direita
