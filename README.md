@@ -24,6 +24,8 @@ Para usar o Simulador como está agora em desenvolvimento no lab02, é necessár
     Para um Robô Áereo, digite
     2. 1
         Na categoria de Robô Áereo, existem 2 sub-categorias, os Drones que possuem um robô Rover dentro, porém caso você os mova na direção de um obstáculo ele derruba o Robô Rover e para de se mover, além do Drone tem os Pássaros que, não possuem Robôs dentro mas conseguem sempre chegar ao seu destino desviando dos obstáculos.
+        Antes disso, será requisitado que você coloque a direção na qual seu Robô está apontando, digite-a como "Sul", "Norte", "Leste" ou "Oeste" 
+        Agora, você precisa selecionar a subcategoria que o seu Robô Aéreo será:
         Para um Drone, digite:
         3. 1
         Para um Pássaro, digite
@@ -31,10 +33,13 @@ Para usar o Simulador como está agora em desenvolvimento no lab02, é necessár
     Para um Robô Terrestre, digite:
     2. 2
         Na categoria de Robô Terrestre, existem 2 sub-categorias, os Aspiradores que se movimentam e destroem todos os obstáculos em seu caminho e os Rover que se movimentam e caso encontrem algum objeto, o empurra até seu destino final.
+        Pediremos paravocê  declarar a velocidade máxima de seu Robô, escolha um Int n e o digite no Terminal
+        3. n
+        Agora para escolher a sub-categoria:
         Para um um Aspirador, digite:
-        3. 1
+        4. 1
         Para um Rover, digite:
-        3. 2
+        4. 2
     Por fim, precisamos de um nome para o Robô, digite o nome escolhido no terminal, caso o nome seja igual a outro nome de um Robô no Ambiente, uma mensagem irá aparecer você precisará escolher um nome diferente:
     Para escolher um nome, digite:
     2. "nomeEscolhido"
