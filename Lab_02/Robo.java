@@ -19,17 +19,13 @@ public class Robo {
     }
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
-        //Analisa se o passo do robô é positivo ou negativo
+        //Analisa se o passo do robô é positivo ou negativo ou nulo
         int passoX = 0, passoY = 0;
-        if (deltaX > 0){
-            passoX = 1;
-        }else if (deltaX < 0){
-            passoX = -1;
+        if (deltaX != 0){
+            passoX = deltaX/Math.abs(deltaX);
         }
-        if (deltaY > 0){
-            passoY = 1;
-        }else if (deltaY < 0){
-            passoY = -1;
+        if (deltaY != 0){
+            passoY = deltaY/Math.abs(deltaY);
         }
         
         if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passoX, this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
