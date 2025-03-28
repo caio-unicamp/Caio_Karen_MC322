@@ -23,7 +23,7 @@ public class Robo {
         //Analisa se o passo do robô é positivo ou negativo ou nulo
         int[] passos = getPasso(deltaX, deltaY);
         
-        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passoX, this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += passos[0];
             mover(deltaX - passos[0], deltaY);
         }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
@@ -45,6 +45,10 @@ public class Robo {
         return direcao;
     }
     
+    public void setDirecao(String direcao){ //Função para alterar a direção que o robô está encarando
+        this.direcao = direcao;
+    }
+    
     public boolean identificarRobo(int x, int y, int z, String nome){
         for (Robo robo: listaRobosAtivos){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
             if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && robo.getNome() != nome){
@@ -59,7 +63,7 @@ public class Robo {
         this.posicaoZ = z;
     }
 
-    public int[] getPasso(int deltaX, int deltaY){ //Retorna o passo negativo ou positivo
+    public int[] getPasso(int deltaX, int deltaY){ //Retorna o passo negativo ou positivo de x e de y
         int passoX = 0, passoY = 0;
         if (deltaX != 0){
             passoX = deltaX/Math.abs(deltaX);

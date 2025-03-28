@@ -124,7 +124,7 @@ public class Main {
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
                     //mover o Rover
-                    System.out.println("você quer mover para onde? Passos  em x:\n");
+                    System.out.println("Você quer mover para onde?\nPassos  em x: ");
                     int deltaX = scanner.nextInt(); 
                     System.out.println("passos em y:");
                     int deltaY = scanner.nextInt();
@@ -180,10 +180,10 @@ public class Main {
         String direcao = scanner.nextLine();
         int[] coordenadas = lerCoordenadas(scanner, true);
         if (tipoRobo == 0){
-            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2]);
+            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
             ambiente.adicionarRobo(drone);   
         }else if (tipoRobo == 1){
-            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2]);
+            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
             ambiente.adicionarRobo(passaro);
         }
     }

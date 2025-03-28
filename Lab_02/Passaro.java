@@ -7,11 +7,11 @@ public class Passaro extends RoboAereo{
         super(nome, direcao, x, y, altitude, ambiente);
     }
     //método próprio de mover
-    public boolean mover(int deltaX, int deltaY){ 
+    public void mover(int deltaX, int deltaY){ 
         mover(deltaX, deltaY);  //na função mover ele identifica se encontra outro robô no caminho
         if ((this.posicaoXPassaro == posicaoXpassarofinal) && (this.posicaoYPassaro == posicaoYpassarofinal)){ 
             //retornar verdadeiro
-            return true;
+            
         }
         //se não chegar na posição final, ele tenta desviar
         else {
