@@ -16,3 +16,4 @@ javac -d *.java
 
 java -cp bin meu.pacote.Main
 
+ 
