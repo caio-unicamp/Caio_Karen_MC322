@@ -28,4 +28,12 @@ public class RoboTerrestre extends Robo{
     public void setVelMaxima(int velMax){ //Função para alterar a velocidade máxima do robô
         this.velocidadeMaxima = velMax;
     }
+
+    public int getTempoLocomocao(){ //Função para ver o tempo de locomoção do robô terrestre
+        return tempoLocomocaoTerrestre;
+    }
+
+    public void setTempoLocomocao(int novoTempo){ //Função para setar o novo tempo de locomoção do robo terrestre
+        this.tempoLocomocaoTerrestre = novoTempo;
+    }
 } 

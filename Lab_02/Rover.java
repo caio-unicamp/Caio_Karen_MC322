@@ -1,12 +1,14 @@
 public class Rover extends RoboTerrestre{
     //atributo próprio
     int qtdRobosEmpurrados;
+    int tempoLocomocaoTerrestre;
     Ambiente ambiente;
     //Construtor
     public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
         super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
         this.ambiente = ambiente;
         this.qtdRobosEmpurrados = 0;
+        this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
     
     public void mover(int deltaX, int deltaY){ //Função para mover o rover e acessar a função empurrar robô
@@ -20,4 +22,5 @@ public class Rover extends RoboTerrestre{
     public void empurrarRobo(Robo empurrado){
         
     }
+
 }
