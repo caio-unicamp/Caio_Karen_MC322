@@ -42,7 +42,8 @@ Para usar o Simulador como está agora em desenvolvimento no lab02, é necessár
 
 ### Para mover um Robô, digite:
  1. 2
- Agora que você quer mover um Robô, seus Robôs apareceram no Terminal, conectados a um número como o seguinte exemplo: 
+ Agora que você quer mover um Robô, saibam que seus robôs movem ignorantes ao Teorema de Pitágoras, ou seja não se movem na diagonal mas sim pelos eixos x e depois y.
+ No Terminal, seus Robôs devem ter aparecido conectados a um número como o seguinte exemplo: 
  1 - "nome1¨
  2 - "nome2"
  Para mover o Robô que você quer, digite o número n associado à ele:
