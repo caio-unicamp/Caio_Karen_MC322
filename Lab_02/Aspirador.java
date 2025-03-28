@@ -12,9 +12,11 @@ public class Aspirador extends RoboTerrestre{
     }
 
     //método de eliminar
-    public void eliminar(int x, int y) {
+    public void eliminar(String nome) {
         //pegar a lista de robos e percorrer procurando o nome do robo
-        private ArrayList<Robo> listaRobosEliminar; 
+        for (Robo robo : ambiente.getLista()) {
+            private ArrayList<Robo> listaRobosEliminar;
+        } 
         listaRobosEliminar = ambiente.getLista();   //pegar a lista de robos do ambiente
         //percorrer a lista
         for (int i = 0; i < ambiente.getLista().size(); i++) {
@@ -29,7 +31,10 @@ public class Aspirador extends RoboTerrestre{
         
         return false; // Robo não encontrado se ele não retornou True previamente
     }
-        
+    
+    public int getRobosEliminados(){ //Função que retorna o número de robôs que foram eliminados
+        return robosEliminados;
+    }
 
     //método de se mover
     public void mover(int deltaX, int deltaY){             
