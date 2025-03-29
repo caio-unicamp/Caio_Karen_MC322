@@ -23,8 +23,11 @@ public class Drone extends RoboAereo{
         int posYinicial = this.posicaoYdrone;
         
         super.mover(posicaoXdronefinal - posicaoXdrone, posicaoYdronefinal - posicaoYdrone); //Move o drone até a posição final da entrega e na função mover ele identifica se encontra outro robô no caminho, com isso ele esbarra no robô e derruba o pacote
+        //Atualiza a posição real do drone
+        this.posicaoXdrone = this.getPosicao()[0];
+        this.posicaoYdrone = this.getPosicao()[1];
 
-        if (this.posicaoXdrone == posXinicial && this.posicaoYdrone == posYinicial){ //Se o drone não se moveu ele não deve mover o pacote
+        if (this.getPosicao()[0] == posXinicial && this.getPosicao()[1] == posYinicial){ //Se o drone não se moveu ele não deve mover o pacote
             return false;
         }
         
