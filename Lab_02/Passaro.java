@@ -72,4 +72,8 @@ public class Passaro extends RoboAereo{
         }
         return false; // Se não encontrou nenhuma rota alternativa
     }            
+
+    public int getQtddesvios(){
+        return qtdDesvios;
+    }
 }
