@@ -136,7 +136,16 @@ public class Main {
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
-                        System.out.println(contadorRobo++ + " - " + robo.getNome());
+                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " | " + robo.getDirecao() + " | " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
+                        if (robo instanceof Aspirador) {
+                            System.out.println("Tipo: Aspirador");
+                        } else if (robo instanceof Rover) {
+                            System.out.println("Tipo: Rover");
+                        } else if (robo instanceof Drone) {
+                            System.out.println("Tipo: Drone");
+                        } else if (robo instanceof Passaro) {
+                            System.out.println("Tipo: Pássaro");
+                        }
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
