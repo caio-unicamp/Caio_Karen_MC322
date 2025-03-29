@@ -17,9 +17,10 @@ public class Main {
         System.out.println("Profundidade: ");
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
-        System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + "\nClique enter para podermos prosseguir");
-        scanner.nextLine(); //Ignora a quebra de Linha
+        System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
         while (comando != 0){ //Cria um looping para as ações possíveis
+            scanner.nextLine(); //Ignora a quebra de Linha
+            System.out.println("Digite enter para continuarmos");
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             try {
                 if (sistemaOperacional.contains("win")){
@@ -72,10 +73,8 @@ public class Main {
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
-                int contadorRobo = 1; //Contador criado para o print pois se fosse para ser feito com índice esse for o print ficaria meio ilegível
                 for (Robo robo : ambiente.getLista()){
-                    System.out.println(contadorRobo + " - " + robo.getNome());
-                    contadorRobo++;
+                    System.out.println((ambiente.getLista().size()) + " - " + robo.getNome());
                 }
                 comando = scanner.nextInt();
                 Robo roboEscolhido = ambiente.getLista().get(comando - 1);
@@ -181,11 +180,11 @@ public class Main {
             int tempoLocomocaoTerrestre = scanner.nextInt();
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(drone);   
-            System.out.println("É... você criou um rover pelo menos! E em esse " + drone.getNome() + " também... yay");
+            System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
             ambiente.adicionarRobo(passaro);
-            System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso. Digite enter pra gente poder seguir logo com isso");
+            System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso.");
         }
     }
 
