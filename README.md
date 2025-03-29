@@ -11,8 +11,8 @@ Clone este repositório e instale as dependências:
 # Como usar
 Para usar o Simulador como está agora em desenvolvimento no lab02, é necessário estar na pasta Lab_02 e executar os seguintes comandos no Terminal:
 
-1. javac -d *.java
-2. java -cp bin meu.pacote.Main
+1. javac -d bin *.java
+2. java -cp bin Main
 
 ## instruções 
  Siga as instruções no Terminal, começa com as definições do seu Ambiente
