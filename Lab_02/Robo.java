@@ -17,6 +17,7 @@ public class Robo {
         this.posicaoY = y;
         this.posicaoZ = z;
         this.listaRobosAtivos = ambiente.getLista();
+        this.ambiente = ambiente;
     }
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
