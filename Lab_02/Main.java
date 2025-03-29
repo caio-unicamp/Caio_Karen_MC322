@@ -91,13 +91,12 @@ public class Main {
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                    System.out.println("você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ");
-                    int coordenadaX = scanner.nextInt();
-                    System.out.println("Coordanda em y: ");
-                    int coordenadaY = scanner.nextInt();
-                    scanner.nextLine(); //Ignora a quebra de linha
+                    scanner.nextLine();
                     System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
                     String nomePacote = scanner.nextLine();
+                    int coordenadaX = lerInteiro("Você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ", scanner);
+                    int coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
+                    scanner.nextLine(); //Ignora a quebra de linha
                     drone.entregarPacote(coordenadaX, coordenadaY, nomePacote);
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
@@ -105,7 +104,13 @@ public class Main {
                     }
                     //se o drone não consegiu entregar o pacote
                     else{
-                        System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0);
+                        System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + " Tá esperando o que? VAI VER SE ELE TÁ BEM!");
+                        int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
+                        if (verifica == 1){
+                            System.err.println("É bom mesmo...");
+                        }else{
+                            System.out.println("Estou gostando cada vez menos de você");
+                        }
                     }
                 } else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");

@@ -18,7 +18,14 @@ public class Rover extends RoboTerrestre{
     
     public void mover(int deltaX, int deltaY){ //Função para mover recursivamente o rover e acessar a função empurrar robô
         int[] passos = this.getPasso(deltaX, deltaY);
+        if (passos[0] == 0 && passos[1] == 0) {
+            return; // Evita chamadas infinitas
+        }
 
+        if (deltaX == 0 && deltaY == 0) { 
+            return; // O rover já chegou ao destino, então para a recursão
+        }
+        
         if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0]){
             if (identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.getNome())){
                 Robo roboEmpurrado = getRoboNaPosicao(this.posicaoX + passos[0], this.posicaoY);
