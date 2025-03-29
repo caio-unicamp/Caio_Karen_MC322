@@ -18,18 +18,19 @@ public class Main {
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + "\nClique enter para podermos prosseguir");
-        scanner.nextLine();
+        scanner.nextLine(); //Ignora a quebra de Linha
         while (comando != 0){ //Cria um looping para as ações possíveis
-            // try {
-            //     if (sistemaOperacional.contains("win")){
-            //         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-            //     }else{
-            //         System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-            //         System.out.flush();
-            //     }
-            // } catch (Exception e) {
-            //     System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            // }
+            scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
+            try {
+                if (sistemaOperacional.contains("win")){
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+                }else{
+                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+                    System.out.flush();
+                }
+            } catch (Exception e) {
+                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            }
 
             System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
@@ -180,9 +181,11 @@ public class Main {
             int tempoLocomocaoTerrestre = scanner.nextInt();
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(drone);   
+            System.out.println("É... você criou um rover pelo menos! E em esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
             ambiente.adicionarRobo(passaro);
+            System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso. Digite enter pra gente poder seguir logo com isso");
         }
     }
 
@@ -198,9 +201,11 @@ public class Main {
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
+            System.out.println("VAMOOOOOOOOOOOOOO!!! Você é incrível por ter criado o " + aspirador.getNome());
         }else if (tipoRobo == 1){
             Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(rover);
+            System.out.println("Meus olhos se enchem de óleo toda vez, o " + rover.getNome() + " é tão lindo");
         }
     }
 
