@@ -17,18 +17,19 @@ public class Main {
         System.out.println("Profundidade: ");
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
-        System.out.println("Parabéns, agora você é o prefeito de " + ambiente.getNomeAmbiente());
+        System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + "\nClique enter para podermos prosseguir");
+        scanner.nextLine();
         while (comando != 0){ //Cria um looping para as ações possíveis
-            // try {
-            //     if (sistemaOperacional.contains("win")){
-            //         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-            //     }else{
-            //         System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-            //         System.out.flush();
-            //     }
-            // } catch (Exception e) {
-            //     System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            // }
+            try {
+                if (sistemaOperacional.contains("win")){
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+                }else{
+                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+                    System.out.flush();
+                }
+            } catch (Exception e) {
+                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            }
 
             System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
@@ -93,9 +94,9 @@ public class Main {
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                    System.out.println("você deseja entregar seu pacote para quais coordenadas?\n, coordenada em x: ");
+                    System.out.println("você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ");
                     int coordenadaX = scanner.nextInt();
-                    System.out.println("coordanda em y: ");
+                    System.out.println("Coordanda em y: ");
                     int coordenadaY = scanner.nextInt();
                     drone.entregarPacote(coordenadaX, coordenadaY);
                     //se o drone conseguiu entregar o pacote
