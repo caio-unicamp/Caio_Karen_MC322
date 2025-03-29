@@ -20,16 +20,16 @@ public class Main {
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + "\nClique enter para podermos prosseguir");
         scanner.nextLine();
         while (comando != 0){ //Cria um looping para as ações possíveis
-            try {
-                if (sistemaOperacional.contains("win")){
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-                }else{
-                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-                    System.out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            }
+            // try {
+            //     if (sistemaOperacional.contains("win")){
+            //         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+            //     }else{
+            //         System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+            //         System.out.flush();
+            //     }
+            // } catch (Exception e) {
+            //     System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            // }
 
             System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
