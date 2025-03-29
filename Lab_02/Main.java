@@ -21,16 +21,8 @@ public class Main {
             scanner.nextLine(); //Ignora a quebra de Linha
             System.out.println("Digite enter para continuarmos");
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
-            try {
-                if (sistemaOperacional.contains("win")){
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-                }else{
-                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-                    System.out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            }
+            limparTela(sistemaOperacional); //Chama a função que limpa o terminal
+
             comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs", scanner);
             if (comando == 0){ //Encerra o programa
                 break;
@@ -233,6 +225,19 @@ public class Main {
                 System.out.println("Engraçadinho você, eu avisei, mas vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
                 scanner.nextLine(); // Descarta a entrada inválida
             }
+        }
+    }
+
+    public static void limparTela(String sistemaOperacional){ //Função para limpar o terminal após algumas interações
+        try {
+            if (sistemaOperacional.contains("win")){
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+            }else{
+                System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
         }
     }
  }
