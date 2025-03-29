@@ -14,9 +14,9 @@ public class Drone extends RoboAereo{
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
 
-    public boolean entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal){ //Função para entregar um pacote. Essa função é um booleano pois caso o pacote seja entregue retorna true e caso não seja, retorna false
+    public boolean entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote){ //Função para entregar um pacote. Essa função é um booleano pois caso o pacote seja entregue retorna true e caso não seja, retorna false
         //inicializar o robo pacote
-        pacote = new Rover("Pacote1", "Sul", this.posicaoXdrone, this.posicaoYdrone, this.posicaoZdrone, ambiente, tempoLocomocaoPacote);
+        pacote = new Rover(nomePacote, this.getDirecao(), this.posicaoXdrone, this.posicaoYdrone, this.posicaoZdrone, ambiente, tempoLocomocaoPacote);
         ambiente.adicionarRobo(pacote); //Adiciona o pacote na lista de Robôs ativos
 
         int posXinicial = this.posicaoXdrone;

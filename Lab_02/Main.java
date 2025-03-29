@@ -98,14 +98,17 @@ public class Main {
                     int coordenadaX = scanner.nextInt();
                     System.out.println("Coordanda em y: ");
                     int coordenadaY = scanner.nextInt();
-                    drone.entregarPacote(coordenadaX, coordenadaY);
+                    scanner.nextLine(); //Ignora a quebra de linha
+                    System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
+                    String nomePacote = scanner.nextLine();
+                    drone.entregarPacote(coordenadaX, coordenadaY, nomePacote);
                     //se o drone conseguiu entregar o pacote
-                    if (drone.entregarPacote(coordenadaX, coordenadaY)){
-                        System.out.println("Seu pacote foi entregue com sucesso!");
+                    if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
+                        System.out.println("O " + nomePacote +" pacote foi entregue com sucesso!");
                     }
                     //se o drone não consegiu entregar o pacote
                     else{
-                        System.out.println("Seu pacote foi derrubado no caminho.....suas coordenadas são: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0);
+                        System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0);
                     }
                 } else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
