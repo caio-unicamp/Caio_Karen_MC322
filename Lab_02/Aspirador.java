@@ -17,7 +17,7 @@ public class Aspirador extends RoboTerrestre{
     public boolean eliminarRobo(){ //Função para eliminar robôs quando ele se mover
         //pegar a lista de robos e percorrer procurando o nome do robo
         for (Robo robo : ambiente.getLista()) {
-            if (robo != this && this.getPosicao()[0] == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
+            if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
                 ambiente.getLista().remove(robo); //Remove o robô encontrado da lista de robôs ativos
                 robosEliminados++; 
                 return true; //Se ele eliminou o robô ele retorna true
