@@ -8,7 +8,7 @@ public class Main {
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = 1;
 
-        System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor\nNome do Ambiente: ");
+        System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor. Ah e só mais uma coisinha, eu imploro que quando pedirmos por números você não digite um nome, e se mesmo assim você teimar com isso, eu sei onde você mora...\nNome do Ambiente: ");
         String nomeAmbiente = scanner.nextLine();
         System.out.println("Largura: ");
         int x = scanner.nextInt();
@@ -174,7 +174,9 @@ public class Main {
         String direcao = scanner.nextLine();
         int[] coordenadas = lerCoordenadas(scanner, true);
         if (tipoRobo == 0){
-            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
+            System.out.print("Tempo de locomoção do pacote: ");
+            int tempoLocomocaoTerrestre = scanner.nextInt();
+            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(drone);   
         }else if (tipoRobo == 1){
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
@@ -182,13 +184,15 @@ public class Main {
         }
     }
 
-    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo, int tempoLocomocaoTerrestre){ //Função para criação de robôs terrestres
+    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: \n");
         String direcao = scanner.nextLine();
         int[] coordenadas = lerCoordenadas(scanner, false);
         System.out.print("Velocidade Máxima: \n");
         int velMax = scanner.nextInt();
+        System.out.println("Tempo de Locomoção: ");
+        int tempoLocomocaoTerrestre = scanner.nextInt();
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
