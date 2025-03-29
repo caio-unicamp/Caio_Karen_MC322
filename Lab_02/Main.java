@@ -17,19 +17,20 @@ public class Main {
         System.out.println("Profundidade: ");
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
+        System.out.println("Parabéns, agora você é o prefeito de " + ambiente.getNomeAmbiente());
         while (comando != 0){ //Cria um looping para as ações possíveis
-            try {
-                if (sistemaOperacional.contains("win")){
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-                }else{
-                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-                    System.out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            }
+            // try {
+            //     if (sistemaOperacional.contains("win")){
+            //         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+            //     }else{
+            //         System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+            //         System.out.flush();
+            //     }
+            // } catch (Exception e) {
+            //     System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            // }
 
-            System.out.print("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
+            System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
             if (comando == 0){ //Encerra o programa
                 break;
@@ -60,7 +61,7 @@ public class Main {
                     System.out.println("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover");   
                     comando = scanner.nextInt();
                     if (comando == 1){
-                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\n Nome: ");
+                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\nNome: ");
                         criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 0);
                     }else if (comando == 2){
                         System.out.println("Interessante... um amante de Rovers é raro hoje em dia. Bom, escolha como você quer que a gente crie ele\nNome: ");
@@ -69,7 +70,7 @@ public class Main {
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
-                int contadorRobo = 1;
+                int contadorRobo = 1; //Contador criado para o print pois se fosse para ser feito com índice esse for o print ficaria meio ilegível
                 for (Robo robo : ambiente.getLista()){
                     System.out.println(contadorRobo + " - " + robo.getNome());
                     contadorRobo++;
@@ -79,18 +80,17 @@ public class Main {
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    //Mostrar os métodos do Aspirador
-                    System.out.println("você deseja mover para quais coordenadas?Lembre-se que destruirá todos os robôs no caminho\n, passos em x:");
+                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho\nPassos em x:");
                     int deltaX = scanner.nextInt(); 
-                    System.out.println("passos em y:");
+                    System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
                     aspirador.mover(deltaX, deltaY);
                     //pegar a qtd de robos eliminados
                     int qtdEliminados = aspirador.getRobosEliminados();
                     //imprimir a qtd de eliminados
-                    System.out.println("você destruiu " + qtdEliminados + " robôs no caminho");
+                    System.out.println("Você destruiu " + qtdEliminados + " robôs no caminho");
 
-                } else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
+                }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
                     System.out.println("você deseja entregar seu pacote para quais coordenadas?\n, coordenada em x: ");
@@ -112,13 +112,13 @@ public class Main {
                     //mover o pássaro
                     System.out.println("você quer mover para onde?\n Passos  em x:");
                     int deltaX = scanner.nextInt(); 
-                    System.out.println("passos em y:");
+                    System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
                     passaro.mover(deltaX, deltaY);
                     //pegar a qtd de desvios
                     int qtdDesvios = passaro.getQtddesvios();
                     //imprimir a qtd de desvios
-                    System.out.println("você fez " + qtdDesvios + " desvios no caminho");
+                    System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
 
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
@@ -126,7 +126,7 @@ public class Main {
                     //mover o Rover
                     System.out.println("Você quer mover para onde?\nPassos  em x: ");
                     int deltaX = scanner.nextInt(); 
-                    System.out.println("passos em y:");
+                    System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
                     rover.mover(deltaX, deltaY);
 }
@@ -149,6 +149,7 @@ public class Main {
     //quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
     public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
+        scanner.nextLine();
         String nome = scanner.nextLine();
         while (true){
             boolean nomeExiste = false;
@@ -170,7 +171,7 @@ public class Main {
 
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
-        System.out.println("Direção: \n");
+        System.out.println("Direção: ");
         String direcao = scanner.nextLine();
         int[] coordenadas = lerCoordenadas(scanner, true);
         if (tipoRobo == 0){
@@ -186,10 +187,10 @@ public class Main {
 
     public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
-        System.out.print("Direção: \n");
+        System.out.print("Direção: ");
         String direcao = scanner.nextLine();
         int[] coordenadas = lerCoordenadas(scanner, false);
-        System.out.print("Velocidade Máxima: \n");
+        System.out.print("Velocidade Máxima: ");
         int velMax = scanner.nextInt();
         System.out.println("Tempo de Locomoção: ");
         int tempoLocomocaoTerrestre = scanner.nextInt();
@@ -203,13 +204,13 @@ public class Main {
     }
 
     public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
-        System.out.print("Posição X: \n");
+        System.out.print("Posição X: ");
         int posicaoX = scanner.nextInt();
-        System.out.print("Posição Y: \n");
+        System.out.print("Posição Y: ");
         int posicaoY = scanner.nextInt();
         int posicaoZ = 0;
         if (roboVoador){ //Se o robô for voador inclui o eixo z
-            System.out.println("Posição Z: \n");
+            System.out.println("Posição Z: ");
             posicaoZ = scanner.nextInt();
         }
         return new int[]{posicaoX, posicaoY, posicaoZ};

@@ -17,15 +17,23 @@ public class Robo {
         this.posicaoY = y;
         this.posicaoZ = z;
         this.listaRobosAtivos = ambiente.getLista();
+        this.ambiente = ambiente;
     }
 
     public void mover(int deltaX, int deltaY) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
+        if (deltaX == 0 && deltaY == 0) { //Condição de parada da recursão
+            return;
+        }
+        
         //Analisa se o passo do robô é positivo ou negativo ou nulo
         int[] passos = getPasso(deltaX, deltaY);
+        boolean moveu = false;
         
-        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        if (deltaX != 0 && deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.nome)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += passos[0];
+            moveu = true;
             mover(deltaX - passos[0], deltaY);
+            return;
         }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += passos[1];
             mover(0, deltaY - passos[1]); //Ele só começa a se mover em y depois de ter movido tudo em x
