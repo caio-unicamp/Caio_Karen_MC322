@@ -62,8 +62,9 @@ public class Main {
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
+                int i = 1;
                 for (Robo robo : ambiente.getLista()){
-                    System.out.println((ambiente.getLista().size()) + " - " + robo.getNome());
+                    System.out.println(i++ + " - " + robo.getNome());
                 }
                 comando = scanner.nextInt();
                 Robo roboEscolhido = ambiente.getLista().get(comando - 1);
@@ -107,7 +108,7 @@ public class Main {
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
                     //mover o pássaro
-                    System.out.println("você quer mover para onde?\n Passos  em x:");
+                    System.out.println("você quer mover para onde?\nPassos em x:");
                     int deltaX = scanner.nextInt(); 
                     System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
@@ -130,12 +131,12 @@ public class Main {
 
             } else if (comando == 3){ //Bloco para mostrar a lista de robôs
                 if (ambiente.getLista().size() == 0){
-                    
+                    System.out.println("Oops, parece que você ainda não criou nenhum robô");
                 } else{
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
-                        System.out.println(contadorRobo + " - " + robo.getNome());
+                        System.out.println(contadorRobo++ + " - " + robo.getNome());
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
