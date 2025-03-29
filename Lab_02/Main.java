@@ -168,12 +168,6 @@ public class Main {
         return nome;
     }
 
-    public static void analiseLimites(Robo robo, Ambiente ambiente){
-        if (!ambiente.dentroDosLimites(robo.getPosicao()[0], robo.getPosicao()[1], robo.getPosicao()[2])) {
-            System.out.println(null);
-        }
-    }
-
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: \n");
@@ -188,7 +182,7 @@ public class Main {
         }
     }
 
-    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
+    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo, int tempoLocomocaoTerrestre){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: \n");
         String direcao = scanner.nextLine();
@@ -196,10 +190,10 @@ public class Main {
         System.out.print("Velocidade Máxima: \n");
         int velMax = scanner.nextInt();
         if (tipoRobo == 0){
-            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente);
+            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
         }else if (tipoRobo == 1){
-            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax);
+            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(rover);
         }
     }
