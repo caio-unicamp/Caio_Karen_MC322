@@ -97,7 +97,6 @@ public class Main {
                     int coordenadaX = lerInteiro("Você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ", scanner);
                     int coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
                     scanner.nextLine(); //Ignora a quebra de linha
-                    drone.entregarPacote(coordenadaX, coordenadaY, nomePacote);
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
                         System.out.println("O " + nomePacote +" pacote foi entregue com sucesso!");
