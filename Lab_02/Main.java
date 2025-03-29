@@ -110,7 +110,7 @@ public class Main {
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
                     //mover o pássaro
-                    System.out.println("você quer mover para onde? Passos  em x:\n");
+                    System.out.println("você quer mover para onde?\n Passos  em x:");
                     int deltaX = scanner.nextInt(); 
                     System.out.println("passos em y:");
                     int deltaY = scanner.nextInt();
