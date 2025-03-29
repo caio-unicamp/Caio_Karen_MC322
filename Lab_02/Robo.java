@@ -34,9 +34,15 @@ public class Robo {
             moveu = true;
             mover(deltaX - passos[0], deltaY);
             return;
-        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+        }else if (deltaY != 0 && deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += passos[1];
+            moveu = true;
             mover(0, deltaY - passos[1]); //Ele só começa a se mover em y depois de ter movido tudo em x
+            return;
+        }
+
+        if (!moveu){ //Se não conseguiu mover nem em X e nem em Y ele para a função
+            return;
         }
     }
 
