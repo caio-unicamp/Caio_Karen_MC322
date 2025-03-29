@@ -10,12 +10,11 @@ public class Main {
 
         System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor. Ah e só mais uma coisinha, eu imploro que quando pedirmos por números você não digite um nome, e se mesmo assim você teimar com isso, eu sei onde você mora...\nNome do Ambiente: ");
         String nomeAmbiente = scanner.nextLine();
-        System.out.println("Largura: ");
-        int x = scanner.nextInt();
-        System.out.println("Altura: ");
-        int z = scanner.nextInt();
-        System.out.println("Profundidade: ");
-        int y = scanner.nextInt();
+
+        int x = lerInteiro("Largura: ", scanner);
+        int z = lerInteiro("Altura: ", scanner);
+        int y = lerInteiro("Profundidade: ", scanner);
+
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
         while (comando != 0){ //Cria um looping para as ações possíveis
@@ -32,9 +31,7 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
             }
-
-            System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
-            comando = scanner.nextInt();
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs", scanner);
             if (comando == 0){ //Encerra o programa
                 break;
             }else if (comando == 1){ //Bloco para criação de robôs
@@ -212,15 +209,26 @@ public class Main {
     }
 
     public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
-        System.out.print("Posição X: ");
-        int posicaoX = scanner.nextInt();
-        System.out.print("Posição Y: ");
-        int posicaoY = scanner.nextInt();
+        int posicaoX = lerInteiro("Posição X: ", scanner);
+        int posicaoY = lerInteiro("Posição Y: ", scanner);
         int posicaoZ = 0;
         if (roboVoador){ //Se o robô for voador inclui o eixo z
-            System.out.println("Posição Z: ");
-            posicaoZ = scanner.nextInt();
+            posicaoZ = lerInteiro("Posição Z: ", scanner);
         }
         return new int[]{posicaoX, posicaoY, posicaoZ};
+    }
+
+    public static int lerInteiro(String mensagem, Scanner scanner) { //Função para excessões de inteiros lidos como string
+        int valor;
+        while (true) { // Continua pedindo até o usuário digitar corretamente
+            System.out.println(mensagem);
+            if (scanner.hasNextInt()) {
+                valor = scanner.nextInt();
+                return valor;
+            } else {
+                System.out.println("Engraçadinho você, eu avisei, mas vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
+                scanner.nextLine(); // Descarta a entrada inválida
+            }
+        }
     }
  }
