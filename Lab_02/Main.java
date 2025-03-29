@@ -17,19 +17,20 @@ public class Main {
         System.out.println("Profundidade: ");
         int y = scanner.nextInt();
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
+        System.out.println("Parabéns, agora você é o prefeito de " + ambiente.getNomeAmbiente());
         while (comando != 0){ //Cria um looping para as ações possíveis
-            try {
-                if (sistemaOperacional.contains("win")){
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
-                }else{
-                    System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
-                    System.out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
-            }
+            // try {
+            //     if (sistemaOperacional.contains("win")){
+            //         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
+            //     }else{
+            //         System.out.print("\033[H\033[2J"); //Da clear no terminal no caso de Linux e MacOS depois de cada interação
+            //         System.out.flush();
+            //     }
+            // } catch (Exception e) {
+            //     System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
+            // }
 
-            System.out.print("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
+            System.out.println("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs");
             comando = scanner.nextInt();
             if (comando == 0){ //Encerra o programa
                 break;
@@ -79,7 +80,7 @@ public class Main {
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho\n Passos em x:");
+                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho\nPassos em x:");
                     int deltaX = scanner.nextInt(); 
                     System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
@@ -148,6 +149,7 @@ public class Main {
     //quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
     public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
+        scanner.nextLine();
         String nome = scanner.nextLine();
         while (true){
             boolean nomeExiste = false;
