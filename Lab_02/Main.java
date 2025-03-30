@@ -190,8 +190,9 @@ public class Main {
         System.out.print("Direção: ");
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, false, ambiente);
-        int velMax = leVelocidade(scanner)[0];
-        int tempoLocomocaoTerrestre = leVelocidade(scanner)[1];
+        int[] vel_tempo = leVelocidade(scanner);
+        int velMax = vel_tempo[0];
+        int tempoLocomocaoTerrestre = vel_tempo[1];
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
@@ -285,24 +286,25 @@ public class Main {
 
     public static int[] leVelocidade(Scanner scanner){
         int velMax = 0, tempoLocomocaoTerrestre = 0;
-        boolean velDefinida = false;
-        while (true){
-            if (!velDefinida){ //Condicional para não ter que pedir novamente a velocidade quando for pedir de novo o tempo
-                System.out.print("Velocidade Máxima: ");
-                velMax = scanner.nextInt();
-                if (velMax == 0){
-                    System.out.println("Confesso que eu tenho um certo apreço por foras da Lei, mas infelizmente eu fui programado de modo que eu devo pedir que você me diga o limite de velocidade do seu robô... mas olhe pelo lado bom, você ainda pode colocar seu limite de velocidade MUITO alto e eu vou permitir!");
-                    continue; //Volta a pedir a velocidade máxima
-                }
-                velDefinida = true; //Confirma se a velocidade foi definida
-            
+        while (true){ //Loop para analisar a velocidade máxima
+            System.out.print("Velocidade Máxima: ");
+            velMax = scanner.nextInt();
+            if (velMax == 0){
+                System.out.println("Confesso que eu tenho um certo apreço por foras da Lei, mas infelizmente eu fui programado de modo que eu devo pedir que você me diga o limite de velocidade do seu robô... mas olhe pelo lado bom, você ainda pode colocar seu limite de velocidade MUITO alto e eu vou permitir!");
+            }else if (velMax < 0){
+                System.out.println("Hmmm... um robô que faz moonwalk é uma boa ideia, vou passar isso para os meus superiores, mas por enquanto vamos ficar apenas com velocidades positivas ok?");
             }else{
-                System.out.println("Tempo de Locomoção: ");
-                tempoLocomocaoTerrestre = scanner.nextInt();   
-                if (tempoLocomocaoTerrestre == 0){
-                    System.out.println("É sério? tempo de locomoção 0? você sabe o que pode acontecer comigo se eu tentar fazer uma divisão por 0? Tô achando que você tá querendo me matar... A função de teletransporte ainda não está disponível nessa versão do simulador, então por que não tentamos de novo?");
-                    continue; //Volta a pedir o tempo de locomoção sem pedir a velocidade máxima de novo
-                }
+                break;
+            }
+        }
+        while (true){ //Loop para analisar o tempo de locomoção
+            System.out.println("Tempo de Locomoção: ");
+            tempoLocomocaoTerrestre = scanner.nextInt();   
+            if (tempoLocomocaoTerrestre == 0){
+                System.out.println("É sério? tempo de locomoção 0? você sabe o que pode acontecer comigo se eu tentar fazer uma divisão por 0? Tô achando que você tá querendo me matar... A função de teletransporte ainda não está disponível nessa versão do simulador, então por que não tentamos de novo?");
+            }else if(tempoLocomocaoTerrestre < 0){
+                System.out.println("Tempo negativo... Como eu não tenho certeza se uma criança está usando isso eu fui configurado para não xingar ninguém\n\nMAS caso você não seja uma criança... *&$ ¨$ &*%@#");
+            }else{
                 break;
             }
         }
