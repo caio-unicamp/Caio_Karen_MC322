@@ -205,14 +205,21 @@ public class Main {
         }
     }
 
-    public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
-        int posicaoX = lerInteiro("Posição X: ", scanner);
-        int posicaoY = lerInteiro("Posição Y: ", scanner);
-        int posicaoZ = 0;
-        if (roboVoador){ //Se o robô for voador inclui o eixo z
-            posicaoZ = lerInteiro("Posição Z: ", scanner);
+    public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador, Ambiente ambiente){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
+        while (true){
+            int posicaoX = lerInteiro("Posição X: ", scanner);
+            int posicaoY = lerInteiro("Posição Y: ", scanner);
+            int posicaoZ = 0;
+            if (roboVoador){ //Se o robô for voador inclui o eixo z
+                posicaoZ = lerInteiro("Posição Z: ", scanner);
+            }
+            if (!ambiente.dentroDosLimites(posicaoX, posicaoY, posicaoZ)){
+                System.out.println("Eu sei que é difícil manter a memória em dia, principalmente com o tanto de informação que existe hoje em dia, mas assim, você que criou o espaço e os limites dele, como você espera que eu consiga criar um robô fora dos limites que você mesmo estabeleceu? Então por favor tenta colocar o robô dentro do ambiente dessa vez ;)");
+            }else{
+                return new int[]{posicaoX, posicaoY, posicaoZ};
+            }
+            
         }
-        return new int[]{posicaoX, posicaoY, posicaoZ};
     }
 
     public static int lerInteiro(String mensagem, Scanner scanner) { //Função para excessões de inteiros lidos como string
@@ -240,6 +247,7 @@ public class Main {
             if (!nomeDirecao.equalsIgnoreCase("norte") || !nomeDirecao.equalsIgnoreCase("sul") || !nomeDirecao.equalsIgnoreCase("leste") || !nomeDirecao.equalsIgnoreCase("oeste")){
                 System.out.println("Olha eu achei que não precisaria explicar isso, mas entendo que o cerébro inferior dos seres humanos às vezes não pega informações implícitas tão rapidamente, mas quando eu digo direção é tipo... norte, sul, leste e oeste. Então é, vamo tentar de novo?");
                 nomeDirecao = scanner.nextLine();
+                return nomeDirecao;
             }
         }
     }
