@@ -54,6 +54,10 @@ public class Rover extends RoboTerrestre{
     //metodo de mover com empurrar um robo junto
     public void empurrarRobo(Robo empurrado, int deltaX, int deltaY){
         int[] novaPosicao = getPosicaoFinalRoboEmpurrado(deltaX, deltaY, empurrado);
+        if (identificarRobo(novaPosicao[0], novaPosicao[1], 0, empurrado.getNome())){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
+            Robo novoRoboEmpurrado = getRoboNaPosicao(novaPosicao[0], novaPosicao[1]);
+            empurrarRobo(novoRoboEmpurrado, deltaX, deltaY);
+        }
         empurrado.setPosicao(novaPosicao[0], novaPosicao[1], 0); //Como o robô está sendo empurrado pelo rover ele também passará a ignorar qualquer obstáculo, então basta setar a posição nova dele até a posição final dele até o fim da locomoção do rover
     }   
 
