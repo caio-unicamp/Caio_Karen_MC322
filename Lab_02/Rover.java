@@ -26,7 +26,7 @@ public class Rover extends RoboTerrestre{
             return; // O rover já chegou ao destino, então para a recursão
         }
         
-        if (deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0]){
+        if (passos[0] != 0 && ambiente.dentroDosLimites(this.posicaoX + passos[0], this.posicaoY, 0)){
             if (identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.getNome())){
                 Robo roboEmpurrado = getRoboNaPosicao(this.posicaoX + passos[0], this.posicaoY);
                 if (roboEmpurrado != null){
@@ -34,8 +34,9 @@ public class Rover extends RoboTerrestre{
                 }
             } 
             this.posicaoX += passos[0];
-            mover(deltaX - passos[0], deltaY);
-        }else if (deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1]){
+            mover(deltaX - passos[0], deltaY); //Continua o caminho em X decrementando o tanto que já foi andado
+            return;
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.posicaoX, this.posicaoY + passos[1], 0)){
             if (identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0, this.getNome())){
                 Robo roboEmpurrado = getRoboNaPosicao(this.posicaoX, this.posicaoY + passos[1]);
                 if (roboEmpurrado != null){
@@ -43,7 +44,8 @@ public class Rover extends RoboTerrestre{
                 }
             }
             this.posicaoY += passos[1];
-            mover(0, deltaY - passos[1]);
+            mover(0, deltaY - passos[1]); //Continua o caminho em Y decrementando o tanto que já foi andado
+            return;
         }
     }
     
@@ -54,7 +56,8 @@ public class Rover extends RoboTerrestre{
     }   
 
     public int[] getPosicaoFinalRoboEmpurrado(int deltaX, int deltaY, Robo empurrado){ //Função que retorna as posições finais dos robôs empurrados pelo rover
-        int posicaoX = empurrado.getPosicao()[0] + deltaX, posicaoY = empurrado.getPosicao()[1] + deltaY;
+        int posicaoX = empurrado.getPosicao()[0] + deltaX;
+        int posicaoY = empurrado.getPosicao()[1] + deltaY;
         
         if (!ambiente.dentroDosLimites(posicaoX, posicaoY, 0)){ //Se o robô que foi empurrado sai dos limites, ele é eliminado da lista de robôs ativos
             ambiente.getLista().remove(empurrado);
