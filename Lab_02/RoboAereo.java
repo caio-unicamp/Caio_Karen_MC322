@@ -7,21 +7,27 @@ public class RoboAereo extends Robo{
         this.altitude = altitude;
     }
     
-    public boolean subir(int metros){ //Função para mover o robô aéreo para cima respeitando os limites
-        if (((altitude + metros) < altitudeMaxima) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
-            this.altitude += metros;
-            return true; //Retorna no caso dele poder subir
-        }else{
-            return false; //Retorna no caso dele não poder subir
+    public void subir(int deltaZ){ //Função recursiva para mover o robô aéreo para cima respeitando os limites e identificando obstáculos no caminho
+        if (deltaZ == 0){ //Nesse ponto subiu tudo o que precisava
+            return;
+        }
+
+        if (((altitude + deltaZ) < altitudeMaxima) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
+            this.altitude += 1;
+            subir(deltaZ - 1);
+            return; 
         }
     }
 
-    public boolean descer(int metros){ //Função para mover o robô aéreo para baixo respeitando os limites
-        if (altitude > metros && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
-            this.altitude -= metros;
-            return true; //Retorna no caso dele poder descer
-        }else{
-            return false; //Retorna no caso dele não poder descer
+    public void descer(int deltaZ){ //Função recursiva para mover o robô aéreo para baixo respeitando os limites e identificando obstáculos no caminho
+        if (deltaZ == 0){ //Nesse ponto já desceu tudo o que precisava
+            return;
+        }
+        
+        if (altitude > deltaZ && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
+            this.altitude -= 1;
+            descer(deltaZ - 1);
+            return; 
         }
     }
 }

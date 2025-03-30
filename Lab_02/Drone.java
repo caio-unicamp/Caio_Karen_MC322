@@ -40,6 +40,6 @@ public class Drone extends RoboAereo{
                 return true;
             }  
         }
-        return true; //Caso chegue nessa parte é porque o drone encontrou um problema no caminho de descida ou o drone encontrou obstáculos no plano XY e derrubou o Rover
+        return false; //Caso chegue nessa parte é porque o drone encontrou um problema no caminho de descida ou o drone encontrou obstáculos no plano XY e derrubou o Rover
     }
 }

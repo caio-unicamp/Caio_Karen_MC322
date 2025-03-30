@@ -180,7 +180,7 @@ public class Main {
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
-        String direcao = scanner.nextLine();
+        String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, true, ambiente);
         if (tipoRobo == 0){
             System.out.print("Tempo de locomoção do pacote: ");
