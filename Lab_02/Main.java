@@ -76,11 +76,13 @@ public class Main {
                     System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
                     aspirador.mover(deltaX, deltaY);
-
                     //pegar a qtd de robos eliminados
                     int qtdEliminados = aspirador.getRobosEliminados();
                     //imprimir a qtd de eliminados
                     System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                    if (qtdEliminados > 10){
+                        System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                    }
 
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
