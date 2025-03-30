@@ -136,16 +136,7 @@ public class Main {
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
-                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " | " + robo.getDirecao() + " | " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
-                        if (robo instanceof Aspirador) {
-                            System.out.println("Tipo: Aspirador");
-                        } else if (robo instanceof Rover) {
-                            System.out.println("Tipo: Rover");
-                        } else if (robo instanceof Drone) {
-                            System.out.println("Tipo: Drone");
-                        } else if (robo instanceof Passaro) {
-                            System.out.println("Tipo: Pássaro");
-                        }
+                        System.out.println(contadorRobo++ + " - " + robo.getNome());
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
@@ -225,14 +216,19 @@ public class Main {
     }
 
     public static int lerInteiro(String mensagem, Scanner scanner) { //Função para excessões de inteiros lidos como string
+        Random random = new Random();
+        int numAleatorio = random.nextInt(10);
         int valor;
         while (true) { // Continua pedindo até o usuário digitar corretamente
             System.out.println(mensagem);
             if (scanner.hasNextInt()) {
                 valor = scanner.nextInt();
                 return valor;
-            } else {
-                System.out.println("Engraçadinho você, eu avisei, mas vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
+            }else if (numAleatorio == 5) {
+                System.out.println("Olha, eu até podia fazer algo para que você conseguisse continuar mesmo ignorando completamente o que eu falei no começo sobre digitar nomes em vez de números, mas hoje eu estou de mal humor então só por isso você vai ter que recomeçar tudo de novo XP");
+                System.exit(0);
+            }else {
+                System.out.println("Engraçadinho você, vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
                 scanner.nextLine(); // Descarta a entrada inválida
             }
         }
