@@ -9,7 +9,6 @@ public class Passaro extends RoboAereo{
     }
     
     public void mover(int deltaX, int deltaY) {
-        super.mover(deltaX, deltaY);
         if (identificarRobo(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], this.getNome())){ //Caso o pássaro identifique um obstáculo no caminho ele começa a fazer uma busca para desviar
             if (desviar(deltaX, deltaY)) {
                 qtdDesvios++;
@@ -35,7 +34,6 @@ public class Passaro extends RoboAereo{
                     ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
 
                     // Move para a posição desviada no plano 2D
-                    this.setPosicao(novoX, novoY, novoZ);
                     super.mover(novoX - this.getPosicao()[0], novoY - this.getPosicao()[1]);
 
                     return true;
