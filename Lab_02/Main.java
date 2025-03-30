@@ -188,7 +188,7 @@ public class Main {
     public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: ");
-        String direcao = scanner.nextLine();
+        String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, false);
         System.out.print("Velocidade Máxima: ");
         int velMax = scanner.nextInt();
@@ -230,6 +230,16 @@ public class Main {
             }else {
                 System.out.println("Engraçadinho você, vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
                 scanner.nextLine(); // Descarta a entrada inválida
+            }
+        }
+    }
+
+    public static String leDirecao(Scanner scanner){ //Função para ficar pedindo a direção até o usuário digitar corretamente
+        String nomeDirecao = scanner.nextLine();
+        while (true){
+            if (!nomeDirecao.equalsIgnoreCase("norte") || !nomeDirecao.equalsIgnoreCase("sul") || !nomeDirecao.equalsIgnoreCase("leste") || !nomeDirecao.equalsIgnoreCase("oeste")){
+                System.out.println("Olha eu achei que não precisaria explicar isso, mas entendo que o cerébro inferior dos seres humanos às vezes não pega informações implícitas tão rapidamente, mas quando eu digo direção é tipo... norte, sul, leste e oeste. Então é, vamo tentar de novo?");
+                nomeDirecao = scanner.nextLine();
             }
         }
     }
