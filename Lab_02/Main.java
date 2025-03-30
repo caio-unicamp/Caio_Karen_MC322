@@ -94,7 +94,7 @@ public class Main {
                     scanner.nextLine(); //Ignora a quebra de linha
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
-                        System.out.println("O " + nomePacote +" pacote foi entregue com sucesso!");
+                        System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                     }
                     //se o drone não consegiu entregar o pacote
                     else{

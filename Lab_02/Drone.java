@@ -33,13 +33,13 @@ public class Drone extends RoboAereo{
         
         pacote.mover(posicaoXdronefinal - this.posicaoXdrone, posicaoYdronefinal - this.posicaoYdrone); //Move o pacote junto do drone
         pacote.setPosicao(posicaoXdronefinal, posicaoYdronefinal, 0); //Como o pacote não é um robô aéreo e não tem um método de descer, seta a coordenada z dele no chão independentemente se ele foi entregue ou foi derrubado
-                
+
         if ((this.posicaoXdrone == posicaoXdronefinal) && (this.posicaoYdrone == posicaoYdronefinal)){ //se chegar na posição que ele quer, ele derruba o robo no local que parou            
             this.descer(this.getPosicao()[2]); //Função para mover o drone para baixo
             if (this.posicaoZdrone == 0){ //Nesse ponto depois da descida o pacote foi entregue com sucesso
                 return true;
             }  
         }
-        return false; //Caso chegue nessa parte é porque o drone encontrou um problema no caminho de descida ou o drone encontrou obstáculos no plano XY e derrubou o Rover
+        return true; //Caso chegue nessa parte é porque o drone encontrou um problema no caminho de descida ou o drone encontrou obstáculos no plano XY e derrubou o Rover
     }
 }
