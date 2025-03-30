@@ -16,26 +16,11 @@ public class Passaro extends RoboAereo{
                 return;
             }
         }
-
         super.mover(deltaX, deltaY);
     }
 
     //método próprio de desviar, se o Pássaro se esbarrar em alguma coisa ele tenta desviar para todas as possibilidades de direção
     private boolean desviar(int deltaX, int deltaY) {
-        String direcao = this.getDirecao();
-        // int dx = 0, dy = 0;
-
-        // switch (direcao.toLowerCase()){ //Define o deslocamento com base na direção
-        //     case "norte": dy = 1;
-        //         break;
-        //     case "sul": dy = -1;
-        //         break;
-        //     case "leste": dx = 1;
-        //         break;
-        //     case "oeste": dx = -1;
-        //         break;
-        // }  
-        // Primeiro tenta desviar no plano X-Y (3x3 à frente)
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0){ // A posição original não deve ser testada
@@ -50,6 +35,7 @@ public class Passaro extends RoboAereo{
                     ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
 
                     // Move para a posição desviada no plano 2D
+                    this.setPosicao(novoX, novoY, novoZ);
                     super.mover(novoX - this.getPosicao()[0], novoY - this.getPosicao()[1]);
 
                     return true;
