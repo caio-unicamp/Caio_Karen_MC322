@@ -128,7 +128,11 @@ public class Main {
                     int deltaX = scanner.nextInt(); 
                     System.out.println("Passos em y:");
                     int deltaY = scanner.nextInt();
-                    rover.mover(deltaX, deltaY);
+                    if (!rover.velMaxAtingida(deltaX, deltaY)){
+                        rover.mover(deltaX, deltaY);
+                    }else{
+                        System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                    }
 }
 
             } else if (comando == 3){ //Bloco para mostrar a lista de robôs
@@ -313,5 +317,4 @@ public class Main {
         int[] vel_tempo = {velMax, tempoLocomocaoTerrestre};
         return vel_tempo;
     }
-    
  }
