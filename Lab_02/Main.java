@@ -79,7 +79,7 @@ public class Main {
                     //pegar a qtd de robos eliminados
                     int qtdEliminados = aspirador.getRobosEliminados();
                     //imprimir a qtd de eliminados
-                    System.out.println("Você destruiu " + qtdEliminados + " robôs no caminho");
+                    System.out.println("Até agora você destruiu " + qtdEliminados + "robôs na sua vida");
 
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
@@ -136,7 +136,7 @@ public class Main {
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getLista()) {
-                        System.out.println(contadorRobo++ + " - " + robo.getNome());
+                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
