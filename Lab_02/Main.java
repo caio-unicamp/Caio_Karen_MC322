@@ -27,8 +27,7 @@ public class Main {
             if (comando == 0){ //Encerra o programa
                 break;
             }else if (comando == 1){ //Bloco para criação de robôs
-                System.out.println("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre");
-                comando = scanner.nextInt();
+                comando = lerInteiro("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre", scanner);
 
                 //Lista de mensagens que vão ser passadas caso o nome escolhido já exista
                 ArrayList<String> mensagensNomeJaExistente = new ArrayList<>();  
@@ -40,8 +39,7 @@ public class Main {
                 mensagensNomeJaExistente.add("naspu' duj ra'pu'bogh  eita, foi mal, escolhe outro nome aí... de preferência bem rápido");
 
                 if (comando == 1){
-                    System.out.println("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro");
-                    comando = scanner.nextInt();
+                    comando = lerInteiro("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro", scanner);
                     if (comando == 1){
                         System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: ");    
                         criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 0);
@@ -50,8 +48,7 @@ public class Main {
                         criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 1);
                     }
                 }else if (comando == 2){
-                    System.out.println("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover");   
-                    comando = scanner.nextInt();
+                    comando = lerInteiro("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover", scanner);
                     if (comando == 1){
                         System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\nNome: ");
                         criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 0);
@@ -66,27 +63,28 @@ public class Main {
                 for (Robo robo : ambiente.getLista()){
                     System.out.println(i++ + " - " + robo.getNome());
                 }
-                comando = scanner.nextInt();
+                comando = lerInteiro("\0", scanner);
                 Robo roboEscolhido = ambiente.getLista().get(comando - 1);
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho\nPassos em x:");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.println("Passos em y:");
-                    int deltaY = scanner.nextInt();
-                    aspirador.mover(deltaX, deltaY);
-                    //pegar a qtd de robos eliminados
-                    int qtdEliminados = aspirador.getRobosEliminados();
-                    //imprimir a qtd de eliminados
-                    System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
-                    if (qtdEliminados > 10){
-                        System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
-                    }
-                    if (!aspirador.velMaxAtingida(deltaX, deltaY)){
-                        aspirador.mover(deltaX, deltaY);
-                    }else{
-                        System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
+                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação");
+                    while (true){
+                        int deltaX = lerInteiro("Passos em x: ", scanner); 
+                        int deltaY = lerInteiro("Passos em y: ", scanner);
+                        if (!aspirador.velMaxAtingida(deltaX, deltaY)){
+                            aspirador.mover(deltaX, deltaY);
+                            //pegar a qtd de robos eliminados
+                            int qtdEliminados = aspirador.getRobosEliminados();
+                            //imprimir a qtd de eliminados
+                            System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                            if (qtdEliminados > 10){
+                                System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                            }
+                            break;
+                        }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
+                            System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
+                        }
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
@@ -110,14 +108,13 @@ public class Main {
                             System.out.println("Estou gostando cada vez menos de você");
                         }
                     }
-                } else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
+                }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
                     //mover o pássaro
-                    System.out.println("você quer mover para onde?\nPassos em x:");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.println("Passos em y:");
-                    int deltaY = scanner.nextInt();
+                    System.out.println("você quer mover para onde?");
+                    int deltaX = lerInteiro("Passos em x: ", scanner); 
+                    int deltaY = lerInteiro("Passos em y: ", scanner);
                     passaro.mover(deltaX, deltaY);
                     //pegar a qtd de desvios
                     int qtdDesvios = passaro.getQtddesvios();
@@ -128,14 +125,15 @@ public class Main {
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
                     //mover o Rover
-                    System.out.println("Você quer mover para onde?\nPassos  em x: ");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.println("Passos em y:");
-                    int deltaY = scanner.nextInt();
-                    if (!rover.velMaxAtingida(deltaX, deltaY)){
-                        rover.mover(deltaX, deltaY);
-                    }else{
-                        System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                    System.out.println("Você quer mover para onde?");
+                    while (true){
+                        int deltaX = lerInteiro("Passos em x: ", scanner); 
+                        int deltaY = lerInteiro("Passos em y: ", scanner);
+                        if (!rover.velMaxAtingida(deltaX, deltaY)){
+                            rover.mover(deltaX, deltaY);
+                        }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
+                            System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                        }
                     }
 }
 
@@ -183,8 +181,7 @@ public class Main {
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, true, ambiente);
         if (tipoRobo == 0){
-            System.out.print("Tempo de locomoção do pacote: ");
-            int tempoLocomocaoTerrestre = scanner.nextInt();
+            int tempoLocomocaoTerrestre = lerInteiro("Tempo de locomoção do pacote: ", scanner);
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(drone);   
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
@@ -297,8 +294,7 @@ public class Main {
     public static int[] leVelocidade(Scanner scanner){
         int velMax = 0, tempoLocomocaoTerrestre = 0;
         while (true){ //Loop para analisar a velocidade máxima
-            System.out.print("Velocidade Máxima: ");
-            velMax = scanner.nextInt();
+            velMax = lerInteiro("Velocidade Máxima: ", scanner);
             if (velMax == 0){
                 System.out.println("Confesso que eu tenho um certo apreço por foras da Lei, mas infelizmente eu fui programado de modo que eu devo pedir que você me diga o limite de velocidade do seu robô... mas olhe pelo lado bom, você ainda pode colocar seu limite de velocidade MUITO alto e eu vou permitir!");
             }else if (velMax < 0){
@@ -308,8 +304,7 @@ public class Main {
             }
         }
         while (true){ //Loop para analisar o tempo de locomoção
-            System.out.println("Tempo de Locomoção: ");
-            tempoLocomocaoTerrestre = scanner.nextInt();   
+            tempoLocomocaoTerrestre = lerInteiro("Tempo de Locomoção: ", scanner);   
             if (tempoLocomocaoTerrestre == 0){
                 System.out.println("É sério? tempo de locomoção 0? você sabe o que pode acontecer comigo se eu tentar fazer uma divisão por 0? Tô achando que você tá querendo me matar... A função de teletransporte ainda não está disponível nessa versão do simulador, então por que não tentamos de novo?");
             }else if(tempoLocomocaoTerrestre < 0){
