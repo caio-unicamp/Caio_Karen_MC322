@@ -63,8 +63,16 @@ public class Main {
                 for (Robo robo : ambiente.getLista()){
                     System.out.println(i++ + " - " + robo.getNome());
                 }
-                comando = lerInteiro("\0", scanner);
-                Robo roboEscolhido = ambiente.getLista().get(comando - 1);
+                Robo roboEscolhido;
+                while(true){
+                    comando = lerInteiro("\0", scanner);
+                    if (comando >= 1 && comando <= ambiente.getLista().size()){
+                        roboEscolhido = ambiente.getLista().get(comando - 1);
+                        break;
+                    }else{
+                        System.out.print("Talvez os números antes dos nomes dos robôs não estejam claros o suficiente, mas tipo, você tem que escolher um dos números dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos números que está do lado esquerdo");
+                    }
+                }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
