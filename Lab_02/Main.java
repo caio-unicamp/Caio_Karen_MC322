@@ -171,7 +171,7 @@ public class Main {
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
         String direcao = scanner.nextLine();
-        int[] coordenadas = lerCoordenadas(scanner, true);
+        int[] coordenadas = lerCoordenadas(scanner, true, ambiente);
         if (tipoRobo == 0){
             System.out.print("Tempo de locomoção do pacote: ");
             int tempoLocomocaoTerrestre = scanner.nextInt();
@@ -189,7 +189,7 @@ public class Main {
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.print("Direção: ");
         String direcao = leDirecao(scanner);
-        int[] coordenadas = lerCoordenadas(scanner, false);
+        int[] coordenadas = lerCoordenadas(scanner, false, ambiente);
         System.out.print("Velocidade Máxima: ");
         int velMax = scanner.nextInt();
         System.out.println("Tempo de Locomoção: ");
@@ -224,19 +224,21 @@ public class Main {
 
     public static int lerInteiro(String mensagem, Scanner scanner) { //Função para excessões de inteiros lidos como string
         Random random = new Random();
-        int numAleatorio = random.nextInt(10);
         int valor;
         while (true) { // Continua pedindo até o usuário digitar corretamente
             System.out.println(mensagem);
             if (scanner.hasNextInt()) {
                 valor = scanner.nextInt();
                 return valor;
-            }else if (numAleatorio == 5) {
+            }else {
+                int numAleatorio = random.nextInt(10);
+                if (numAleatorio == 5) {
                 System.out.println("Olha, eu até podia fazer algo para que você conseguisse continuar mesmo ignorando completamente o que eu falei no começo sobre digitar nomes em vez de números, mas hoje eu estou de mal humor então só por isso você vai ter que recomeçar tudo de novo XP");
                 System.exit(0);
-            }else {
-                System.out.println("Engraçadinho você, vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
-                scanner.nextLine(); // Descarta a entrada inválida
+                }else {
+                    System.out.println("Engraçadinho você, vou deixar passar dessa vez... Digite um NÚMERO INTEIRO: ");
+                    scanner.nextLine(); // Descarta a entrada inválida
+                }
             }
         }
     }
@@ -247,9 +249,11 @@ public class Main {
             if (!nomeDirecao.equalsIgnoreCase("norte") || !nomeDirecao.equalsIgnoreCase("sul") || !nomeDirecao.equalsIgnoreCase("leste") || !nomeDirecao.equalsIgnoreCase("oeste")){
                 System.out.println("Olha eu achei que não precisaria explicar isso, mas entendo que o cerébro inferior dos seres humanos às vezes não pega informações implícitas tão rapidamente, mas quando eu digo direção é tipo... norte, sul, leste e oeste. Então é, vamo tentar de novo?");
                 nomeDirecao = scanner.nextLine();
-                return nomeDirecao;
+            }else{
+                break;
             }
         }
+        return nomeDirecao;
     }
 
     public static void limparTela(String sistemaOperacional){ //Função para limpar o terminal após algumas interações
