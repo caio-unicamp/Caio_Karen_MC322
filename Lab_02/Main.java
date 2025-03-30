@@ -76,7 +76,7 @@ public class Main {
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação");
+                    System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação");
                     while (true){
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
@@ -100,8 +100,25 @@ public class Main {
                     scanner.nextLine();
                     System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
                     String nomePacote = scanner.nextLine();
-                    int coordenadaX = lerInteiro("Você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ", scanner);
-                    int coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
+                    System.out.println("Você deseja entregar seu pacote para quais coordenadas?");
+                    int coordenadaX;
+                    int coordenadaY;
+                    while (true){ //Analisa se tem algum robô já ocupando a posição que o pacote seria entregue
+                        int contaCoordenadasRobos = 0;
+                        coordenadaX = lerInteiro("Coordenada em x: ", scanner);
+                        coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
+                        for (Robo robo : ambiente.getLista()) {
+                            contaCoordenadasRobos++;
+                            if ((coordenadaX == robo.getPosicao()[0] && coordenadaY == robo.getPosicao()[1] && robo.getPosicao()[2] == 0)){
+                                break;
+                            }
+                        }
+                        if (contaCoordenadasRobos == ambiente.getLista().size()){
+                            break;
+                        }else{
+                            System.out.println("Puts, que chato, aparentemente já tem ocupando essa posição. Tenta mandar seu pacote pra outro lugar");
+                        }
+                    }
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
                         System.out.println("O " + nomePacote +" foi entregue com sucesso!");

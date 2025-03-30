@@ -27,10 +27,6 @@ public class Drone extends RoboAereo{
         //Atualiza a posição real do drone
         this.posicaoXdrone = this.getPosicao()[0];
         this.posicaoYdrone = this.getPosicao()[1];
-
-        if (this.getPosicao()[0] == posXinicial && this.getPosicao()[1] == posYinicial){ //Se o drone não se moveu ele não deve mover o pacote
-            return false;
-        }
         
         pacote.mover(posicaoXdronefinal - this.posicaoXdrone, posicaoYdronefinal - this.posicaoYdrone); //Move o pacote junto do drone
         pacote.setPosicao(posicaoXdronefinal, posicaoYdronefinal, 0); //Como o pacote não é um robô aéreo e não tem um método de descer, seta a coordenada z dele no chão independentemente se ele foi entregue ou foi derrubado
