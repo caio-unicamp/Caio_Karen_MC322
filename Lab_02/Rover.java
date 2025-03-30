@@ -34,7 +34,8 @@ public class Rover extends RoboTerrestre{
                 }
             } 
             this.posicaoX += passos[0];
-            mover(deltaX - passos[0], deltaY); //Continua o caminho em X decrementando o tanto que já foi andado
+            this.setPosicao(posicaoX, posicaoY, 0);
+            this.mover(deltaX - passos[0], deltaY); //Continua o caminho em X decrementando o tanto que já foi andado
             return;
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.posicaoX, this.posicaoY + passos[1], 0)){
             if (identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0, this.getNome())){
@@ -44,7 +45,8 @@ public class Rover extends RoboTerrestre{
                 }
             }
             this.posicaoY += passos[1];
-            mover(0, deltaY - passos[1]); //Continua o caminho em Y decrementando o tanto que já foi andado
+            this.setPosicao(posicaoX, posicaoY, 0);
+            this.mover(0, deltaY - passos[1]); //Continua o caminho em Y decrementando o tanto que já foi andado
             return;
         }
     }
@@ -63,7 +65,7 @@ public class Rover extends RoboTerrestre{
             ambiente.getLista().remove(empurrado);
             qtdRobosDerrubados++;
         }
-        
+
         return new int[] {posicaoX, posicaoY};
     }
 
