@@ -83,7 +83,6 @@ public class Main {
                     if (qtdEliminados > 10){
                         System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
                     }
-
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
@@ -222,7 +221,7 @@ public class Main {
                 if (posicaoX == robo.getPosicao()[0] && posicaoY == robo.getPosicao()[1] && posicaoZ == robo.getPosicao()[2]){
                     System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein, o " + robo.getNome() + " já tá nessa posição, colega. então vamos tentar colocar o novo robô em outro canto");
                     lugarOcupado = true;
-                    qtdAnalisesPosicoes = 0;
+                    qtdAnalisesPosicoes = -1;
                     break;
                 }
             }

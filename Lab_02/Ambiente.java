@@ -25,7 +25,7 @@ public class Ambiente{
     }
 
     public boolean dentroDosLimites(int x, int y, int altura){ //Retorna um booleano para analisar se o robô está dentro dos limites
-        return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.altura);
+        return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.tamZ);
     }
 
     public void adicionarRobo(Robo robo){ //Adiciona um robô na lista de robôs ativos 
