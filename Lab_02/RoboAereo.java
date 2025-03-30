@@ -12,8 +12,9 @@ public class RoboAereo extends Robo{
             return;
         }
 
-        if (((altitude + deltaZ) < altitudeMaxima) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
+        if ((this.altitude + 1 <= altitudeMaxima) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1, this.getNome())){
             this.altitude += 1;
+            this.setPosicao(getPosicao()[0], this.getPosicao()[1], this.altitude);
             subir(deltaZ - 1);
             return; 
         }
@@ -24,8 +25,9 @@ public class RoboAereo extends Robo{
             return;
         }
         
-        if (altitude > deltaZ && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], this.getNome())){
+        if ((this.altitude - 1 >= 0) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, this.getNome())){
             this.altitude -= 1;
+            this.setPosicao(getPosicao()[0], this.getPosicao()[1], this.altitude);
             descer(deltaZ - 1);
             return; 
         }
