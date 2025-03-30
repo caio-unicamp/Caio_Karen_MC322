@@ -5,7 +5,7 @@ public class Aspirador extends RoboTerrestre{
     //atributo numero de robos que eliminou
     private int robosEliminados = 0;
     private Ambiente ambiente;
-   
+    
     //Construtor para inicializar os atributos
     public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
         super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
@@ -14,7 +14,7 @@ public class Aspirador extends RoboTerrestre{
     }
 
     //método de eliminar
-    public boolean eliminarRobo(){ //Função para eliminar robôs quando ele se mover
+    public boolean roboRemovido(){ //Função para eliminar robôs quando ele se mover
         //pegar a lista de robos e percorrer procurando o nome do robo
         for (Robo robo : ambiente.getLista()) {
             if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
@@ -24,7 +24,10 @@ public class Aspirador extends RoboTerrestre{
             }
         } 
         return false; //Se ele percorreu a lista inteira e não existe robô com o nome dado ele retorna falso
-
+    }
+    
+    public void eliminarRobo(Robo robo){
+        ambiente.removerRobo(robo);
     }
     
     public int getRobosEliminados(){ //Função que retorna o número de robôs que foram eliminados
@@ -42,7 +45,7 @@ public class Aspirador extends RoboTerrestre{
         // Verifica se há um robô na nova posição
         if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], this.getNome())) {
             // Eliminar o robô caso ele seja encontrado
-            boolean eliminado = this.eliminarRobo();
+            boolean eliminado = this.roboRemovido();
     
             if (eliminado) {
                 System.out.println("Robô eliminado na posição (" + this.getPosicao()[0] + ", " + this.getPosicao()[1] + ")");

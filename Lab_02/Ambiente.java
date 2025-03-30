@@ -28,8 +28,12 @@ public class Ambiente{
         return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.altura);
     }
 
-    public void adicionarRobo(Robo robo){ //Adiciona os robos ativos na lista 
+    public void adicionarRobo(Robo robo){ //Adiciona um robô na lista de robôs ativos 
         listaRobosAtivos.add(robo);
+    }
+
+    public void removerRobo(Robo robo){ //Remove um robo na lista de robos ativos
+        listaRobosAtivos.remove(robo);
     }
 
     public ArrayList<Robo> getLista(){ //Retorna a lista de Robôs ativos no ambiente
