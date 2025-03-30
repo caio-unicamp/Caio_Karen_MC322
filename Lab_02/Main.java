@@ -83,6 +83,11 @@ public class Main {
                     if (qtdEliminados > 10){
                         System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
                     }
+                    if (!aspirador.velMaxAtingida(deltaX, deltaY)){
+                        aspirador.mover(deltaX, deltaY);
+                    }else{
+                        System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
+                    }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
@@ -91,7 +96,6 @@ public class Main {
                     String nomePacote = scanner.nextLine();
                     int coordenadaX = lerInteiro("Você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ", scanner);
                     int coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
-                    // scanner.nextLine(); //Ignora a quebra de linha
                     //se o drone conseguiu entregar o pacote
                     if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
                         System.out.println("O " + nomePacote +" foi entregue com sucesso!");
