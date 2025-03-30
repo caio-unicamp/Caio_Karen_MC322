@@ -76,7 +76,7 @@ public class Main {
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação");
+                    System.out.println("Você deseja mover para quais coordenadas? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação");
                     while (true){
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
@@ -95,57 +95,82 @@ public class Main {
                         }
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
-                    System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
+                    int metros;
                     Drone drone = ((Drone) roboEscolhido);
                     scanner.nextLine();
-                    System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
-                    String nomePacote = scanner.nextLine();
-                    System.out.println("Você deseja entregar seu pacote para quais coordenadas?");
-                    int coordenadaX;
-                    int coordenadaY;
-                    while (true){ //Analisa se tem algum robô já ocupando a posição que o pacote seria entregue
-                        int contaCoordenadasRobos = 0;
-                        coordenadaX = lerInteiro("Coordenada em x: ", scanner);
-                        coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
-                        for (Robo robo : ambiente.getLista()) {
-                            contaCoordenadasRobos++;
-                            if ((coordenadaX == robo.getPosicao()[0] && coordenadaY == robo.getPosicao()[1] && robo.getPosicao()[2] == 0)){
-                                break;
+                    comando = lerInteiro("Você deseja fazer o que?\n 1- Subir\n 2- Descer\n 3-Entregar um Rover", scanner);
+                    if (comando == 1){
+                        metros = lerInteiro("o quanto você deseja Subir?", scanner);
+                        if (drone.subir(metros)){
+                            System.out.println("sua subida foi bem-sucedida");
+                        }
+                        else {
+                            System.out.println("Algo te impediu de subir!");
+                        }
+                    }
+                    else if (comando==2){
+                        metros = lerInteiro("o quanto você deseja descer?", scanner);
+                        if (drone.descer(metros, ambiente)){
+                            System.out.println("sua descida foi bem-sucedida");
+                        }
+                        else {
+                            System.out.println("Algo te impediu de descer!");
+                        }
+                    }
+                    else if(comando==3) {
+                        System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
+                        String nomePacote = scanner.nextLine();
+                        int coordenadaX = lerInteiro("Você deseja entregar seu pacote para quais coordenadas?\nCoordenada em x: ", scanner);
+                        int coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
+                        //se o drone conseguiu entregar o pacote
+                        if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
+                            System.out.println("O " + nomePacote +" foi entregue com sucesso!");
+                        }
+                        //se o drone não consegiu entregar o pacote
+                        else{
+                            System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + " Tá esperando o que? VAI VER SE ELE TÁ BEM!");
+                            int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
+                            if (verifica == 1){
+                                System.err.println("É bom mesmo...");
+                            }else{
+                                System.out.println("Estou gostando cada vez menos de você");
                             }
-                        }
-                        if (contaCoordenadasRobos == ambiente.getLista().size()){
-                            break;
-                        }else{
-                            System.out.println("Puts, que chato, aparentemente já tem ocupando essa posição. Tenta mandar seu pacote pra outro lugar");
-                        }
-                    }
-                    //se o drone conseguiu entregar o pacote
-                    if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
-                        System.out.println("O " + nomePacote +" foi entregue com sucesso!");
-                    }
-                    //se o drone não consegiu entregar o pacote
-                    else{
-                        System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: " + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + " Tá esperando o que? VAI VER SE ELE TÁ BEM!");
-                        int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
-                        if (verifica == 1){
-                            System.err.println("É bom mesmo...");
-                        }else{
-                            System.out.println("Estou gostando cada vez menos de você");
                         }
                     }
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
-                    System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
+                    int metros;
                     Passaro passaro = ((Passaro) roboEscolhido);
-                    //mover o pássaro
-                    System.out.println("você quer mover para onde?");
-                    int deltaX = lerInteiro("Passos em x: ", scanner); 
-                    int deltaY = lerInteiro("Passos em y: ", scanner);
-                    passaro.mover(deltaX, deltaY);
-                    //pegar a qtd de desvios
-                    int qtdDesvios = passaro.getQtddesvios();
-                    //imprimir a qtd de desvios
-                    System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
-
+                    scanner.nextLine();
+                    comando = lerInteiro("Você deseja fazer o que?\n 1- Subir\n 2- Descer\n 3-Entregar um Rover", scanner);
+                    if (comando == 1){
+                        metros = lerInteiro("o quanto você deseja Subir?", scanner);
+                        if (passaro.subir(metros)){
+                            System.out.println("sua subida foi bem-sucedida");
+                        }
+                        else {
+                            System.out.println("Algo te impediu de subir!");
+                        }
+                    }
+                    else if (comando==2){
+                        metros = lerInteiro("o quanto você deseja descer?", scanner);
+                        if (passaro.descer(metros, ambiente)){
+                            System.out.println("sua descida foi bem-sucedida");
+                        }
+                        else {
+                            System.out.println("Algo te impediu de descer!");
+                        }
+                    }
+                    else if (comando ==3){
+                        //mover o pássaro
+                        System.out.println("você quer mover para onde?");
+                        int deltaX = lerInteiro("Passos em x: ", scanner); 
+                        int deltaY = lerInteiro("Passos em y: ", scanner);
+                        passaro.mover(deltaX, deltaY);
+                        //pegar a qtd de desvios
+                        int qtdDesvios = passaro.getQtddesvios();
+                        //imprimir a qtd de desvios
+                        System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                    }
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);

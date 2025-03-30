@@ -50,7 +50,7 @@ public class Drone extends RoboAereo{
         pacote.setPosicao(posicaoXdronefinal, posicaoYdronefinal, 0); //Como o pacote não é um robô aéreo e não tem um método de descer, seta a coordenada z dele no chão independentemente se ele foi entregue ou foi derrubado
 
         if ((this.posicaoXdrone == posicaoXdronefinal) && (this.posicaoYdrone == posicaoYdronefinal)){ //se chegar na posição que ele quer, ele desce com o robo            
-            this.descer(this.getPosicao()[2] - 1); //Desce o drone até uma unidade antes do chão para conseguir entregar o pacote
+            this.descer(this.getPosicao()[2] - 1, ambiente); //Desce o drone até uma unidade antes do chão para conseguir entregar o pacote
             if (this.getPosicao()[2] == 1){ //Nesse ponto depois da descida o pacote foi entregue com sucesso
                 this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], posZinicial); //Após a entrega o drone sobe para a altura que estava no início, como a função descer já analisou se existiam obstáculos, basta apenas setar a posição z como a mesma do início sem necessidade de nenhuma conferência extra
                 return true;
