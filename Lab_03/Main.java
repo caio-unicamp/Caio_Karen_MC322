@@ -75,29 +75,44 @@ public class Main {
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
+                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!", scanner);
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
-                    System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação...");
-                    while (true){
-                        int deltaX = lerInteiro("Passos em x: ", scanner); 
-                        int deltaY = lerInteiro("Passos em y: ", scanner);
-                        if (!aspirador.velMaxAtingida(deltaX, deltaY)){
-                            aspirador.mover(deltaX, deltaY);
-                            //pegar a qtd de robos eliminados
-                            int qtdEliminados = aspirador.getRobosEliminados();
-                            //imprimir a qtd de eliminados
-                            System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
-                            if (qtdEliminados > 10){
-                                System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                    if (comando == 1){ //Método de mover normal do Aspirador
+                        System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação...");
+                        while (true){
+                            int deltaX = lerInteiro("Passos em x: ", scanner); 
+                            int deltaY = lerInteiro("Passos em y: ", scanner);
+                            if (!aspirador.velMaxAtingida(deltaX, deltaY)){
+                                aspirador.mover(deltaX, deltaY);
+                                //pegar a qtd de robos eliminados
+                                int qtdEliminados = aspirador.getRobosEliminados();
+                                //imprimir a qtd de eliminados
+                                System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                                if (qtdEliminados > 10){
+                                    System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                                }
+                                break;
+                            }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
+                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
                             }
-                            break;
-                        }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
-                            System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
                         }
+                    }else if (comando == 2){ //Para ir atás de aspirar um robô específico
+                        System.out.println("Qual robô você deseja eliminar?");
+                        int numRoboMatar = 1;
+                        for (Robo robo : ambiente.getLista()){
+                            if (robo != roboEscolhido){
+                                System.out.println(numRoboMatar++ + " - " + robo.getNome());
+                            }
+                        }
+                        comando = lerInteiro("\0", scanner);
+                        Robo roboEliminado = ambiente.getLista().get(comando - 1);
+                        ambiente.removerRobo(roboEscolhido);
+                        aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
+                        System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                    scanner.nextLine();
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
                         metodosRobosAereos(drone, comando, scanner);
@@ -153,17 +168,20 @@ public class Main {
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
-                    scanner.nextLine();
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer", scanner);
-                    //mover o pássaro
-                    System.out.println("você quer mover para onde?");
-                    int deltaX = lerInteiro("Passos em x: ", scanner); 
-                    int deltaY = lerInteiro("Passos em y: ", scanner);
-                    passaro.mover(deltaX, deltaY);
-                    //pegar a qtd de desvios
-                    int qtdDesvios = passaro.getQtddesvios();
-                    //imprimir a qtd de desvios
-                    System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - mover que nem alguém normal (ou quase)", scanner);
+                    if (comando == 1 || comando == 2){ //Subir ou descer o robô
+                        metodosRobosAereos(passaro, comando, scanner);
+                    }else if (comando == 3){
+                        //mover o pássaro
+                        System.out.println("Você quer mover para onde?");
+                        int deltaX = lerInteiro("Passos em x: ", scanner); 
+                        int deltaY = lerInteiro("Passos em y: ", scanner);
+                        passaro.mover(deltaX, deltaY);
+                        //pegar a qtd de desvios
+                        int qtdDesvios = passaro.getQtddesvios();
+                        //imprimir a qtd de desvios
+                        System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                    }
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
