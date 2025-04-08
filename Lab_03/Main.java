@@ -107,8 +107,16 @@ public class Main {
                         System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai caçar um robô em específico. Qual deles vai ser o azarado da vez");
                         while (true) {
                             int numRoboMatar = 1;
+                            boolean podeMatar = false;
                             for (Robo robo : ambiente.getListaRobos()){
                                 System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                                if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode matar robôs que não sejam o próprio aspirador e que estejam no chão
+                                    podeMatar = true;
+                                }
+                            }
+                            if (!podeMatar){ //Se não tiver nenhum robô que possa ser eliminado, ele não deixa o usuário continuar
+                                System.out.println("Parece que não tem ninguém pra você eliminar, um triste dia para os amantes de ação, vamos seguir em frente");
+                                break;
                             }
                             comando = lerInteiro("\0", scanner);
                             if (comando < 1 || comando > ambiente.getListaRobos().size()){ //Se for escolhido um número inválido volta a pedir o número
@@ -125,14 +133,18 @@ public class Main {
                                 break;
                             }
                         }
-                        Robo roboEliminado = ambiente.getListaRobos().get(comando - 1);
-                        ambiente.removerRobo(roboEscolhido);
-                        aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
-                        System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
-                        int qtdEliminados = aspirador.getRobosEliminados();
-                        System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
-                        if (qtdEliminados > 10){
-                            System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                        try{
+                            Robo roboEliminado = ambiente.getListaRobos().get(comando - 1);
+                            ambiente.removerRobo(roboEscolhido);
+                            aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
+                            System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
+                            int qtdEliminados = aspirador.getRobosEliminados();
+                            System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                            if (qtdEliminados > 10){
+                                System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                            }
+                        } catch (Exception e){ //No caso de não haver nenhum robô que possa ser eliminado ele segue em frente
+                            continue;
                         }
                     }else if (comando == 3){
                         System.out.println("Ah Senninha, você quer correr então? Vamo tunar esse motor pra ele conseguir correr mais rápido");
