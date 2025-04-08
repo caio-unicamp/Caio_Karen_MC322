@@ -36,15 +36,28 @@ public class Aspirador extends RoboTerrestre{
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = getPasso(deltaX, deltaY);
+
+        if (passos[0] == 0 && passos[1] == 0) {
+            return; // Evita chamadas infinitas
+        }
+        if (deltaX == 0 && deltaY == 0) { 
+            return; // O aspirador já chegou ao destino, então para a recursão
+        }
     
         // Move o robô de acordo com a função mover da classe mãe
         super.mover(deltaX, deltaY, ambiente);
+        int posAtualX = this.getPosicao()[0];
+        int posAtualY = this.getPosicao()[1];
+
+        if (posAtualX == posInicialX && posAtualY == posInicialY) {
+            return; // Se não houve movimento, não há necessidade de verificar colisões
+        }
     
         // Verifica se há um robô na nova posição
-        if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], this.getNome(), ambiente)) {
+        if (identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], this.getNome(), ambiente)) {
             // Atualizar os valores restantes para deltaX e deltaY
-            int novoDeltaX = deltaX - (this.getPosicao()[0] - posInicialX);
-            int novoDeltaY = deltaY - (this.getPosicao()[1] - posInicialY);
+            int novoDeltaX = deltaX - (posAtualX - posInicialX);
+            int novoDeltaY = deltaY - (posAtualY - posInicialY);
     
             // Condição de parada: verificar se ainda há movimento restante
             if (novoDeltaX != 0 || novoDeltaY != 0) {
