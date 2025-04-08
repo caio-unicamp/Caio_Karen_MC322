@@ -212,31 +212,48 @@ public class Main {
                             int deltaY = lerInteiro("Passos em y: ", scanner);
                             if (!rover.velMaxAtingida(deltaX, deltaY)){
                                 rover.mover(deltaX, deltaY);
+                                break;
                             }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
                                 System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
                             }
                         }
-                        System.out.println("Você empurrou "+ rover.);
+                        System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados() + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
                     }else if (comando == 2){ //Método para empurrar um robô específico
                         System.out.println("Parece que você tem uma richa com alguém, não é mesmo? Me diz quem é e a gente esbarra nele");
+                        Robo inimigo;
                         while (true) {
                             int numRoboEmpurrar = 1;
                             for (Robo robo : ambiente.getLista()){
                                 System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
                             }
                             comando = lerInteiro("\0", scanner);
-                            if (ambiente.getLista().get(comando - 1) instanceof Rover){
-                                System.out.println("Uhhhh, um caso de família será? Me sinto assistindo uma novela");
+                            inimigo = ambiente.getLista().get(comando - 1);
+                            if (inimigo instanceof Rover){
+                                System.out.println("Uhhhh, um caso de família será? Me sinto assistindo uma novela mexicana");
                                 break;
-                            }else if (ambiente.getLista().get(comando - 1).getPosicao()[2] == 0){
-                                System.out.println("Eu também teria ranço desses tipinhos aí, se elas chegarem perto do chão eu te aviso pra você barruar nelas");
+                            }else if (inimigo.getPosicao()[2] == 0){
+                                System.out.println("Eu também teria ranço desses tipinhos aí, se eles chegarem perto do chão eu te aviso pra você barruar neles");
                             }
                             else{
                                 break;
                             }
                         }
-                        rover.mover(ambiente.getLista().get(comando - 1).getPosicao()[0], ambiente.getLista().get(comando - 1).getPosicao()[1]); 
-                        System.out.println("O + " + ambiente.getLista().get(comando - 1).getNome() + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                        rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1]); 
+                        int numAnaliseRobosEmpurrados = 0;
+                        for (Robo robo : ambiente.getLista()) {
+                            if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
+                                System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                                break;
+                            }
+                            numAnaliseRobosEmpurrados++;
+                        }
+                        if (numAnaliseRobosEmpurrados != ambiente.getLista().size()){
+                            System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
+                            int qtdEliminados = rover.getRobosDerrubados();
+                            if (qtdEliminados > 1){
+                                System.out.println("Eita, e aparentemente não foi só ele, você acabou derrubando " + qtdEliminados + " robôs no processo... oops");
+                            }
+                        }
                     }else if (comando == 3){
                         System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
                         int velMax = leVelocidade(scanner);
@@ -355,7 +372,9 @@ public class Main {
         Random random = new Random();
         int valor;
         while (true) { // Continua pedindo até o usuário digitar corretamente
-            System.out.println(mensagem);
+            if (mensagem != "\0") {
+                System.out.print(mensagem);
+            }
             if (scanner.hasNextInt()) {
                 valor = scanner.nextInt();
                 return valor;
