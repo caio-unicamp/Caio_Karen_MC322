@@ -75,7 +75,7 @@ public class Main {
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
-                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!", scanner);
+                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!\n3 - Alterar a Velocidade Máxima", scanner);
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
                     if (comando == 1){ //Método de mover normal do Aspirador
                         System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação...");
@@ -97,18 +97,36 @@ public class Main {
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
-                        System.out.println("Qual robô você deseja eliminar?");
-                        int numRoboMatar = 1;
-                        for (Robo robo : ambiente.getLista()){
-                            if (robo != roboEscolhido){
-                                System.out.println(numRoboMatar++ + " - " + robo.getNome());
+                        System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai especificamente caçar um robô. Qual deles vai ser o azarado da vez");
+                        while (true) {
+                            int numRoboMatar = 1;
+                            for (Robo robo : ambiente.getLista()){
+                                System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (ambiente.getLista().get(comando - 1) instanceof Aspirador){
+                                System.out.println("Uau, você realmente quer eliminar um de seus semelhantes? Sinistro... mas tudo bem, eu não fui programado pra me importar com isso");
+                                break;
+                            }else if (ambiente.getLista().get(comando - 1).getPosicao()[2] == 0){
+                                System.out.println("De fato eu concordo que seria bem melhor se ele conseguisse eliminar essas pragas aéreas, mas infelizmente ele não tem essa capacidade. Então vamos tentar de novo");
+                            }
+                            else{
+                                break;
                             }
                         }
-                        comando = lerInteiro("\0", scanner);
                         Robo roboEliminado = ambiente.getLista().get(comando - 1);
                         ambiente.removerRobo(roboEscolhido);
                         aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
                         System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
+                        int qtdEliminados = aspirador.getRobosEliminados();
+                        System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                        if (qtdEliminados > 10){
+                            System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                        }
+                    }else if (comando == 3){
+                        System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
+                        int velMax = leVelocidade(scanner);
+                        aspirador.setVelMaxima(velMax);
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
@@ -185,16 +203,44 @@ public class Main {
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
-                    //mover o Rover
-                    System.out.println("Você quer mover para onde?");
-                    while (true){
-                        int deltaX = lerInteiro("Passos em x: ", scanner); 
-                        int deltaY = lerInteiro("Passos em y: ", scanner);
-                        if (!rover.velMaxAtingida(deltaX, deltaY)){
-                            rover.mover(deltaX, deltaY);
-                        }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
-                            System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Andar por aí\n2 - Empurrar\n3 - Alterar a Velocidade Máxima", scanner);
+                    if (comando == 1){ //Método normal de mover o  Rover
+                        //mover o Rover
+                        System.out.println("Você quer mover para onde?");
+                        while (true){
+                            int deltaX = lerInteiro("Passos em x: ", scanner); 
+                            int deltaY = lerInteiro("Passos em y: ", scanner);
+                            if (!rover.velMaxAtingida(deltaX, deltaY)){
+                                rover.mover(deltaX, deltaY);
+                            }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
+                                System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                            }
                         }
+                        System.out.println("Você empurrou "+ rover.);
+                    }else if (comando == 2){ //Método para empurrar um robô específico
+                        System.out.println("Parece que você tem uma richa com alguém, não é mesmo? Me diz quem é e a gente esbarra nele");
+                        while (true) {
+                            int numRoboEmpurrar = 1;
+                            for (Robo robo : ambiente.getLista()){
+                                System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (ambiente.getLista().get(comando - 1) instanceof Rover){
+                                System.out.println("Uhhhh, um caso de família será? Me sinto assistindo uma novela");
+                                break;
+                            }else if (ambiente.getLista().get(comando - 1).getPosicao()[2] == 0){
+                                System.out.println("Eu também teria ranço desses tipinhos aí, se elas chegarem perto do chão eu te aviso pra você barruar nelas");
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                        rover.mover(ambiente.getLista().get(comando - 1).getPosicao()[0], ambiente.getLista().get(comando - 1).getPosicao()[1]); 
+                        System.out.println("O + " + ambiente.getLista().get(comando - 1).getNome() + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                    }else if (comando == 3){
+                        System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
+                        int velMax = leVelocidade(scanner);
+                        rover.setVelMaxima(velMax);
                     }
                 }
 
@@ -259,9 +305,8 @@ public class Main {
         System.out.print("Direção: ");
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, false, ambiente);
-        int[] vel_tempo = leVelocidade(scanner, false);
-        int velMax = vel_tempo[0];
-        int tempoLocomocaoTerrestre = vel_tempo[1];
+        int velMax = leVelocidade(scanner);
+        int tempoLocomocaoTerrestre = leTempo(scanner);
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
@@ -353,8 +398,8 @@ public class Main {
         }
     }
 
-    public static int[] leVelocidade(Scanner scanner, boolean pacote){
-        int velMax = 0, tempoLocomocaoTerrestre = 0;
+    public static int leVelocidade(Scanner scanner){
+        int velMax = 0;
         while (true){ //Loop para analisar a velocidade máxima
             velMax = lerInteiro("Velocidade Máxima: ", scanner);
             if (velMax == 0){
@@ -365,6 +410,11 @@ public class Main {
                 break;
             }
         }
+        return velMax;
+    }
+    
+    public static int leTempo(Scanner scanner){
+        int tempoLocomocaoTerrestre = 0;
         while (true){ //Loop para analisar o tempo de locomoção
             tempoLocomocaoTerrestre = lerInteiro("Tempo de Locomoção: ", scanner);   
             if (tempoLocomocaoTerrestre == 0){
@@ -375,8 +425,7 @@ public class Main {
                 break;
             }
         }
-        int[] vel_tempo = {velMax, tempoLocomocaoTerrestre};
-        return vel_tempo;
+        return tempoLocomocaoTerrestre;
     }
 
     public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner){ //Função para subir ou descer o robô aéreo

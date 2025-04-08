@@ -4,7 +4,7 @@ public class Rover extends RoboTerrestre{
     int posicaoY;
     int qtdRobosEmpurrados;
     int tempoLocomocaoTerrestre;
-    int qtdRobosDerrubados = 0;
+    int qtdRobosDerrubados;
     Ambiente ambiente;
     //Construtor
     public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
@@ -12,6 +12,7 @@ public class Rover extends RoboTerrestre{
         this.posicaoX = x;
         this.posicaoY = y;
         this.ambiente = ambiente;
+        this.qtdRobosDerrubados = 0;
         this.qtdRobosEmpurrados = 0;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
@@ -73,6 +74,9 @@ public class Rover extends RoboTerrestre{
         return new int[] {posicaoX, posicaoY};
     }
 
+    public int getQtdRobosEmpurrados(){ //Função que mostra quantos robôs foram empurrados
+        return qtdRobosEmpurrados;
+    }
     public int getRobosDerrubados(){ //Função que mostra quantos robôs foram derrubados
         return qtdRobosDerrubados;
     }
