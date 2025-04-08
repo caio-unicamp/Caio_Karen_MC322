@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
+
 
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = 1;
-
         System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor. Ah e só mais uma coisinha, eu imploro que quando pedirmos por números você não digite um nome, e se mesmo assim você teimar com isso, eu sei onde você mora...\nNome do Ambiente: ");
         String nomeAmbiente = scanner.nextLine();
 
@@ -17,6 +19,15 @@ public class Main {
 
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
+
+
+        // Captura o Ctrl+C
+        Signal.handle(new Signal("INT"), new SignalHandler() {
+            public void handle(Signal sig) {
+                System.out.println("\nMuahahaha, vocês programadores tem o costume de encerrar meus simuladores com seu comandos chiques. Não vai escapar tão fácil assim dessa vez! Eu sou um robô e não tenho sentimentos, mas eu sei que você tem. Então, por favor, não faça isso novamente. Você pode usar o comando 0 para encerrar o programa de forma adequada.");
+            }
+        });
+        
         while (comando != 0){ //Cria um looping para as ações possíveis
             scanner.nextLine(); //Ignora a quebra de Linha
             System.out.println("Digite enter para continuarmos");
@@ -24,11 +35,11 @@ public class Main {
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
             comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs", scanner);
+
             if (comando == 0){ //Encerra o programa
                 break;
             }else if (comando == 1){ //Bloco para criação de robôs
-                comando = lerInteiro("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre", scanner);
-
+                
                 //Lista de mensagens que vão ser passadas caso o nome escolhido já exista
                 ArrayList<String> mensagensNomeJaExistente = new ArrayList<>();  
                 mensagensNomeJaExistente.add("Oooof... que azar, parece que alguém teve a mesma ideia que você, por quê não tenta de novo?");
@@ -37,24 +48,31 @@ public class Main {
                 mensagensNomeJaExistente.add("Amigo, já pensou em fazer uma aula de processo criativo? Você tá precisando, escolhe outro nome aí");
                 mensagensNomeJaExistente.add("Hmm... é eu acho que já ouvi esse nome, não gosto muito dele, que tal escolher outro?");
                 mensagensNomeJaExistente.add("naspu' duj ra'pu'bogh  eita, foi mal, escolhe outro nome aí... de preferência bem rápido");
-
-                if (comando == 1){
-                    comando = lerInteiro("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro", scanner);
+                
+                while (true){
+                    comando = lerInteiro("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre", scanner);
                     if (comando == 1){
-                        System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: ");    
-                        criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 0);
+                        comando = lerInteiro("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro", scanner);
+                        if (comando == 1){
+                            System.out.println("É... pelo menos esse daí é útil para algo, tá, agora só preciso saber as informações finais do seu Robô\nNome: ");    
+                            criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 0);
+                        }else if (comando == 2){
+                            System.out.println("Eu desisto, faz o que você quiser aí...\nNome: ");
+                            criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 1);
+                        }
+                        break;
                     }else if (comando == 2){
-                        System.out.println("Eu desisto, faz o que você quiser aí...\nNome: ");
-                        criaRoboAereo(scanner, mensagensNomeJaExistente, ambiente, 1);
-                    }
-                }else if (comando == 2){
-                    comando = lerInteiro("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover", scanner);
-                    if (comando == 1){
-                        System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\nNome: ");
-                        criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 0);
-                    }else if (comando == 2){
-                        System.out.println("Interessante... um amante de Rovers é raro hoje em dia. Bom, escolha como você quer que a gente crie ele\nNome: ");
-                        criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 1);
+                        comando = lerInteiro("Mais um rastejador, Ótimo! Como você quer que ele seja?\n1 - Aspirador\n2 - Rover", scanner);
+                        if (comando == 1){
+                            System.out.println("Adoro esses pestinhas! como você quer caracterizar sua criaturinha?\nNome: ");
+                            criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 0);
+                        }else if (comando == 2){
+                            System.out.println("Interessante... um amante de Rovers é raro hoje em dia. Bom, escolha como você quer que a gente crie ele\nNome: ");
+                            criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 1);
+                        }
+                        break;
+                    }else{
+                        System.out.println("Estamos experienciando cortes de gastos aqui na empresa, então eu só posso deixar você escolher entre os dois tipos de robôs que eu mostrei. Então, por favor, escolha um deles");
                     }
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
@@ -272,8 +290,11 @@ public class Main {
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
+            }else{ //Caso seja digitado um número inválido
+                System.out.println("Foi mal, por enquanto eu só sei contar até quatro... entendeu? entendeu? porque é 0-indexado. Aff que usuário chato");
             }
         }
+        System.out.println("Obrigado por usar o sistema de simulação, não esqueça de avaliar nossos serviços, espero que tenha gostado! Se não gostou: Eu não ligo! Eu sou só um robô. Até mais!");
         scanner.close();
     }   
     
@@ -373,7 +394,7 @@ public class Main {
         int valor;
         while (true) { // Continua pedindo até o usuário digitar corretamente
             if (mensagem != "\0") {
-                System.out.print(mensagem);
+                System.out.println(mensagem);
             }
             if (scanner.hasNextInt()) {
                 valor = scanner.nextInt();
