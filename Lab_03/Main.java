@@ -21,7 +21,7 @@ public class Main {
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
 
 
-        // Captura o Ctrl+C
+        //Método para impedir que seja possível encerrar o programa com Ctrl + C, ainda preciso ver como fazer isso no Windows e como fazer com que reinicie o programa toda vez que ele for encerrado de maneira errada
         Signal.handle(new Signal("INT"), new SignalHandler() {
             public void handle(Signal sig) {
                 System.out.println("\nMuahahaha, vocês programadores tem o costume de encerrar meus simuladores com seu comandos chiques. Não vai escapar tão fácil assim dessa vez! Eu sou um robô e não tenho sentimentos, mas eu sei que você tem. Então, por favor, não faça isso novamente. Você pode usar o comando 0 para encerrar o programa de forma adequada.");
@@ -291,14 +291,14 @@ public class Main {
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
             }else{ //Caso seja digitado um número inválido
-                System.out.println("Foi mal, por enquanto eu só sei contar até quatro... entendeu? entendeu? porque é 0-indexado. Aff que usuário chato");
+                System.out.println("Foi mal, por enquanto eu só sei contar até quatro... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
             }
         }
         System.out.println("Obrigado por usar o sistema de simulação, não esqueça de avaliar nossos serviços, espero que tenha gostado! Se não gostou: Eu não ligo! Eu sou só um robô. Até mais!");
         scanner.close();
     }   
     
-    //quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
+    //Quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
     public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
         scanner.nextLine();
