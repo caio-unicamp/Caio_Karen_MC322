@@ -1,14 +1,10 @@
 public class Rover extends RoboTerrestre{
     //atributo próprio
-    int posicaoX;
-    int posicaoY;
     int tempoLocomocaoTerrestre;
     int qtdRobosDerrubados;
     //Construtor
     public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
         super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
-        this.posicaoX = x;
-        this.posicaoY = y;
         this.qtdRobosDerrubados = 0;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
@@ -24,26 +20,26 @@ public class Rover extends RoboTerrestre{
             return; // O rover já chegou ao destino, então para a recursão
         }
         
-        if (passos[0] != 0 && ambiente.dentroDosLimites(this.posicaoX + passos[0], this.posicaoY, 0)){
-            if (identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.getNome(), ambiente)){
-                Robo roboEmpurrado = getRoboNaPosicao(this.posicaoX + passos[0], this.posicaoY, ambiente);
+        if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0)){
+            if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, this.getNome(), ambiente)){
+                Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente);
                 if (roboEmpurrado != null){
                     empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
                 }
             } 
-            this.posicaoX += passos[0];
-            this.setPosicao(posicaoX, posicaoY, 0);
+            this.getPosicao()[0] += passos[0];
+            this.setPosicao(getPosicao()[0], getPosicao()[1], 0);
             this.mover(deltaX - passos[0], deltaY, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
             return;
-        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.posicaoX, this.posicaoY + passos[1], 0)){
-            if (identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0, this.getNome(), ambiente)){
-                Robo roboEmpurrado = getRoboNaPosicao(this.posicaoX, this.posicaoY + passos[1], ambiente);
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0)){
+            if (identificarRobo(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0, this.getNome(), ambiente)){
+                Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente);
                 if (roboEmpurrado != null){
                     empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
                 }
             }
-            this.posicaoY += passos[1];
-            this.setPosicao(posicaoX, posicaoY, 0);
+            this.getPosicao()[0] += passos[1];
+            this.setPosicao(getPosicao()[0], getPosicao()[1], 0);
             this.mover(0, deltaY - passos[1], ambiente); //Continua o caminho em Y decrementando o tanto que já foi andado
             return;
         }
