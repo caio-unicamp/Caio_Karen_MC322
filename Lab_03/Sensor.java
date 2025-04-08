@@ -1,7 +1,8 @@
 abstract class Sensor<T> {
     double raio;
     
-    Sensor(double){
+    Sensor(double raio){
+        this.raio = raio;
         
     }
     

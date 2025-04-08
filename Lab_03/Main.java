@@ -90,7 +90,7 @@ public class Main {
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
                             if (!aspirador.velMaxAtingida(deltaX, deltaY)){
-                                aspirador.mover(deltaX, deltaY);
+                                aspirador.mover(deltaX, deltaY, ambiente);
                                 //pegar a qtd de robos eliminados
                                 int qtdEliminados = aspirador.getRobosEliminados();
                                 //imprimir a qtd de eliminados
@@ -140,7 +140,7 @@ public class Main {
                     Drone drone = ((Drone) roboEscolhido);
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
-                        metodosRobosAereos(drone, comando, scanner);
+                        metodosRobosAereos(drone, comando, scanner, ambiente);
                     }else if (comando == 3){ //Entregar um pacote
                         System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
                         String nomePacote = scanner.nextLine();
@@ -176,7 +176,7 @@ public class Main {
                             }
                         }
                         //se o drone conseguiu entregar o pacote
-                        if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote)){
+                        if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                         }
                         //se o drone não consegiu entregar o pacote
@@ -195,13 +195,13 @@ public class Main {
                     Passaro passaro = ((Passaro) roboEscolhido);
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - mover que nem alguém normal (ou quase)", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
-                        metodosRobosAereos(passaro, comando, scanner);
+                        metodosRobosAereos(passaro, comando, scanner, ambiente);
                     }else if (comando == 3){
                         //mover o pássaro
                         System.out.println("Você quer mover para onde?");
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
-                        passaro.mover(deltaX, deltaY);
+                        passaro.mover(deltaX, deltaY, ambiente);
                         //pegar a qtd de desvios
                         int qtdDesvios = passaro.getQtddesvios();
                         //imprimir a qtd de desvios
@@ -218,13 +218,13 @@ public class Main {
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
                             if (!rover.velMaxAtingida(deltaX, deltaY)){
-                                rover.mover(deltaX, deltaY);
+                                rover.mover(deltaX, deltaY, ambiente);
                                 break;
                             }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
                                 System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
                             }
                         }
-                        System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados() + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
+                        System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados(ambiente) + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
                     }else if (comando == 2){ //Método para empurrar um robô específico
                         System.out.println("Parece que você tem uma richa com alguém, não é mesmo? Me diz quem é e a gente esbarra nele");
                         Robo inimigo;
@@ -245,7 +245,7 @@ public class Main {
                                 break;
                             }
                         }
-                        rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1]); 
+                        rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
                         int numAnaliseRobosEmpurrados = 0;
                         for (Robo robo : ambiente.getListaRobos()) {
                             if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
@@ -457,14 +457,14 @@ public class Main {
         return tempoLocomocaoTerrestre;
     }
 
-    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner){ //Função para subir ou descer o robô aéreo
+    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente){ //Função para subir ou descer o robô aéreo
         int deltaZ;
         if (subirOuDescer == 1){
             deltaZ = lerInteiro("Quantos metros você deseja subir? ", scanner);
-            roboAereo.subir(deltaZ);
+            roboAereo.subir(deltaZ, ambiente);
         }else{
             deltaZ = lerInteiro("Quantos metros você deseja descer? ", scanner);
-            roboAereo.descer(deltaZ);
+            roboAereo.descer(deltaZ, ambiente);
         }
 
     }

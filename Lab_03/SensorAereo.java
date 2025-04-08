@@ -1,7 +1,7 @@
 public class SensorAereo extends Sensor<Float>{
 
-    public SensorAereo(){
-        
+    public SensorAereo(double raio){
+        super(raio);
     }
     
     @Override

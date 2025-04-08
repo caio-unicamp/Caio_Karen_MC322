@@ -1,7 +1,7 @@
 public class SensorTerrestre extends Sensor<Float>{
 
-    public SensorTerrestre(){
-        
+    public SensorTerrestre(double raio){
+        super(raio);
     }
 
     @Override

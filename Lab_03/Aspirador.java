@@ -15,7 +15,7 @@ public class Aspirador extends RoboTerrestre{
         for (Robo robo : ambiente.getListaRobos()) {
             if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
                 System.out.print(robo.getNome() + " foi aspirado nas coordenadas (" + robo.getPosicao()[0] + "," + robo.getPosicao()[1] + ") e não está mais entre nós... é uma pena mas vida que segue");
-                ambiente.eliminarRobo(robo, ambiente);
+                eliminarRobo(robo, ambiente);
                 return; //Se ele eliminou o robô ele retorna true
             }
         } 
@@ -38,10 +38,10 @@ public class Aspirador extends RoboTerrestre{
         int[] passos = getPasso(deltaX, deltaY);
     
         // Move o robô de acordo com a função mover da classe mãe
-        super.mover(deltaX, deltaY);
+        super.mover(deltaX, deltaY, ambiente);
     
         // Verifica se há um robô na nova posição
-        if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], this.getNome())) {
+        if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], this.getNome(), ambiente)) {
             // Atualizar os valores restantes para deltaX e deltaY
             int novoDeltaX = deltaX - (this.getPosicao()[0] - posInicialX);
             int novoDeltaY = deltaY - (this.getPosicao()[1] - posInicialY);
@@ -52,7 +52,7 @@ public class Aspirador extends RoboTerrestre{
                 if (!ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])) {
                     return;
                 }
-                this.mover(novoDeltaX, novoDeltaY);
+                this.mover(novoDeltaX, novoDeltaY, ambiente);
             }
         }
     }

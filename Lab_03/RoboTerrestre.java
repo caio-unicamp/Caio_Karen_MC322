@@ -9,8 +9,8 @@ public class RoboTerrestre extends Robo{
     }
 
     @Override
-    public void mover(int deltaX, int deltaY){ //Função sobreposta para mover o robô terrestre
-        super.mover(deltaX, deltaY); 
+    public void mover(int deltaX, int deltaY, Ambiente ambiente){ //Função sobreposta para mover o robô terrestre
+        super.mover(deltaX, deltaY, ambiente); 
         //Essa função será chamada junto da velMaxAtingida na main para que ele só se mova no caso de não ter sido atingido o limite de velocidade
     }
 
