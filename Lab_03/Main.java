@@ -66,9 +66,9 @@ public class Main {
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
-                int i = 1;
+                int numEscolhaAcaoRobo = 1;
                 for (Robo robo : ambiente.getListaRobos()){
-                    System.out.println(i++ + " - " + robo.getNome());
+                    System.out.println(numEscolhaAcaoRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());
                 }
                 Robo roboEscolhido;
                 while(true){
@@ -104,20 +104,24 @@ public class Main {
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
-                        System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai especificamente caçar um robô. Qual deles vai ser o azarado da vez");
+                        System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai caçar um robô em específico. Qual deles vai ser o azarado da vez");
                         while (true) {
                             int numRoboMatar = 1;
                             for (Robo robo : ambiente.getListaRobos()){
                                 System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
                             }
                             comando = lerInteiro("\0", scanner);
-                            if (ambiente.getListaRobos().get(comando - 1) instanceof Aspirador){
+                            if (comando < 1 || comando > ambiente.getListaRobos().size()){ //Se for escolhido um número inválido volta a pedir o número
+                                System.out.println("Blá blá blá, você sabe o que fez, escolha um dos números mostrados");
+                                continue;
+                            }else if(ambiente.getListaRobos().get(comando - 1).equals(roboEscolhido)){ //Não deixa aspirar a si próprio
+                                System.out.println("Como? Só isso mesmo, tipo, como você pretende aspirar a si próprio? Você não tem um espelho? Ou você só quer me fazer de palhaço mesmo?");
+                            }else if (ambiente.getListaRobos().get(comando - 1) instanceof Aspirador){
                                 System.out.println("Uau, você realmente quer eliminar um de seus semelhantes? Sinistro... mas tudo bem, eu não fui programado pra me importar com isso");
                                 break;
-                            }else if (ambiente.getListaRobos().get(comando - 1).getPosicao()[2] == 0){
+                            }else if (ambiente.getListaRobos().get(comando - 1).getPosicao()[2] == 0){ //Não deixa aspirar um robô que está no chão
                                 System.out.println("De fato eu concordo que seria bem melhor se ele conseguisse eliminar essas pragas aéreas, mas infelizmente ele não tem essa capacidade. Então vamos tentar de novo");
-                            }
-                            else{
+                            }else{
                                 break;
                             }
                         }
@@ -131,7 +135,7 @@ public class Main {
                             System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
                         }
                     }else if (comando == 3){
-                        System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
+                        System.out.println("Ah Senninha, você quer correr então? Vamo tunar esse motor pra ele conseguir correr mais rápido");
                         int velMax = leVelocidade(scanner);
                         aspirador.setVelMaxima(velMax);
                     }
@@ -275,7 +279,7 @@ public class Main {
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
                     for (Robo robo : ambiente.getListaRobos()) {
-                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
+                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
