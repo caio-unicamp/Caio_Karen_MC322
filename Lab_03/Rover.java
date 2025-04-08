@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 public class Rover extends RoboTerrestre{
     //atributo próprio
     int posicaoX;
     int posicaoY;
-    int qtdRobosEmpurrados;
     int tempoLocomocaoTerrestre;
     int qtdRobosDerrubados;
+    ArrayList<Robo> listaRobosEmpurados;
     Ambiente ambiente;
     //Construtor
     public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
@@ -13,7 +15,6 @@ public class Rover extends RoboTerrestre{
         this.posicaoY = y;
         this.ambiente = ambiente;
         this.qtdRobosDerrubados = 0;
-        this.qtdRobosEmpurrados = 0;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
     
@@ -57,7 +58,10 @@ public class Rover extends RoboTerrestre{
         int[] novaPosicao = getPosicaoFinalRoboEmpurrado(deltaX, deltaY, empurrado);
         if (identificarRobo(novaPosicao[0], novaPosicao[1], 0, empurrado.getNome())){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
             Robo novoRoboEmpurrado = getRoboNaPosicao(novaPosicao[0], novaPosicao[1]);
-            empurrarRobo(novoRoboEmpurrado, deltaX, deltaY);
+            if (novoRoboEmpurrado != null){
+                listaRobosEmpurados.add(novoRoboEmpurrado);
+                empurrarRobo(novoRoboEmpurrado, deltaX, deltaY);
+            }
         }
         empurrado.setPosicao(novaPosicao[0], novaPosicao[1], 0); //Como o robô está sendo empurrado pelo rover ele também passará a ignorar qualquer obstáculo, então basta setar a posição nova dele até a posição final dele até o fim da locomoção do rover
     }   
@@ -75,7 +79,7 @@ public class Rover extends RoboTerrestre{
     }
 
     public int getQtdRobosEmpurrados(){ //Função que mostra quantos robôs foram empurrados
-        return qtdRobosEmpurrados;
+        return listaRobosEmpurados.size();
     }
     public int getRobosDerrubados(){ //Função que mostra quantos robôs foram derrubados
         return qtdRobosDerrubados;
