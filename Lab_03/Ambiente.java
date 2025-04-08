@@ -6,6 +6,7 @@ public class Ambiente{
     private int tamY; //tamanho em Y do ambiente
     private int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
     private ArrayList<Robo> listaRobosAtivos;   //Lista de robôs ativos no ambiente
+    private ArrayList<Obstaculo> listaObstaculos; //Lista de obstáculos ativos no ambiente
 
     public Ambiente(String ambiente, int tamX, int tamY, int tamZ){ //Construtor para inicializar os atributos
         this.ambiente = ambiente;
@@ -13,6 +14,7 @@ public class Ambiente{
         this.tamY = tamY;
         this.tamZ = tamZ;
         listaRobosAtivos = new ArrayList<>();
+        listaObstaculos = new ArrayList<>();
     }
     public String getNomeAmbiente(){ //retorna o nome do ambiente 
         return this.ambiente;
@@ -35,7 +37,20 @@ public class Ambiente{
         listaRobosAtivos.remove(robo);
     }
 
-    public ArrayList<Robo> getLista(){ //Retorna a lista de Robôs ativos no ambiente
+    public ArrayList<Robo> getListaRobos(){ //Retorna a lista de Robôs ativos no ambiente
         return listaRobosAtivos;
     }
+
+    public void adicionarObstaculo(Obstaculo obstaculo){ //Adiciona um obstáculo no ambiente
+        listaObstaculos.add(obstaculo);
+    }
+
+    public void removerObstaculo(Obstaculo obstaculo){ //Remove um obstáculo no ambiente
+        listaObstaculos.remove(obstaculo);
+    }
+    
+    public ArrayList<Obstaculo> getListaObstaculos(){ //Retorna a lista de obstáculos ativos no ambiente
+        return listaObstaculos;
+    }
+    
 }

@@ -1,5 +1,3 @@
-//importar a biblioteca para mexer com a lista
-import java.util.ArrayList;
 //fazer a classe
 public class Aspirador extends RoboTerrestre{
     //atributo numero de robos que eliminou
@@ -16,7 +14,7 @@ public class Aspirador extends RoboTerrestre{
     //método de eliminar
     public void roboRemovido(){ //Função para eliminar robôs quando ele se mover
         //pegar a lista de robos e percorrer procurando o nome do robo
-        for (Robo robo : ambiente.getLista()) {
+        for (Robo robo : ambiente.getListaRobos()) {
             if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
                 System.out.print(robo.getNome() + " foi aspirado nas coordenadas (" + robo.getPosicao()[0] + "," + robo.getPosicao()[1] + ") e não está mais entre nós... é uma pena mas vida que segue");
                 eliminarRobo(robo);

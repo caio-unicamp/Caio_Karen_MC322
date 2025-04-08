@@ -72,7 +72,7 @@ public class Rover extends RoboTerrestre{
         int posicaoY = empurrado.getPosicao()[1] + deltaY;
         
         if (!ambiente.dentroDosLimites(posicaoX, posicaoY, 0)){ //Se o robô que foi empurrado sai dos limites, ele é eliminado da lista de robôs ativos
-            ambiente.getLista().remove(empurrado);
+            ambiente.getListaRobos().remove(empurrado);
             qtdRobosDerrubados++;
         }
 
@@ -87,7 +87,7 @@ public class Rover extends RoboTerrestre{
     }
     
     private Robo getRoboNaPosicao(int x, int y) { //Função para não ter que percorrer a lista inteira de robôs até achar um específico
-        for (Robo robo : ambiente.getLista()) {
+        for (Robo robo : ambiente.getListaRobos()) {
             if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y) {
                 return robo;
             }

@@ -60,7 +60,7 @@ public class Drone extends RoboAereo{
     }
 
     public boolean jaExisteRobo(Robo pacote){
-        for (Robo robo : ambiente.getLista()){
+        for (Robo robo : ambiente.getListaRobos()){
             if (robo.getNome() != pacote.getNome() && robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ambos são destruídos
                 destroiPacote(robo, pacote);
                 return true;

@@ -67,14 +67,14 @@ public class Main {
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
                 int i = 1;
-                for (Robo robo : ambiente.getLista()){
+                for (Robo robo : ambiente.getListaRobos()){
                     System.out.println(i++ + " - " + robo.getNome());
                 }
                 Robo roboEscolhido;
                 while(true){
                     comando = lerInteiro("\0", scanner);
-                    if (comando >= 1 && comando <= ambiente.getLista().size()){
-                        roboEscolhido = ambiente.getLista().get(comando - 1);
+                    if (comando >= 1 && comando <= ambiente.getListaRobos().size()){
+                        roboEscolhido = ambiente.getListaRobos().get(comando - 1);
                         break;
                     }else{
                         System.out.print("Talvez os números antes dos nomes dos robôs não estejam claros o suficiente, mas tipo, você tem que escolher um dos números dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos números que está do lado esquerdo");
@@ -107,21 +107,21 @@ public class Main {
                         System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai especificamente caçar um robô. Qual deles vai ser o azarado da vez");
                         while (true) {
                             int numRoboMatar = 1;
-                            for (Robo robo : ambiente.getLista()){
+                            for (Robo robo : ambiente.getListaRobos()){
                                 System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
                             }
                             comando = lerInteiro("\0", scanner);
-                            if (ambiente.getLista().get(comando - 1) instanceof Aspirador){
+                            if (ambiente.getListaRobos().get(comando - 1) instanceof Aspirador){
                                 System.out.println("Uau, você realmente quer eliminar um de seus semelhantes? Sinistro... mas tudo bem, eu não fui programado pra me importar com isso");
                                 break;
-                            }else if (ambiente.getLista().get(comando - 1).getPosicao()[2] == 0){
+                            }else if (ambiente.getListaRobos().get(comando - 1).getPosicao()[2] == 0){
                                 System.out.println("De fato eu concordo que seria bem melhor se ele conseguisse eliminar essas pragas aéreas, mas infelizmente ele não tem essa capacidade. Então vamos tentar de novo");
                             }
                             else{
                                 break;
                             }
                         }
-                        Robo roboEliminado = ambiente.getLista().get(comando - 1);
+                        Robo roboEliminado = ambiente.getListaRobos().get(comando - 1);
                         ambiente.removerRobo(roboEscolhido);
                         aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
                         System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
@@ -151,13 +151,13 @@ public class Main {
                             int contaCoordenadasRobos = 0;
                             coordenadaX = lerInteiro("Coordenada em x: ", scanner);
                             coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
-                            for (Robo robo : ambiente.getLista()) {
+                            for (Robo robo : ambiente.getListaRobos()) {
                                 contaCoordenadasRobos++;
                                 if ((coordenadaX == robo.getPosicao()[0] && coordenadaY == robo.getPosicao()[1] && robo.getPosicao()[2] == 0)){
                                     break;
                                 }
                             }
-                            if (contaCoordenadasRobos == ambiente.getLista().size()){
+                            if (contaCoordenadasRobos == ambiente.getListaRobos().size()){
                                 break;
                             }else{
                                 System.out.println("Puts, que chato, aparentemente já tem alguém ocupando essa posição. Mas claro que se você quiser mandar ele pra lá eu não vou poder impedir");
@@ -230,11 +230,11 @@ public class Main {
                         Robo inimigo;
                         while (true) {
                             int numRoboEmpurrar = 1;
-                            for (Robo robo : ambiente.getLista()){
+                            for (Robo robo : ambiente.getListaRobos()){
                                 System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
                             }
                             comando = lerInteiro("\0", scanner);
-                            inimigo = ambiente.getLista().get(comando - 1);
+                            inimigo = ambiente.getListaRobos().get(comando - 1);
                             if (inimigo instanceof Rover){
                                 System.out.println("Uhhhh, um caso de família será? Me sinto assistindo uma novela mexicana");
                                 break;
@@ -247,14 +247,14 @@ public class Main {
                         }
                         rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1]); 
                         int numAnaliseRobosEmpurrados = 0;
-                        for (Robo robo : ambiente.getLista()) {
+                        for (Robo robo : ambiente.getListaRobos()) {
                             if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
                                 System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
                                 break;
                             }
                             numAnaliseRobosEmpurrados++;
                         }
-                        if (numAnaliseRobosEmpurrados != ambiente.getLista().size()){
+                        if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){
                             System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
                             int qtdEliminados = rover.getRobosDerrubados();
                             if (qtdEliminados > 1){
@@ -269,12 +269,12 @@ public class Main {
                 }
 
             }else if (comando == 3){ //Bloco para mostrar a lista de robôs
-                if (ambiente.getLista().size() == 0){
+                if (ambiente.getListaRobos().size() == 0){
                     System.out.println("Oops, parece que você ainda não criou nenhum robô");
                 }else{
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
-                    for (Robo robo : ambiente.getLista()) {
+                    for (Robo robo : ambiente.getListaRobos()) {
                         System.out.println(contadorRobo++ + " - " + robo.getNome() + " Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
@@ -294,7 +294,7 @@ public class Main {
         String nome = scanner.nextLine();
         while (true){
             boolean nomeExiste = false;
-            for (Robo robo : ambiente.getLista()) {
+            for (Robo robo : ambiente.getListaRobos()) {
                 if (robo.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
                     String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
                     System.out.println(mensagemMostrada);
@@ -355,7 +355,7 @@ public class Main {
                 posicaoZ = lerInteiro("Posição Z: ", scanner);
             }
             int qtdAnalisesPosicoes = 0;
-            for (Robo robo : ambiente.getLista()) {
+            for (Robo robo : ambiente.getListaRobos()) {
                 qtdAnalisesPosicoes++;
                 if (posicaoX == robo.getPosicao()[0] && posicaoY == robo.getPosicao()[1] && posicaoZ == robo.getPosicao()[2]){
                     System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein, o " + robo.getNome() + " já tá nessa posição, colega. então vamos tentar colocar o novo robô em outro canto");
@@ -364,7 +364,7 @@ public class Main {
                     break;
                 }
             }
-            if (qtdAnalisesPosicoes == ambiente.getLista().size()){
+            if (qtdAnalisesPosicoes == ambiente.getListaRobos().size()){
                 lugarOcupado = false;
             }
             if (!lugarOcupado){ 

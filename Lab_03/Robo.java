@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Robo {
     private String nome;    //nome do robô
@@ -16,7 +15,7 @@ public class Robo {
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;
-        this.listaRobosAtivos = ambiente.getLista();
+        this.listaRobosAtivos = ambiente.getListaRobos();
         this.ambiente = ambiente;
     }
 
