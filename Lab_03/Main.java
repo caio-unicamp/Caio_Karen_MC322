@@ -1,15 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
-
 
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
-        int comando = 1;
+        int comando = -1;
         System.out.println("Saudações! meu nome é ClapTrap e eu serei seu servidor hoje nesse magnífico sistema de simulação nem um pouco quebrado e feito por especialistas renomados! Antes de começarmos precisamos de um espaço para trabalhar, de preferência algo agradável para aproveitar num domingo à noite tomando uma bela dose de óleo de motor. Ah e só mais uma coisinha, eu imploro que quando pedirmos por números você não digite um nome, e se mesmo assim você teimar com isso, eu sei onde você mora...\nNome do Ambiente: ");
         String nomeAmbiente = scanner.nextLine();
 
@@ -19,14 +16,6 @@ public class Main {
 
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
-
-
-        //Método para impedir que seja possível encerrar o programa com Ctrl + C, ainda preciso ver como fazer isso no Windows e como fazer com que reinicie o programa toda vez que ele for encerrado de maneira errada
-        Signal.handle(new Signal("INT"), new SignalHandler() {
-            public void handle(Signal sig) {
-                System.out.println("\nMuahahaha, vocês programadores tem o costume de encerrar meus simuladores com seu comandos chiques. Não vai escapar tão fácil assim dessa vez! Eu sou um robô e não tenho sentimentos, mas eu sei que você tem. Então, por favor, não faça isso novamente. Você pode usar o comando 0 para encerrar o programa de forma adequada.");
-            }
-        });
         
         while (comando != 0){ //Cria um looping para as ações possíveis
             scanner.nextLine(); //Ignora a quebra de Linha
@@ -35,7 +24,7 @@ public class Main {
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
             comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs", scanner);
-
+            
             if (comando == 0){ //Encerra o programa
                 break;
             }else if (comando == 1){ //Bloco para criação de robôs
