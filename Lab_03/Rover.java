@@ -18,6 +18,7 @@ public class Rover extends RoboTerrestre{
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
     
+    @Override
     public void mover(int deltaX, int deltaY){ //Função para mover recursivamente o rover e acessar a função empurrar robô
         int[] passos = this.getPasso(deltaX, deltaY);
         if (passos[0] == 0 && passos[1] == 0) {

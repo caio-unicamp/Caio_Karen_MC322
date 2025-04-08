@@ -35,6 +35,7 @@ public class Aspirador extends RoboTerrestre{
         return robosEliminados;
     }
 
+    @Override
     public void mover(int deltaX, int deltaY) {
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];

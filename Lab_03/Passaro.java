@@ -8,6 +8,7 @@ public class Passaro extends RoboAereo{
         this.ambiente = ambiente;
     }
     
+    @Override
     public void mover(int deltaX, int deltaY) {
         if (identificarRobo(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], this.getNome())){ //Caso o pássaro identifique um obstáculo no caminho ele começa a fazer uma busca para desviar
             if (desviar(deltaX, deltaY)) {
