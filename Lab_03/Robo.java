@@ -6,16 +6,13 @@ public class Robo {
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
-    private Ambiente ambiente; 
-    private ArrayList<Robo> listaRobosAtivos; //lista de robos ativos
-
+    private Ambiente ambiente; //Ambiente onde o robô está inserido
     public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z, Ambiente ambiente) {    //Construtor para inicializar os atributos do robô aéreo;
         this.nome = nomeRobo;
         this.direcao = direcaoRobo;
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;
-        this.listaRobosAtivos = ambiente.getListaRobos();
         this.ambiente = ambiente;
     }
 
@@ -63,7 +60,7 @@ public class Robo {
     }
     
     public boolean identificarRobo(int x, int y, int z, String nome){
-        for (Robo robo: listaRobosAtivos){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
+        for (Robo robo: ambiente.getListaRobos()){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
             if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && robo.getNome() != nome){
                 return true;
             }
