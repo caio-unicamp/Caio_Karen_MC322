@@ -1,9 +1,8 @@
 abstract class Sensor<T> {
-    double raio;
+    private double raio;
     
     Sensor(double raio){
         this.raio = raio;
-        
     }
     
     abstract T monitorar();
