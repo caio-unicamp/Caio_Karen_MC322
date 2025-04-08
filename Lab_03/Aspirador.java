@@ -2,29 +2,27 @@
 public class Aspirador extends RoboTerrestre{
     //atributo numero de robos que eliminou
     private int robosEliminados;
-    private Ambiente ambiente;
     
     //Construtor para inicializar os atributos
     public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
         super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
         this.robosEliminados = 0;   //inicializar o atritubo próprio
-        this.ambiente = ambiente;
     }
 
     //método de eliminar
-    public void roboRemovido(){ //Função para eliminar robôs quando ele se mover
+    public void roboRemovido(Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
         //pegar a lista de robos e percorrer procurando o nome do robo
         for (Robo robo : ambiente.getListaRobos()) {
             if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
                 System.out.print(robo.getNome() + " foi aspirado nas coordenadas (" + robo.getPosicao()[0] + "," + robo.getPosicao()[1] + ") e não está mais entre nós... é uma pena mas vida que segue");
-                eliminarRobo(robo);
+                ambiente.eliminarRobo(robo, ambiente);
                 return; //Se ele eliminou o robô ele retorna true
             }
         } 
         return; //Se ele percorreu a lista inteira e não existe robô com o nome dado ele retorna falso
     }
     
-    public void eliminarRobo(Robo robo){
+    public void eliminarRobo(Robo robo, Ambiente ambiente){
         ambiente.removerRobo(robo);
         robosEliminados++; 
     }
@@ -34,7 +32,7 @@ public class Aspirador extends RoboTerrestre{
     }
 
     @Override
-    public void mover(int deltaX, int deltaY) {
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) {
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = getPasso(deltaX, deltaY);
