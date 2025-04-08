@@ -294,7 +294,12 @@ public class Main {
         String nome = scanner.nextLine();
         while (true){
             boolean nomeExiste = false;
-            for (Robo robo : ambiente.getListaRobos()) {
+            if (nome.trim().isEmpty()){
+                System.out.println("Um robô sem nome é depressivo... tá tecnicamente ele não tem sentimentos mas ainda assim é triste. Então por favor, escolha um nome");
+                nome = scanner.nextLine();
+                continue;
+            }
+            for (Robo robo : ambiente.getListaRobos()){
                 if (robo.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
                     String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
                     System.out.println(mensagemMostrada);
@@ -316,7 +321,8 @@ public class Main {
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, true, ambiente);
         if (tipoRobo == 0){
-            int tempoLocomocaoTerrestre = lerInteiro("Tempo de locomoção do pacote: ", scanner);
+            System.out.println("Para o pacote a ser entregue");
+            int tempoLocomocaoTerrestre = leTempo(scanner);
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(drone);   
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
@@ -449,7 +455,7 @@ public class Main {
             if (tempoLocomocaoTerrestre == 0){
                 System.out.println("É sério? tempo de locomoção 0? você sabe o que pode acontecer comigo se eu tentar fazer uma divisão por 0? Tô achando que você tá querendo me matar... A função de teletransporte ainda não está disponível nessa versão do simulador, então por que não tentamos de novo?");
             }else if(tempoLocomocaoTerrestre < 0){
-                System.out.println("Tempo negativo... Como eu não tenho certeza se uma criança está usando isso eu fui configurado para não xingar ninguém\n\nMAS caso você não seja uma criança... *&$ ¨$ &*%@#");
+                System.out.println("Tempo negativo... Como eu não tenho certeza se uma criança está usando isso eu fui configurado para não xingar ninguém\nMAS caso você não seja uma criança... *&$ ¨$ &*%@#");
             }else{
                 break;
             }
