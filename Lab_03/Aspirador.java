@@ -10,21 +10,14 @@ public class Aspirador extends RoboTerrestre{
     }
 
     //método de eliminar
-    public void roboRemovido(Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
-        //pegar a lista de robos e percorrer procurando o nome do robo
+    public void aspirarRobo(Ambiente ambiente, int passosX, int passosY){ //Função para eliminar robôs quando ele se mover
         for (Robo robo : ambiente.getListaRobos()) {
-            if (robo != this && this.getPosicao()[0] +1 == robo.getPosicao()[0] && this.getPosicao()[1] == robo.getPosicao()[1] ){ //Se ele achou um robô na mesma posição que ele está, ele elimina esse robô 
-                System.out.print(robo.getNome() + " foi aspirado nas coordenadas (" + robo.getPosicao()[0] + "," + robo.getPosicao()[1] + ") e não está mais entre nós... é uma pena mas vida que segue");
-                eliminarRobo(robo, ambiente);
+            if (robo != this && robo.getPosicao()[0] == this.getPosicao()[0] + passosX && robo.getPosicao()[1] == this.getPosicao()[1] + passosY){ //Se ele achou um robô na mesma posição que ele está e não for ele próprio, ele elimina esse robô 
+                ambiente.removerRobo(robo);
+                robosEliminados++; 
                 return; //Se ele eliminou o robô ele retorna true
             }
-        } 
-        return; //Se ele percorreu a lista inteira e não existe robô com o nome dado ele retorna falso
-    }
-    
-    public void eliminarRobo(Robo robo, Ambiente ambiente){
-        ambiente.removerRobo(robo);
-        robosEliminados++; 
+        }
     }
     
     public int getRobosEliminados(){ //Função que retorna o número de robôs que foram eliminados
@@ -35,8 +28,7 @@ public class Aspirador extends RoboTerrestre{
     public void mover(int deltaX, int deltaY, Ambiente ambiente) {
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
-        int[] passos = getPasso(deltaX, deltaY);
-
+        int[] passos = this.getPasso(deltaX, deltaY);
         if (passos[0] == 0 && passos[1] == 0) {
             return; // Evita chamadas infinitas
         }
@@ -49,16 +41,16 @@ public class Aspirador extends RoboTerrestre{
         int posAtualX = this.getPosicao()[0];
         int posAtualY = this.getPosicao()[1];
 
-        if (posAtualX == posInicialX && posAtualY == posInicialY) {
-            return; // Se não houve movimento, não há necessidade de verificar colisões
+        if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
+            return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
-    
         // Verifica se há um robô na nova posição
         if (identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], this.getNome(), ambiente)) {
             // Atualizar os valores restantes para deltaX e deltaY
             int novoDeltaX = deltaX - (posAtualX - posInicialX);
             int novoDeltaY = deltaY - (posAtualY - posInicialY);
-    
+            aspirarRobo(ambiente, passos[0], passos[1]); // Chama a função para eliminar o robô identificado
+
             // Condição de parada: verificar se ainda há movimento restante
             if (novoDeltaX != 0 || novoDeltaY != 0) {
                 // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual

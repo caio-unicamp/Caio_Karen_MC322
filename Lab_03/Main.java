@@ -193,7 +193,7 @@ public class Main {
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - mover que nem alguém normal (ou quase)", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Mover que nem alguém normal (ou quase)", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
                         metodosRobosAereos(passaro, comando, scanner, ambiente);
                     }else if (comando == 3){
