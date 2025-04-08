@@ -77,7 +77,7 @@ public class Main {
                         roboEscolhido = ambiente.getListaRobos().get(comando - 1);
                         break;
                     }else{
-                        System.out.print("Talvez os números antes dos nomes dos robôs não estejam claros o suficiente, mas tipo, você tem que escolher um dos números dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos números que está do lado esquerdo");
+                        System.out.println("Talvez os números antes dos nomes dos robôs não estejam claros o suficiente, mas tipo, você tem que escolher um dos números dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos números que está do lado esquerdo");
                     }
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
@@ -124,6 +124,7 @@ public class Main {
                                 continue;
                             }else if(ambiente.getListaRobos().get(comando - 1).equals(roboEscolhido)){ //Não deixa aspirar a si próprio
                                 System.out.println("Como? Só isso mesmo, tipo, como você pretende aspirar a si próprio? Você não tem um espelho? Ou você só quer me fazer de palhaço mesmo?");
+                                continue;
                             }else if (ambiente.getListaRobos().get(comando - 1) instanceof Aspirador){
                                 System.out.println("Uau, você realmente quer eliminar um de seus semelhantes? Sinistro... mas tudo bem, eu não fui programado pra me importar com isso");
                                 break;
@@ -246,12 +247,26 @@ public class Main {
                         Robo inimigo;
                         while (true) {
                             int numRoboEmpurrar = 1;
+                            boolean podeEmpurrar = false;
                             for (Robo robo : ambiente.getListaRobos()){
                                 System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                                if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode empurrar robôs que não sejam o próprio rover e que estejam no chão
+                                    podeEmpurrar = true;
+                                }
+                            }
+                            if (!podeEmpurrar){ //Se não tiver nenhum robô que possa ser empurrado, ele não deixa o usuário continuar
+                                System.out.println("Que fim sem graça dessa novela, não tem ninguém pra você empurrar");
+                                break;
                             }
                             comando = lerInteiro("\0", scanner);
                             inimigo = ambiente.getListaRobos().get(comando - 1);
-                            if (inimigo instanceof Rover){
+                            if (comando < 1 || comando > ambiente.getListaRobos().size()){ //Se for escolhido um número inválido volta a pedir o número
+                                System.out.println("Ah sim, é claro, você quer que eu adivinhe o número que você escolheu? Que legal, mas não sou tão bom assim, então por favor escolha um dos números mostrados");
+                                continue;
+                            }else if (inimigo.equals(roboEscolhido)){ //Não deixa empurrar a si próprio
+                                System.out.println("Não seja tão duro consigo mesmo, vamos lá, deve haver outra pessoa que você odeia mais do que a si próprio");
+                                continue;
+                            }else if (inimigo instanceof Rover){
                                 System.out.println("Uhhhh, um caso de família será? Me sinto assistindo uma novela mexicana");
                                 break;
                             }else if (inimigo.getPosicao()[2] == 0){
@@ -261,21 +276,27 @@ public class Main {
                                 break;
                             }
                         }
-                        rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
-                        int numAnaliseRobosEmpurrados = 0;
-                        for (Robo robo : ambiente.getListaRobos()) {
-                            if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
-                                System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
-                                break;
+                        //mover o Rover
+                        try{
+                            inimigo = ambiente.getListaRobos().get(comando - 1);
+                            rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
+                            int numAnaliseRobosEmpurrados = 0;
+                            for (Robo robo : ambiente.getListaRobos()) {
+                                if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
+                                    System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                                    break;
+                                }
+                                numAnaliseRobosEmpurrados++;
                             }
-                            numAnaliseRobosEmpurrados++;
-                        }
-                        if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){
-                            System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
-                            int qtdEliminados = rover.getRobosDerrubados();
-                            if (qtdEliminados > 1){
-                                System.out.println("Eita, e aparentemente não foi só ele, você acabou derrubando " + qtdEliminados + " robôs no processo... oops");
+                            if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){
+                                System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
+                                int qtdEliminados = rover.getRobosDerrubados();
+                                if (qtdEliminados > 1){
+                                    System.out.println("Eita, e aparentemente não foi só ele, você acabou derrubando " + qtdEliminados + " robôs no processo... oops");
+                                }
                             }
+                        }catch (Exception e) { //No caso de não haver nenhum robô que possa ser empurrado ele segue em frente 
+                            continue;
                         }
                     }else if (comando == 3){
                         System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
@@ -351,7 +372,7 @@ public class Main {
 
     public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
-        System.out.print("Direção: ");
+        System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, false, ambiente);
         int velMax = leVelocidade(scanner);
