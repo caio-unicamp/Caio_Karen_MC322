@@ -1,7 +1,9 @@
-public class Sensor{
-
-    public Sensor(){
+abstract class Sensor<T> {
+    double raio;
+    
+    Sensor(double){
         
     }
     
+    abstract T monitorar();
 }

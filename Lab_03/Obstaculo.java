@@ -1,11 +1,11 @@
 public class Obstaculo{
-    int posX1;
-    int posY1;
-    int altura;
-    int posX2;
-    int posY2;
-    TipoObstaculo tipoObstaculo;
-    Ambiente ambiente;
+    private int posX1;
+    private int posY1;
+    private int altura;
+    private int posX2;
+    private int posY2;
+    private TipoObstaculo tipoObstaculo;
+    private Ambiente ambiente;
     
     public Obstaculo(int posX1, int posY1, int altura, int posX2, int posY2, TipoObstaculo tipoObstaculo, Ambiente ambiente){
         this.posX1 = posX1;
