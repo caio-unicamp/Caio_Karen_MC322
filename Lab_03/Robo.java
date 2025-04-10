@@ -21,12 +21,12 @@ public class Robo {
         int[] passos = getPasso(deltaX, deltaY);
         boolean moveu = false;
         
-        if (deltaX != 0 && deltaX + this.posicaoX > 0 && deltaX + this.posicaoX < ambiente.getLimites()[0] && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, this.nome, ambiente)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        if (deltaX != 0 && ambiente.dentroDosLimites(deltaX + this.posicaoX , deltaY, deltaY) && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, ambiente) && !identificarObstaculo(this.posicaoX + passos[0], this.posicaoY, this.posicaoZ, ambiente)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += passos[0];
             moveu = true;
             mover(deltaX - passos[0], deltaY, ambiente);
             return;
-        }else if (deltaY != 0 && deltaY + this.posicaoY > 0 && deltaY + this.posicaoY < ambiente.getLimites()[1] && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0,this.nome, ambiente)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+        }else if (deltaY != 0 && ambiente.dentroDosLimites(deltaX, deltaY + this.posicaoY , deltaY) && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0, ambiente) && !identificarObstaculo(this.posicaoX, this.posicaoY + passos[1], this.posicaoZ, ambiente)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += passos[1];
             moveu = true;
             mover(0, deltaY - passos[1], ambiente); //Ele só começa a se mover em y depois de ter movido tudo em x
