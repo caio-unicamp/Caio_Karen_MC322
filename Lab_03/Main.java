@@ -82,7 +82,7 @@ public class Main {
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
-                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!\n3 - Alterar a Velocidade Máxima", scanner);
+                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!\n3 - Alterar a Velocidade Máxima\n4 - Analisar sensores", scanner);
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
                     if (comando == 1){ //Método de mover normal do Aspirador
                         System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação...");
@@ -151,6 +151,8 @@ public class Main {
                         System.out.println("Ah Senninha, você quer correr então? Vamo tunar esse motor pra ele conseguir correr mais rápido");
                         int velMax = leVelocidade(scanner);
                         aspirador.setVelMaxima(velMax);
+                    }else if (comando == 4){ //Fazer para o caso de querer checar a bateria dos sensores
+                        
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");

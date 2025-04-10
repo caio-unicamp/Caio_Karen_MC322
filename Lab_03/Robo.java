@@ -1,15 +1,20 @@
+import java.util.ArrayList;
+
 public class Robo {
     private String nome;    //nome do robô
     private String direcao;   //direção do robô
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
-    public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z, Ambiente ambiente) {    //Construtor para inicializar os atributos do robô aéreo;
+    private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
+    
+    public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z, Ambiente ambiente) { //Construtor para inicializar os atributos do robô aéreo;
         this.nome = nomeRobo;
         this.direcao = direcaoRobo;
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;
+        this.listaSensores = new ArrayList<>();
     }
 
     public void mover(int deltaX, int deltaY, Ambiente ambiente) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
@@ -87,5 +92,14 @@ public class Robo {
         }
         int[] listaPasso = {passoX, passoY};
         return listaPasso;
+    }
+    public void adicionarSensor(Sensor<?> sensor){ //Adiciona um sensor na lista de sensores do robô
+        listaSensores.add(sensor);
+    }
+    public void removerSensor(Sensor<?> sensor){ //Remove um sensor na lista de sensores do robô
+        listaSensores.remove(sensor);
+    }
+    public ArrayList<Sensor<?>> getSensores(){ //Acessa quais são os sensores que esse robô tem
+        return listaSensores;
     }
 }

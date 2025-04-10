@@ -4,7 +4,7 @@ abstract class Sensor<T> {
     
     Sensor(double raio){
         this.raio = raio;
-        this.bateria = 100; // Bateria inicial
+        this.bateria = 100; // Bateria inicial em 100%
     }
     
     abstract T monitorar();
@@ -34,6 +34,6 @@ abstract class Sensor<T> {
         }
     }
     public boolean isBateriaBaixa() {
-        return this.bateria < 20; // Considera bateria baixa se estiver abaixo de 20%
+        return this.bateria <= 20; // Considera bateria baixa se estiver abaixo de 20%
     }
 }
