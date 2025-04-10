@@ -152,12 +152,30 @@ public class Main {
                         int velMax = leVelocidade(scanner);
                         aspirador.setVelMaxima(velMax);
                     }else if (comando == 4){ //Fazer para o caso de querer checar a bateria dos sensores
-                        
+                        System.out.println("Qual dos sensores você quer checar?");
+                        while (true){
+                            int numSensorAspirador = 1;
+                            for (Sensor<?> sensor : aspirador.getSensores()){
+                                System.out.println(numSensorAspirador++ + " - " + sensor.getClass().getSimpleName());
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (comando < 1 || comando > aspirador.getSensores().size()){ //Nao deixa selecionar um número inválido
+                                System.out.println("Qual a dificuldade de fazer o que eu mando às vezes? Escolha um dos números que eu mostrei");
+                                continue;
+                            }
+                            if (comando == 1){ //Checar atributos do sensor 1
+                                metodosSensores(scanner, aspirador);
+                                break;
+                            }else if (comando == 2){ //Checar atributos do sensor 2
+                                metodosSensores(scanner, aspirador);
+                                break;
+                            }
+                        }
                     }
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote\n4 - Analisar sensores", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
                         metodosRobosAereos(drone, comando, scanner, ambiente);
                     }else if (comando == 3){ //Entregar um pacote
@@ -208,11 +226,30 @@ public class Main {
                                 System.out.println("Estou gostando cada vez menos de você");
                             }
                         }
+                    }else if (comando == 4){ //Bloco para analisar os sensores
+                        while (true){
+                            int numSensorDrone = 1;
+                            for (Sensor<?> sensor : drone.getSensores()){
+                                System.out.println(numSensorDrone++ + " - " + sensor.getClass().getSimpleName());
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (comando < 1 || comando > drone.getSensores().size()){ //Nao deixa selecionar um número inválido
+                                System.out.println("Existem poucos idiomas que já foram extintos, mas portugês não foi um deles... E MUITO MENOS NÚMEROS");
+                                continue;
+                            }
+                            if (comando == 1){ //Checar atributos do sensor 1
+                                metodosSensores(scanner, drone);
+                                break;
+                            }else if (comando == 2){ //Checar atributos do sensor 2
+                                metodosSensores(scanner, drone);
+                                break;
+                            }
+                        }
                     }
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Mover que nem alguém normal (ou quase)", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Mover que nem alguém normal (ou quase)\n4 - Analisar sensores", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
                         metodosRobosAereos(passaro, comando, scanner, ambiente);
                     }else if (comando == 3){
@@ -225,11 +262,30 @@ public class Main {
                         int qtdDesvios = passaro.getQtddesvios();
                         //imprimir a qtd de desvios
                         System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                    }else if(comando == 4){
+                        while (true){
+                            int numSensorPassaro = 1;
+                            for (Sensor<?> sensor : passaro.getSensores()){
+                                System.out.println(numSensorPassaro++ + " - " + sensor.getClass().getSimpleName());
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (comando < 1 || comando > passaro.getSensores().size()){ //Nao deixa selecionar um número inválido
+                                System.out.println("Primeiro você me faz ter que olhar pra essa coisa horrorosa e ainda fica brincando com meus comandos. Faz logo o que eu pedi");
+                                continue;
+                            }
+                            if (comando == 1){ //Checar atributos do sensor 1
+                                metodosSensores(scanner, passaro);
+                                break;
+                            }else if (comando == 2){ //Checar atributos do sensor 2
+                                metodosSensores(scanner, passaro);
+                                break;
+                            }
+                        }
                     }
                 }else if (roboEscolhido instanceof Rover){ //Mostra os métodos do robô rover
                     System.out.println("Ele me lembra um carinha de um filme antigo... não consigo lembrar qual é");
                     Rover rover = ((Rover) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Andar por aí\n2 - Empurrar\n3 - Alterar a Velocidade Máxima", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Andar por aí\n2 - Empurrar\n3 - Alterar a Velocidade Máxima\n4 - Analisar sensores", scanner);
                     if (comando == 1){ //Método normal de mover o  Rover
                         //mover o Rover
                         System.out.println("Você quer mover para onde?");
@@ -304,6 +360,25 @@ public class Main {
                         System.out.println("Ah Senninha, você quer correr então? Então vamo tunar esse motor pra ele conseguir correr mais rápido");
                         int velMax = leVelocidade(scanner);
                         rover.setVelMaxima(velMax);
+                    }else if (comando == 4){
+                        while (true){
+                            int numSensorRover = 1;
+                            for (Sensor<?> sensor : rover.getSensores()){
+                                System.out.println(numSensorRover++ + " - " + sensor.getClass().getSimpleName());
+                            }
+                            comando = lerInteiro("\0", scanner);
+                            if (comando < 1 || comando > rover.getSensores().size()){ //Nao deixa selecionar um número inválido
+                                System.out.println("Vamo lá, aprende comigo, primeiro vem o 1, depois vem o 2. E acaba aqui, não é tão difícil concorda?");
+                                continue;
+                            }
+                            if (comando == 1){ //Checar atributos do sensor 1
+                                metodosSensores(scanner, rover);
+                                break;
+                            }else if (comando == 2){ //Checar atributos do sensor 2
+                                metodosSensores(scanner, rover);
+                                break;
+                            }
+                        }
                     }
                 }
 
@@ -512,5 +587,25 @@ public class Main {
             roboAereo.descer(deltaZ, ambiente);
         }
 
+    }
+    
+    public static void metodosSensores(Scanner scanner, Robo robo){
+        int comando;
+        while (true){
+            comando = lerInteiro("O que deseja fazer?\n1 - Checar Bateria\n2 - Recarregar Bateria", scanner);
+            if (comando < 1 || comando > 2){ //Se for escolhido um número inválido volta a pedir o número
+                System.out.println("Qual a dificuldade de fazer o que eu mando às vezes? Escolha um dos números que eu mostrei");
+                continue;
+            }
+            if (comando == 1){
+                System.out.println("A bateria do "+ robo.getSensores().get(comando - 1).getClass().getSimpleName() +" está em " + robo.getSensores().get(comando - 1).getBateria() + "%");
+                break;
+            }else if (comando == 2){
+                int carga = lerInteiro("Qual a quantidade de carga que você deseja colocar?", scanner);
+                robo.getSensores().get(comando - 1).recarregarBateria(carga);
+                System.out.println("A bateria do "+ robo.getSensores().get(comando - 1).getClass().getSimpleName() +" agora está em " + robo.getSensores().get(comando - 1).getBateria() + "%");
+                break;
+            }
+        }
     }
 }
