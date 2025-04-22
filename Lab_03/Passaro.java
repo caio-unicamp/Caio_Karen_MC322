@@ -9,7 +9,7 @@ public class Passaro extends RoboAereo{
     
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente){
-        if (identificarRobo(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], this.getNome(), ambiente)){ //Caso o pássaro identifique um obstáculo no caminho ele começa a fazer uma busca para desviar
+        if (identificarRobo(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente)){ //Caso o pássaro identifique um obstáculo no caminho ele começa a fazer uma busca para desviar
             if (desviar(deltaX, deltaY, ambiente)){
                 qtdDesvios++;
                 return;
@@ -30,7 +30,7 @@ public class Passaro extends RoboAereo{
                 int novoY = this.getPosicao()[1] + j;
                 int novoZ = this.getPosicao()[2]; //Mantém a altura inicial
 
-                if (!identificarRobo(novoX, novoY, novoZ, this.getNome(), ambiente) &&
+                if (!identificarRobo(novoX, novoY, novoZ, ambiente) &&
                     ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
 
                     // Move para a posição desviada no plano 2D
@@ -46,7 +46,7 @@ public class Passaro extends RoboAereo{
         for (int dz : desviosZ) {
             int novoZ = this.getPosicao()[2] + dz;
 
-            if (!identificarRobo(this.getPosicao()[0], this.getPosicao()[1], novoZ, this.getNome(), ambiente) &&
+            if (!identificarRobo(this.getPosicao()[0], this.getPosicao()[1], novoZ, ambiente) &&
                 ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], novoZ)) {
 
                 // Move para cima ou para baixo

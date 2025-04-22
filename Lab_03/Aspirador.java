@@ -45,7 +45,7 @@ public class Aspirador extends RoboTerrestre{
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
         // Verifica se há um robô na nova posição
-        if (identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], this.getNome(), ambiente)) {
+        if (identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente)) {
             // Atualizar os valores restantes para deltaX e deltaY
             int novoDeltaX = deltaX - (posAtualX - posInicialX);
             int novoDeltaY = deltaY - (posAtualY - posInicialY);
