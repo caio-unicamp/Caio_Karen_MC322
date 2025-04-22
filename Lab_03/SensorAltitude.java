@@ -1,6 +1,6 @@
-public class SensorTerrestre extends Sensor<Float>{
+public class SensorAltitude extends Sensor<Float>{
 
-    public SensorTerrestre(double raio){
+    public SensorAltitude(double raio){
         super(raio);
     }
 
