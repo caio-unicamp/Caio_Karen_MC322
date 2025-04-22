@@ -12,7 +12,7 @@ public class RoboAereo extends Robo{
         if (deltaZ == 0){ //Nesse ponto subiu tudo o que precisava
             return; 
         }
-        if ((this.altitude + 1) <= altitudeMaxima && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1, this.getNome(), ambiente)){ //O robô sobe recursivamente
+        if ((this.altitude + 1) <= altitudeMaxima && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1, ambiente)){ //O robô sobe recursivamente
             this.altitude++;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1],this.altitude);
             subir(deltaZ - 1, ambiente); //Chamada recursiva
@@ -24,7 +24,7 @@ public class RoboAereo extends Robo{
         if (deltaZ == 0){ //Nesse ponto desceu tudo o que precisava
             return; 
         }
-        if (ambiente.dentroDosLimites(this.getPosicao()[0],this.getPosicao()[1], this.altitude - 1) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, this.getNome(), ambiente)){ //O robô desce recursivamente
+        if (ambiente.dentroDosLimites(this.getPosicao()[0],this.getPosicao()[1], this.altitude - 1) && !identificarRobo(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, ambiente)){ //O robô desce recursivamente
             this.altitude--;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1],this.altitude);
             descer(deltaZ - 1, ambiente); //Chamada recursiva

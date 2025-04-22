@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Robo {
+public class Robo{
     private String nome;    //nome do robô
     private String direcao;   //direção do robô
     private int posicaoX;   //coordenada X no Ambiente

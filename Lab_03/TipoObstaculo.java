@@ -1,24 +1,23 @@
 public enum TipoObstaculo{
-    MINA_TERRESTRE(0, false),
-    BURACO_SEM_FUNDO(0, false),
-    CAIXA(1, false),
-    PASSARO(2, true),
-    MURALHA(3, false);
+    BURACO_SEM_FUNDO(-1, false),
+    MINA_TERRESTRE(0, true),
+    ARVORE(1, true),
+    PORTAO(2, false);
 
     private final int altura;
-    private final boolean obstaculoAereo;
+    private final boolean bloqueiaPassagem;
     
-    TipoObstaculo(int altura, boolean obstaculoAereo){
+    TipoObstaculo(int altura, boolean bloqueiaPassagem){
         this.altura = altura;
-        this.obstaculoAereo = obstaculoAereo;
+        this.bloqueiaPassagem = bloqueiaPassagem;
     }
 
     public int getAltura(){
         return altura;
     }
 
-    public boolean isObstaculoAereo(){
-        return obstaculoAereo;
+    public boolean isBloqueiaPassagem(){
+        return bloqueiaPassagem;
     }
 }
 

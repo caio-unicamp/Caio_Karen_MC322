@@ -14,7 +14,7 @@ public class Drone extends RoboAereo{
         int posZinicial = this.getPosicao()[2];
 
         for (int i = 1; i <= Math.abs(posicaoXdronefinal - this.getPosicao()[0]); i++){ //Faz a identificação por todo o percurso em x
-            if (identificarRobo(this.getPosicao()[0] + this.getPasso(posicaoXdronefinal - this.getPosicao()[0], posicaoYdronefinal - this.getPosicao()[1])[0], this.getPosicao()[1], this.getPosicao()[2], nomePacote, ambiente)){
+            if (identificarRobo(this.getPosicao()[0] + this.getPasso(posicaoXdronefinal - this.getPosicao()[0], posicaoYdronefinal - this.getPosicao()[1])[0], this.getPosicao()[1], this.getPosicao()[2], ambiente)){
                 if (jaExisteRobo(pacote, ambiente)){ //Caso exista robô onde seria derrubado não precisa fazer mais nada pois ele e o pacote serão destruídos
                     return false;
                 }
@@ -25,7 +25,7 @@ public class Drone extends RoboAereo{
             }
         }
         for (int i = 1; i <= Math.abs(posicaoYdronefinal - this.getPosicao()[1]); i++){ //Faz a identificação por todo o percurso em y
-            if (identificarRobo(posicaoXdronefinal, this.getPosicao()[1] + this.getPasso(posicaoXdronefinal - this.getPosicao()[0], posicaoYdronefinal - this.getPosicao()[1])[1], this.getPosicao()[2], nomePacote, ambiente)){
+            if (identificarRobo(posicaoXdronefinal, this.getPosicao()[1] + this.getPasso(posicaoXdronefinal - this.getPosicao()[0], posicaoYdronefinal - this.getPosicao()[1])[1], this.getPosicao()[2], ambiente)){
                 if (jaExisteRobo(pacote, ambiente)){ //Caso exista robô onde seria derrubado não precisa fazer mais nada pois ele e o pacote serão destruídos
                     return false;
                 }
@@ -54,7 +54,7 @@ public class Drone extends RoboAereo{
 
     public boolean jaExisteRobo(Robo pacote, Ambiente ambiente){
         for (Robo robo : ambiente.getListaRobos()){
-            if (robo.getNome() != pacote.getNome() && robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ambos são destruídos
+            if (robo != pacote && robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ambos são destruídos
                 destroiPacote(robo, pacote, ambiente);
                 return true;
             }
