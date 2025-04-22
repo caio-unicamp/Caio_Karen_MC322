@@ -8,7 +8,7 @@ public class Robo{
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
     private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
     
-    public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z, Ambiente ambiente) { //Construtor para inicializar os atributos do robô aéreo;
+    public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
         this.nome = nomeRobo;
         this.direcao = direcaoRobo;
         this.posicaoX = x;
@@ -93,12 +93,15 @@ public class Robo{
         int[] listaPasso = {passoX, passoY};
         return listaPasso;
     }
+
     public void adicionarSensor(Sensor<?> sensor){ //Adiciona um sensor na lista de sensores do robô
         listaSensores.add(sensor);
     }
+
     public void removerSensor(Sensor<?> sensor){ //Remove um sensor na lista de sensores do robô
         listaSensores.remove(sensor);
     }
+
     public ArrayList<Sensor<?>> getSensores(){ //Acessa quais são os sensores que esse robô tem
         return listaSensores;
     }
