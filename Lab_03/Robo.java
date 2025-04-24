@@ -114,4 +114,25 @@ public class Robo{
             }
         return obstaculoIdentificado;
     }
+    
+    public boolean roboParouNoObstaculo(int x, int y, Ambiente ambiente){ //Função que verifica se o robô parou em um obstáculo
+        Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(x, y, ambiente);
+        if (obstaculoIdentificado != null){
+            if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
+                return true;
+            }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
+                if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar a mina terrestre e irá explodir
+                    ambiente.removerRobo(this); //Remove o robô explodido
+                    ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
+                }
+                return true;
+            }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica uma mina aérea ele para
+                if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar o buraco e irá cair
+                    ambiente.removerRobo(this); //Remove o robô que caiu no buraco
+                }
+                return true;
+            }
+        }
+        return false; //Se não parou por conta de nenhum obstáculo, retorna false
+    }
 }

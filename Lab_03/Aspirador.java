@@ -9,7 +9,7 @@ public class Aspirador extends RoboTerrestre{
     }
 
     //método de aspirar robôs
-    public void aspirarRobo(Ambiente ambiente, int passosX, int passosY){ //Função para eliminar robôs quando ele se mover
+    public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
         for (Robo robo : ambiente.getListaRobos()) {
             if (robo != this && robo.getPosicao()[0] == this.getPosicao()[0] + passosX && robo.getPosicao()[1] == this.getPosicao()[1] + passosY){ //Se ele achou um robô na mesma posição que ele está e não for ele próprio, ele elimina esse robô 
                 ambiente.removerRobo(robo);
@@ -39,11 +39,10 @@ public class Aspirador extends RoboTerrestre{
         super.mover(deltaX, deltaY, ambiente);
         int posAtualX = this.getPosicao()[0];
         int posAtualY = this.getPosicao()[1];
-
         if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
-        // Verifica se há um robô na nova posição
+
         if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
             // Atualizar os valores restantes para deltaX e deltaY
             if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
@@ -65,9 +64,10 @@ public class Aspirador extends RoboTerrestre{
                     }
                 }
             }
+
             int novoDeltaX = deltaX - (posAtualX - posInicialX);
             int novoDeltaY = deltaY - (posAtualY - posInicialY);
-            aspirarRobo(ambiente, passos[0], passos[1]); // Chama a função para eliminar o robô identificado
+            aspirarRobo(passos[0], passos[1], ambiente); // Chama a função para eliminar o robô identificado
 
             // Condição de parada: verificar se ainda há movimento restante
             if (novoDeltaX != 0 || novoDeltaY != 0) {
