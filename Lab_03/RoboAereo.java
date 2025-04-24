@@ -37,14 +37,4 @@ public class RoboAereo extends Robo{
     public boolean moveuTudo(int altitudeOriginal, int deltaZ){ //Verifica se o robô chegou até a altura que era pra ir
         return (this.altitude + deltaZ == altitudeOriginal + deltaZ); 
     }
-
-    public SensorProximidade getSensorProximidade(){ //Função para retornar o sensor de proximidade do robô
-        SensorProximidade sensorProx = null;
-        for (Sensor<?> sensor : this.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade
-            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
-                sensorProx = (SensorProximidade) sensor;
-            }
-        }
-        return sensorProx;
-    }
 }

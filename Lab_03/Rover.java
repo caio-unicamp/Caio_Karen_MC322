@@ -3,8 +3,8 @@ public class Rover extends RoboTerrestre{
     int tempoLocomocaoTerrestre;
     int qtdRobosDerrubados;
     //Construtor
-    public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
-        super(nome, direcao, x, y, velocidadeMaxima, ambiente, tempoLocomocaoTerrestre);
+    public Rover(String nome, String direcao, int x, int y, int velocidadeMaxima, int tempoLocomocaoTerrestre){
+        super(nome, direcao, x, y, velocidadeMaxima, tempoLocomocaoTerrestre);
         this.qtdRobosDerrubados = 0;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
@@ -21,7 +21,7 @@ public class Rover extends RoboTerrestre{
         }
         
         if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0)){
-            if (identificarRobo(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, ambiente)){
+            if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, ambiente)){
                 Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente);
                 if (roboEmpurrado != null){
                     empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
@@ -32,7 +32,7 @@ public class Rover extends RoboTerrestre{
             this.mover(deltaX - passos[0], deltaY, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
             return;
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0)){
-            if (identificarRobo(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0, ambiente)){
+            if (this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0, ambiente)){
                 Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente);
                 if (roboEmpurrado != null){
                     empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
@@ -48,7 +48,7 @@ public class Rover extends RoboTerrestre{
     //metodo de mover com empurrar um robo junto
     public void empurrarRobo(Robo empurrado, int deltaX, int deltaY, Ambiente ambiente){
         int[] novaPosicao = getPosicaoFinalRoboEmpurrado(deltaX, deltaY, empurrado, ambiente);
-        if (identificarRobo(novaPosicao[0], novaPosicao[1], 0, ambiente)){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
+        if (this.getSensorProximidade().monitorar(novaPosicao[0], novaPosicao[1], 0, ambiente)){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
             Robo novoRoboEmpurrado = getRoboNaPosicao(novaPosicao[0], novaPosicao[1], ambiente);
             if (novoRoboEmpurrado != null){
                 ambiente.getListaRobos().add(novoRoboEmpurrado);

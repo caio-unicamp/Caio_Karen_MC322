@@ -93,4 +93,25 @@ public class Robo{
     public ArrayList<Sensor<?>> getSensores(){ //Acessa quais são os sensores que esse robô tem
         return listaSensores;
     }
+    
+    public SensorProximidade getSensorProximidade(){ //Função para retornar o sensor de proximidade do robô
+        SensorProximidade sensorProx = null;
+        for (Sensor<?> sensor : this.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade
+            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
+                sensorProx = (SensorProximidade) sensor;
+            }
+        }
+        return sensorProx;
+    }
+
+    public Obstaculo getObstaculoIdentificado(int x, int y, Ambiente ambiente){
+        Obstaculo obstaculoIdentificado = null;
+            for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
+                if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() == this.getPosicao()[2]) {
+                    obstaculoIdentificado = obstaculo;
+                    break;
+                }
+            }
+        return obstaculoIdentificado;
+    }
 }
