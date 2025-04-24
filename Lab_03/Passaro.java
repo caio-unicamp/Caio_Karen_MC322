@@ -9,11 +9,13 @@ public class Passaro extends RoboAereo{
     
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente){
-        if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
+        if (this.getSensorProximidade().getBateria() != 0 && this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
             if (desviar(deltaX, deltaY, ambiente)){
                 qtdDesvios++;
                 return;
             }
+        }else if (this.roboParouNoObstaculo((this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0]), this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente)){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
+            return;
         }
         super.mover(deltaX, deltaY, ambiente);
     }
@@ -32,10 +34,8 @@ public class Passaro extends RoboAereo{
 
                 if (!this.getSensorProximidade().monitorar(novoX, novoY, novoZ, ambiente, this) &&
                     ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
-
                     // Move para a posição desviada no plano 2D
-                    super.mover(novoX - this.getPosicao()[0], novoY - this.getPosicao()[1], ambiente);
-
+                    this.mover(novoX - this.getPosicao()[0], novoY - this.getPosicao()[1], ambiente);
                     return true;
                 }
             }
@@ -51,7 +51,7 @@ public class Passaro extends RoboAereo{
 
                 // Move para cima ou para baixo
                 this.getPosicao()[2] = novoZ;
-
+                this.mover(this.getPosicao()[0], this.getPosicao()[1], ambiente);
                 return true;
             }
         }
