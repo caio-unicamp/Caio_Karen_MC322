@@ -608,4 +608,56 @@ public class Main {
             }
         }
     }
+
+    public static void obstaculoAchado(Robo robo, Ambiente ambiente){
+        SensorProximidade sensorProx = null;
+        for (Sensor<?> sensor : robo.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade para conferir a movimentação
+            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
+                sensorProx = (SensorProximidade) sensor;
+            }
+        }
+        if (sensorProx.monitorar(posAtualX + passos[0], posAtualY + passos[1], robo.getPosicao()[2], ambiente, robo)) {
+            // Atualizar os valores restantes para deltaX e deltaY
+            if (sensorProx.identificarObstaculo(posAtualX + passos[0], posAtualY + passos[1], robo.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
+                Obstaculo obstaculoIdentificado = null;
+                for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
+                    if (obstaculo.getPosX1() <= posAtualX + passos[0] && obstaculo.getPosX2() >= posAtualX + passos[0] && obstaculo.getPosY1() <= posAtualY + passos[1] && obstaculo.getPosY2() >= posAtualY + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
+                        obstaculoIdentificado = obstaculo;
+                        break;
+                    }
+                }
+                if (obstaculoIdentificado != null){
+                    if (sensorProx.getBateria() != 0 && obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.PORTAO)){ //Se o obstáculo identificado for um portão, o robô pode passar por ele, mas ele só saberá que passou por ele caso a bateria não tenha acabado
+                        System.out.println("O " + robo.getNome() + " Adentrou por um portão de " + ambiente.getNomeAmbiente() + "!");
+                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
+                        if (sensorProx.getBateria() != 0){
+                            System.out.println("Existe uma árvore no seu caminho, vou parar de movê-lo para não colidir com ela");
+                        }else{
+                            System.out.println("O " + robo.getNome() + " Colidiu com uma árvore nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                        }
+                        return;
+                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
+                        if (sensorProx.getBateria() != 0){
+                            System.out.println("CUIDADO!!! Você tá ficando louco? ele pode explodir!!! Tem uma mina terrestre no caminho onde você quer ir");
+                        }else{
+                            System.out.println("Que descaso o seu com um de seus filhos, o " + robo.getNome() + " explodiu nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                            ambiente.removerRobo(robo); //Remove o robô explodido
+                            ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
+                        }
+                        return;
+                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica uma mina aérea ele para
+                        if (sensorProx.getBateria() != 0){
+                            System.out.println("Você está de frente para o maior buraco já visto em " + ambiente.getNomeAmbiente() + ". É ao mesmo tempo facinante e aterrorizante. Você não pode passar por ele.");
+                        }else{
+                            System.out.println("É com pesar que informo que o " + robo.getNome() + " caiu no buraco sem fundo e não vai voltar mais. Ele estava nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                            ambiente.removerRobo(robo); //Remove o robô que caiu no buraco
+                        }
+                        return;
+                    }
+                }
+                
+            }
+        }
+
+    }
 }

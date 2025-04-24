@@ -32,15 +32,24 @@ public class Robo{
         //Analisa se o passo do robô é positivo ou negativo ou nulo
         int[] passos = getPasso(deltaX, deltaY);
         boolean moveu = false;
-        // !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, ambiente) && !identificarObstaculo(this.posicaoX + passos[0], this.posicaoY, this.posicaoZ, ambiente)
         if (deltaX != 0 && ambiente.dentroDosLimites(deltaX + this.posicaoX , deltaY, deltaY) && !sensorProx.monitorar(this.posicaoX + passos[0], this.posicaoY, 0, ambiente, this)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += passos[0];
             moveu = true;
+            if (passos[0] > 0){ //Se o passo for positivo ele anda para o leste
+                this.setDirecao("Leste");
+            }else if (passos[0] < 0){ //Se o passo for negativo ele anda para o oeste
+                this.setDirecao("Oeste");
+            }
             mover(deltaX - passos[0], deltaY, ambiente);
             return;
         }else if (deltaY != 0 && ambiente.dentroDosLimites(deltaX, deltaY + this.posicaoY , deltaY) && !sensorProx.monitorar(this.posicaoX, this.posicaoY + passos[1], 0, ambiente, this)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += passos[1];
             moveu = true;
+            if (passos[1] > 0){ //Se o passo for positivo ele anda para o sul
+                this.setDirecao("Sul");
+            }else if (passos[1] < 0){ //Se o passo for negativo ele anda para o norte
+                this.setDirecao("Norte");
+            }
             mover(0, deltaY - passos[1], ambiente); //Ele só começa a se mover em y depois de ter movido tudo em x
             return;
         }

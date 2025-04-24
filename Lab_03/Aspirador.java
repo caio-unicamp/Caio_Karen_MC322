@@ -93,7 +93,6 @@ public class Aspirador extends RoboTerrestre{
                         return;
                     }
                 }
-                
             }
             int novoDeltaX = deltaX - (posAtualX - posInicialX);
             int novoDeltaY = deltaY - (posAtualY - posInicialY);
