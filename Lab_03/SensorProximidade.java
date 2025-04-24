@@ -9,13 +9,13 @@ public class SensorProximidade extends Sensor<Boolean>{
     //Método abstrato para monitorar a altura do robô
     public Boolean monitorar(Object... atributo){ //Método que verifica se o robô irá colidir com algum obstáculo ou robô
         if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] > 0){ //Se o passo for positivo ele anda para o leste
-            ((Robo) atributo[4]).setDirecao("Leste");
+            ((Robo) atributo[4]).setDirecao("leste");
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] < 0){ //Se o passo for negativo ele anda para o oeste
-            ((Robo) atributo[4]).setDirecao("Oeste");
+            ((Robo) atributo[4]).setDirecao("oeste");
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[1] > 0){ //Se o passo for positivo ele anda para o leste
-            ((Robo) atributo[4]).setDirecao("Norte");
+            ((Robo) atributo[4]).setDirecao("norte");
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[1] < 0){ //Se o passo for negativo ele anda para o oeste
-            ((Robo) atributo[4]).setDirecao("Sul");
+            ((Robo) atributo[4]).setDirecao("sul");
         }
         return(identificarRobo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3],(Robo) atributo[4]) || identificarObstaculo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3])); //Caso o robô identifique um obstáculo ou um robô, ele retorna true caso contrário, retorna false
     }

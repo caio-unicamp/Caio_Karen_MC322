@@ -1,5 +1,3 @@
-//fazer a classe
-
 import java.util.ArrayList;
 
 public class Aspirador extends RoboTerrestre{
