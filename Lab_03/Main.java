@@ -612,7 +612,7 @@ public class Main {
     public static void obstaculoAchado(Robo robo, Ambiente ambiente){
         String[] direcoes = {"norte", "sul", "leste", "oeste"}; //Lista das direções possíveis
         int[] passos = {0,0}; 
-        
+
         SensorProximidade sensorProx = null;
         for (Sensor<?> sensor : robo.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade para conferir a movimentação
             if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
@@ -655,8 +655,6 @@ public class Main {
                             System.out.println("CUIDADO!!! Você tá ficando louco? ele pode explodir!!! Tem uma mina terrestre no caminho onde você quer ir");
                         }else{
                             System.out.println("Que descaso o seu com um de seus filhos, o " + robo.getNome() + " explodiu nas coordenadas (" + robo.getPosicao()[0] + passos[0] + "," + robo.getPosicao()[1] + passos[1] + ")");
-                            ambiente.removerRobo(robo); //Remove o robô explodido
-                            ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
                         }
                         return;
                     }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica uma mina aérea ele para
@@ -664,14 +662,11 @@ public class Main {
                             System.out.println("Você está de frente para o maior buraco já visto em " + ambiente.getNomeAmbiente() + ". É ao mesmo tempo facinante e aterrorizante. Você não pode passar por ele.");
                         }else{
                             System.out.println("É com pesar que informo que o " + robo.getNome() + " caiu no buraco sem fundo e não vai voltar mais. Ele estava nas coordenadas (" + robo.getPosicao()[0] + passos[0] + "," + robo.getPosicao()[1] + passos[1] + ")");
-                            ambiente.removerRobo(robo); //Remove o robô que caiu no buraco
                         }
                         return;
                     }
                 }
-                
             }
         }
-
     }
 }

@@ -65,29 +65,16 @@ public class Aspirador extends RoboTerrestre{
                     }
                 }
                 if (obstaculoIdentificado != null){
-                    if (sensorProx.getBateria() != 0 && obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.PORTAO)){ //Se o obstáculo identificado for um portão, o robô pode passar por ele, mas ele só saberá que passou por ele caso a bateria não tenha acabado
-                        System.out.println("O " + this.getNome() + " Adentrou por um portão de " + ambiente.getNomeAmbiente() + "!");
-                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
-                        if (sensorProx.getBateria() != 0){
-                            System.out.println("Existe uma árvore no seu caminho, vou parar de movê-lo para não colidir com ela");
-                        }else{
-                            System.out.println("O " + this.getNome() + " Colidiu com uma árvore nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
-                        }
+                    if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
                         return;
                     }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
-                        if (sensorProx.getBateria() != 0){
-                            System.out.println("CUIDADO!!! Você tá ficando louco? ele pode explodir!!! Tem uma mina terrestre no caminho onde você quer ir");
-                        }else{
-                            System.out.println("Que descaso o seu com um de seus filhos, o " + this.getNome() + " explodiu nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                        if (sensorProx.getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar a mina terrestre e irá explodir
                             ambiente.removerRobo(this); //Remove o robô explodido
                             ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
                         }
                         return;
                     }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica uma mina aérea ele para
-                        if (sensorProx.getBateria() != 0){
-                            System.out.println("Você está de frente para o maior buraco já visto em " + ambiente.getNomeAmbiente() + ". É ao mesmo tempo facinante e aterrorizante. Você não pode passar por ele.");
-                        }else{
-                            System.out.println("É com pesar que informo que o " + this.getNome() + " caiu no buraco sem fundo e não vai voltar mais. Ele estava nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                        if (sensorProx.getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar o buraco e irá cair
                             ambiente.removerRobo(this); //Remove o robô que caiu no buraco
                         }
                         return;
