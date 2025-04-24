@@ -610,18 +610,32 @@ public class Main {
     }
 
     public static void obstaculoAchado(Robo robo, Ambiente ambiente){
+        String[] direcoes = {"norte", "sul", "leste", "oeste"}; //Lista das direções possíveis
+        int[] passos = {0,0}; 
+        
         SensorProximidade sensorProx = null;
         for (Sensor<?> sensor : robo.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade para conferir a movimentação
             if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
                 sensorProx = (SensorProximidade) sensor;
             }
         }
-        if (sensorProx.monitorar(posAtualX + passos[0], posAtualY + passos[1], robo.getPosicao()[2], ambiente, robo)) {
+        //Define o passo a partir da direção que o robô está encarando
+        if (robo.getDirecao().equalsIgnoreCase(direcoes[0])){
+            passos[1] = 1; // Norte
+        }else if (robo.getDirecao().equalsIgnoreCase(direcoes[1])){
+            passos[1] = -1; // Sul
+        }else if (robo.getDirecao().equalsIgnoreCase(direcoes[2])){
+            passos[0] = 1; // Leste
+        }else if (robo.getDirecao().equalsIgnoreCase(direcoes[3])){
+            passos[0] = -1; // Oeste
+        }
+
+        if (sensorProx.monitorar(robo.getPosicao()[0] + passos[0], robo.getPosicao()[1] + passos[1], robo.getPosicao()[2], ambiente, robo)) {
             // Atualizar os valores restantes para deltaX e deltaY
-            if (sensorProx.identificarObstaculo(posAtualX + passos[0], posAtualY + passos[1], robo.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
+            if (sensorProx.identificarObstaculo(robo.getPosicao()[0] + passos[0], robo.getPosicao()[1] + passos[1], robo.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
                 Obstaculo obstaculoIdentificado = null;
                 for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                    if (obstaculo.getPosX1() <= posAtualX + passos[0] && obstaculo.getPosX2() >= posAtualX + passos[0] && obstaculo.getPosY1() <= posAtualY + passos[1] && obstaculo.getPosY2() >= posAtualY + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
+                    if (obstaculo.getPosX1() <= robo.getPosicao()[0] + passos[0] && obstaculo.getPosX2() >= robo.getPosicao()[0] + passos[0] && obstaculo.getPosY1() <= robo.getPosicao()[1] + passos[1] && obstaculo.getPosY2() >= robo.getPosicao()[1] + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
                         obstaculoIdentificado = obstaculo;
                         break;
                     }
@@ -633,14 +647,14 @@ public class Main {
                         if (sensorProx.getBateria() != 0){
                             System.out.println("Existe uma árvore no seu caminho, vou parar de movê-lo para não colidir com ela");
                         }else{
-                            System.out.println("O " + robo.getNome() + " Colidiu com uma árvore nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                            System.out.println("O " + robo.getNome() + " Colidiu com uma árvore nas coordenadas (" + robo.getPosicao()[0] + passos[0] + "," + robo.getPosicao()[1] + passos[1] + ")");
                         }
                         return;
                     }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
                         if (sensorProx.getBateria() != 0){
                             System.out.println("CUIDADO!!! Você tá ficando louco? ele pode explodir!!! Tem uma mina terrestre no caminho onde você quer ir");
                         }else{
-                            System.out.println("Que descaso o seu com um de seus filhos, o " + robo.getNome() + " explodiu nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                            System.out.println("Que descaso o seu com um de seus filhos, o " + robo.getNome() + " explodiu nas coordenadas (" + robo.getPosicao()[0] + passos[0] + "," + robo.getPosicao()[1] + passos[1] + ")");
                             ambiente.removerRobo(robo); //Remove o robô explodido
                             ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
                         }
@@ -649,7 +663,7 @@ public class Main {
                         if (sensorProx.getBateria() != 0){
                             System.out.println("Você está de frente para o maior buraco já visto em " + ambiente.getNomeAmbiente() + ". É ao mesmo tempo facinante e aterrorizante. Você não pode passar por ele.");
                         }else{
-                            System.out.println("É com pesar que informo que o " + robo.getNome() + " caiu no buraco sem fundo e não vai voltar mais. Ele estava nas coordenadas (" + posAtualX + passos[0] + "," + posAtualY + passos[1] + ")");
+                            System.out.println("É com pesar que informo que o " + robo.getNome() + " caiu no buraco sem fundo e não vai voltar mais. Ele estava nas coordenadas (" + robo.getPosicao()[0] + passos[0] + "," + robo.getPosicao()[1] + passos[1] + ")");
                             ambiente.removerRobo(robo); //Remove o robô que caiu no buraco
                         }
                         return;

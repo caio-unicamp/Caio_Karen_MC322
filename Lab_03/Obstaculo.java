@@ -5,7 +5,18 @@ public class Obstaculo{
     private int posX2;
     private int posY2;
     private TipoObstaculo tipoObstaculo;
-    
+    //Imagine o nosso plano cartesiano da seguinte forma
+    // y
+    // ^
+    // |                    # isso define x2,y2
+    // |
+    // |
+    // |
+    // |
+    // |
+    // |      # isso define x1,y1
+    // ------------------------------------>x
+    // Essa área está demarcada pelo obstáculo  de modo que tudo que estiver numa cordenada x1<= x <= x2 e y1<=y<=y2 é a área que o robô não pode andar
     public Obstaculo(int posX1, int posY1, int altura, int posX2, int posY2, TipoObstaculo tipoObstaculo, Ambiente ambiente){
         this.posX1 = posX1;
         this.posY1 = posY1;
