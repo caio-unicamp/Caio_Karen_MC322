@@ -7,10 +7,7 @@ public class SensorProximidade extends Sensor<Boolean>{
     @Override
     //Método abstrato para monitorar a altura do robô
     public Boolean monitorar(Object... atributo){ //Método que verifica se o robô irá colidir com algum obstáculo ou robô
-        if (identificarRobo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3],(Robo) atributo[4]) || identificarObstaculo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3])){ //Caso o robô identifique um obstáculo ou um robô, ele retorna true
-            return true; //Caso encontre um robô ou obstáculo, retorna true
-        }
-        return false; //Caso contrário, retorna false
+        return(identificarRobo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3],(Robo) atributo[4]) || identificarObstaculo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3])); //Caso o robô identifique um obstáculo ou um robô, ele retorna true caso contrário, retorna false
     }
 
     public boolean identificarRobo(int x, int y, int z, Ambiente ambiente, Robo roboProprio){

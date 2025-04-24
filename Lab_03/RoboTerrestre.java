@@ -1,11 +1,15 @@
+import java.util.ArrayList;
+
 public class RoboTerrestre extends Robo{
     private int velocidadeMaxima; //Velocidade máxima permitida para o robô
     private int tempoLocomocaoTerrestre; //Tempo que o robô demora em uma locomoção
+    ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
     
-    public RoboTerrestre(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, Ambiente ambiente, int tempoLocomocaoTerrestre){
-        super(nome, direcao, posicaoX, posicaoY, 0,ambiente); //Herança da classe robô
+    public RoboTerrestre(String nome, String direcao, int posicaoX, int posicaoY, int velocidadeMaxima, int tempoLocomocaoTerrestre, ArrayList<Sensor<?>> listaSensores){
+        super(nome, direcao, posicaoX, posicaoY, 0); //Herança da classe robô
         this.velocidadeMaxima = velocidadeMaxima;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre; 
+        this.listaSensores = listaSensores; //Lista de sensores do robô terrestre
     }
 
     @Override

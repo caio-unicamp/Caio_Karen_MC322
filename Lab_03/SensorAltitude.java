@@ -6,7 +6,7 @@ public class SensorAltitude extends Sensor<Integer>{
 
     @Override
     public Integer monitorar(Object... atributo){//Método abstrato para monitorar a altura do robô
-        return 0;   
+        return (int) atributo[2];   
     }
     
 }

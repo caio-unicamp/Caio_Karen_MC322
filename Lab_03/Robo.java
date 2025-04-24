@@ -18,6 +18,13 @@ public class Robo{
     }
 
     public void mover(int deltaX, int deltaY, Ambiente ambiente) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
+        SensorProximidade sensorProx = null;
+        for (Sensor<?> sensor : listaSensores) {
+            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
+                sensorProx = (SensorProximidade) sensor;
+            }
+        }
+        
         if (deltaX == 0 && deltaY == 0) { //Condição de parada da recursão
             return;
         }
@@ -25,13 +32,13 @@ public class Robo{
         //Analisa se o passo do robô é positivo ou negativo ou nulo
         int[] passos = getPasso(deltaX, deltaY);
         boolean moveu = false;
-        
-        if (deltaX != 0 && ambiente.dentroDosLimites(deltaX + this.posicaoX , deltaY, deltaY) && !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, ambiente) && !identificarObstaculo(this.posicaoX + passos[0], this.posicaoY, this.posicaoZ, ambiente)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
+        // !identificarRobo(this.posicaoX + passos[0], this.posicaoY, 0, ambiente) && !identificarObstaculo(this.posicaoX + passos[0], this.posicaoY, this.posicaoZ, ambiente)
+        if (deltaX != 0 && ambiente.dentroDosLimites(deltaX + this.posicaoX , deltaY, deltaY) && !sensorProx.monitorar(this.posicaoX + passos[0], this.posicaoY, 0, ambiente, this)){ //Segue recursivamente no eixo x para analisar caso identifique algum obstáculo
             this.posicaoX += passos[0];
             moveu = true;
             mover(deltaX - passos[0], deltaY, ambiente);
             return;
-        }else if (deltaY != 0 && ambiente.dentroDosLimites(deltaX, deltaY + this.posicaoY , deltaY) && !identificarRobo(this.posicaoX, this.posicaoY + passos[1], 0, ambiente) && !identificarObstaculo(this.posicaoX, this.posicaoY + passos[1], this.posicaoZ, ambiente)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
+        }else if (deltaY != 0 && ambiente.dentroDosLimites(deltaX, deltaY + this.posicaoY , deltaY) && !sensorProx.monitorar(this.posicaoX, this.posicaoY + passos[1], 0, ambiente, this)){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
             this.posicaoY += passos[1];
             moveu = true;
             mover(0, deltaY - passos[1], ambiente); //Ele só começa a se mover em y depois de ter movido tudo em x
@@ -59,22 +66,6 @@ public class Robo{
     public void setDirecao(String direcao){ //Função para alterar a direção que o robô está encarando
         this.direcao = direcao;
     }
-    
-    // public boolean identificarRobo(int x, int y, int z, Ambiente ambiente){
-    //     for (Robo robo: ambiente.getListaRobos()){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
-    //         if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && !robo.equals(this)){ //Se a posição já estiver ocupada por outro robô, ele retorna true
-    //             return true;
-    //         }
-    //     }return false;
-    // }
-
-    // public boolean identificarObstaculo(int x, int y, int z, Ambiente ambiente){ //Identifica se o robô está colidindo com algum obstáculo
-    //     for (Obstaculo obstaculo: ambiente.getListaObstaculos()){ //Para cada obstáculo na lista de obstáculos, ele analisa se a posição que o robô em questão quer ir já está ocupada 
-    //         if (obstaculo.getPosX1() >= x && obstaculo.getPosX2() <= x && obstaculo.getPosY1() >= y && obstaculo.getPosY2() <= y && obstaculo.getAltura() == z){ //Se a posição já estiver ocupada por um obstáculo, ele retorna true
-    //             return true;
-    //         }
-    //     }return false;
-    // }
 
     public void setPosicao(int x, int y, int z){ //Função para setar a posição dos robôs
         this.posicaoX = x;
