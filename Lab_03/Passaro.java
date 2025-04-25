@@ -1,5 +1,5 @@
 public class Passaro extends RoboAereo{
-    //atributo próprio da quantidade de desvios que ele fez
+    //Atributo próprio da quantidade de desvios que ele fez
     private int qtdDesvios;
     private int[] posicao = new int[3]; // Atributo para armazenar a posição do pássaro após o desvio
     //Construtor para inicializar os atributos
@@ -18,12 +18,13 @@ public class Passaro extends RoboAereo{
                 this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente);
                 qtdDesvios++;
                 return;
-            }else if (desviouZ(deltaX, deltaY, ambiente)){ //Desvia no plano Z
+            }else if (desviouZ(deltaX, deltaY, ambiente)){ //Desvia verticalmente
                 this.mover(this.getPosicao()[0], this.getPosicao()[1], ambiente);
                 qtdDesvios++;
                 return;
             }
-        }else if (this.roboParouNoObstaculo((this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0]), this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente)){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
+        }else if (this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente))){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
+            this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente));
             return;
         }
         super.mover(deltaX, deltaY, ambiente);

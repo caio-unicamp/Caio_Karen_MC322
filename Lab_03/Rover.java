@@ -30,7 +30,8 @@ public class Rover extends RoboTerrestre{
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0)){
             if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, ambiente)){
-                if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente) && roboParouNoObstaculo(posAtualX + passos[0], posAtualY, ambiente)){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente) && roboParouNoObstaculo(this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente))){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente));
                     return;
                 }
                 Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente);
@@ -44,7 +45,8 @@ public class Rover extends RoboTerrestre{
             return;
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0)){
             if (this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0, ambiente)){
-                if (this.getSensorProximidade().identificarObstaculo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente) && roboParouNoObstaculo(posAtualX, posAtualY + passos[1], ambiente)){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                if (this.getSensorProximidade().identificarObstaculo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente) && roboParouNoObstaculo(this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente))){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente));
                     return;
                 }
                 Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente);
