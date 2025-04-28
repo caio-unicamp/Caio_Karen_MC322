@@ -43,26 +43,52 @@ public class Aspirador extends RoboTerrestre{
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
 
-        if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
-            Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY + passos[1], ambiente);
-            if (this.roboParouNoObstaculo(obstaculoIdentificado)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
-                if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
-                    this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
+        if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2])){ //Movimento em X
+            if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
+                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
+                if (this.roboParouNoObstaculo(obstaculoIdentificado)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
+                    if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
+                        }
+                    return; // Se ele parou no obstáculo, não continua o movimento 
+                }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                    // Atualizar os valores restantes para deltaX e deltaY
+                    int novoDeltaX = deltaX - (posAtualX - posInicialX);
+                    int novoDeltaY = deltaY - (posAtualY - posInicialY);
+                    aspirarRobo(passos[0], 0,ambiente); // Chama a função para eliminar o robô identificado
+        
+                    // Condição de parada: verificar se ainda há movimento restante
+                    if (novoDeltaX != 0 || novoDeltaY != 0) {
+                        // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
+                        if (!ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2])) {
+                            return;
+                        }
+                        this.mover(novoDeltaX, novoDeltaY, ambiente);
                     }
-                return; // Se ele parou no obstáculo, não continua o movimento 
-            }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
-                // Atualizar os valores restantes para deltaX e deltaY
-                int novoDeltaX = deltaX - (posAtualX - posInicialX);
-                int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                aspirarRobo(passos[0], passos[1], ambiente); // Chama a função para eliminar o robô identificado
-    
-                // Condição de parada: verificar se ainda há movimento restante
-                if (novoDeltaX != 0 || novoDeltaY != 0) {
-                    // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
-                    if (!ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])) {
-                        return;
+                }
+            }
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])){ //Movimento em Y
+            if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
+                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
+                if (this.roboParouNoObstaculo(obstaculoIdentificado)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
+                    if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
+                        }
+                    return; // Se ele parou no obstáculo, não continua o movimento 
+                }else if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                    // Atualizar os valores restantes para deltaX e deltaY
+                    int novoDeltaX = deltaX - (posAtualX - posInicialX);
+                    int novoDeltaY = deltaY - (posAtualY - posInicialY);
+                    aspirarRobo(0, passos[1],ambiente); // Chama a função para eliminar o robô identificado
+        
+                    // Condição de parada: verificar se ainda há movimento restante
+                    if (novoDeltaX != 0 || novoDeltaY != 0) {
+                        // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
+                        if (!ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])) {
+                            return;
+                        }
+                        this.mover(novoDeltaX, novoDeltaY, ambiente);
                     }
-                    this.mover(novoDeltaX, novoDeltaY, ambiente);
                 }
             }
         }

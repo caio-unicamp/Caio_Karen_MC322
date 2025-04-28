@@ -44,7 +44,6 @@ public class Rover extends RoboTerrestre{
                     this.setPosicao(getPosicao()[0] + passos[0], getPosicao()[1], this.getPosicao()[2]);
                     this.mover(deltaX - passos[0], 0, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
                 } 
-                return;
             }     
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])){ // Movimeto em Y
             if (this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], ambiente)){
@@ -61,7 +60,6 @@ public class Rover extends RoboTerrestre{
                     this.setPosicao(getPosicao()[0], getPosicao()[1] + passos[1], this.getPosicao()[2]);
                     this.mover(0, deltaY - passos[1], ambiente); //Continua o caminho em Y decrementando o tanto que já foi andado
                 }
-                return;
             }
         }
     }
