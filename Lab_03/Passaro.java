@@ -33,44 +33,33 @@ public class Passaro extends RoboAereo{
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posInicialY, this.getPosicao()[2])){ // Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
-                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
-                if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos e não consegue desviar de robôs
-                    this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
-                    return;
-                }else{ //Só desvia se a bateria do sensor de proximidade não acabar
-                    int novoDeltaX = deltaX - (posAtualX - posInicialX);
-                    int novoDeltaY = deltaY - (posAtualY - posInicialY);
-    
-                    // Condição de parada: verificar se ainda há movimento restante
-                    if (novoDeltaX != 0 || novoDeltaY != 0) {
-                        if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
-                            this.desviar(ambiente); // Aplica o desvio
-                            this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
-                            qtdDesvios++;
-                        }
-                        return; // De qualquer forma, se ele não conseguir desviar ele para e se ele conseguir desviar ele continua o movimento com a chamada recursiva
+                //Só desvia se a bateria do sensor de proximidade não acabar
+                int novoDeltaX = deltaX - (posAtualX - posInicialX);
+                int novoDeltaY = deltaY - (posAtualY - posInicialY);
+
+                // Condição de parada: verificar se ainda há movimento restante
+                if (novoDeltaX != 0 || novoDeltaY != 0) {
+                    if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
+                        this.desviar(ambiente); // Aplica o desvio
+                        this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
+                        qtdDesvios++;
                     }
+                    return; // De qualquer forma, se ele não conseguir desviar ele para e se ele conseguir desviar ele continua o movimento com a chamada recursiva
                 }
             }
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posInicialY + passos[1], this.getPosicao()[2])){ // Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
-                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
-                if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos e não consegue desviar de robôs
-                    this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
-                    return;
-                }else{ //Só desvia se a bateria do sensor de proximidade não acabar
-                    
-                    int novoDeltaX = deltaX - (posAtualX - posInicialX);
-                    int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    // Condição de parada: verificar se ainda há movimento restante
-                    if (novoDeltaX != 0 || novoDeltaY != 0) {
-                        if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
-                            this.desviar(ambiente); // Aplica o desvio
-                            this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
-                            qtdDesvios++;
-                        }
-                        return; // De qualquer forma, se ele não conseguir desviar ele para e se ele conseguir desviar ele continua o movimento com a chamada recursiva
+                //Só desvia se a bateria do sensor de proximidade não acabar    
+                int novoDeltaX = deltaX - (posAtualX - posInicialX);
+                int novoDeltaY = deltaY - (posAtualY - posInicialY);
+                // Condição de parada: verificar se ainda há movimento restante
+                if (novoDeltaX != 0 || novoDeltaY != 0) {
+                    if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
+                        this.desviar(ambiente); // Aplica o desvio
+                        this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
+                        qtdDesvios++;
                     }
+                    return; // De qualquer forma, se ele não conseguir desviar ele para e se ele conseguir desviar ele continua o movimento com a chamada recursiva
                 }
             }
         }
