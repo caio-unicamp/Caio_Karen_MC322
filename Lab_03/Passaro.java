@@ -15,6 +15,7 @@ public class Passaro extends RoboAereo{
     public void mover(int deltaX, int deltaY, Ambiente ambiente){
         if (this.getSensorProximidade().getBateria() != 0 && this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
             if (desviouXY(deltaX, deltaY, ambiente)){ //Desvia no plano X-Y
+                this.desviar(deltaX, deltaY, ambiente);
                 this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente);
                 qtdDesvios++;
                 return;

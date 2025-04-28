@@ -1,10 +1,11 @@
 public class RoboAereo extends Robo{
     private int altitudeMaxima; //Altitude máxima que o robô aéreo pode alcançar
     private int altitude; //Altitude atual do Robô
-    public RoboAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, Ambiente ambiente){ //Constructor para inicializar os atributos do robô aéreo
+    
+    public RoboAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima){ //Constructor para inicializar os atributos do robô aéreo
         super(nome, direcao, posicaoX, posicaoY, altitude); //Herança da classe robô
         this.altitude = altitude;
-        this.altitudeMaxima = ambiente.getLimites()[2]; //A altitude máxima é o limite do ambiente
+        this.altitudeMaxima = altitudeMaxima; //A altitude máxima é o limite do ambiente
     }
     
     public void subir(int deltaZ, Ambiente ambiente){ //Função recursiva para mover o robô aéreo para cima respeitando os limites identificando obstáculos no caminho

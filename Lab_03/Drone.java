@@ -2,8 +2,8 @@ public class Drone extends RoboAereo{
     Robo pacote; //Atributo próprio é um robô que será entregue pelo drone
     int tempoLocomocaoPacote;
     
-    public Drone(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente, int tempoLocomocaoTerrestre){ //Construtor para inicializar os atributos
-        super(nome, direcao, x, y, altitude, ambiente);
+    public Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre){ //Construtor para inicializar os atributos
+        super(nome, direcao, x, y, altitude);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
 
