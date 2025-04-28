@@ -30,13 +30,7 @@ public class Rover extends RoboTerrestre{
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])){ // Movimeto em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente)){
-                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
-                //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
-                if (this.roboParouNoObstaculo(obstaculoIdentificado)){
-                    if (this.getSensorProximidade().getBateria() == 0){ // Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
-                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
-                    }
-                }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX + passos[0], this.getPosicao()[1], ambiente);
                     if (roboEmpurrado != null){
                         empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
@@ -47,12 +41,7 @@ public class Rover extends RoboTerrestre{
             }     
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])){ // Movimeto em Y
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente)){
-                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
-                if ( roboParouNoObstaculo(obstaculoIdentificado)){ //Se o rover identificar um obstáculo e for parado por ele, encerra o movimento
-                    if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
-                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
-                    }
-                }else if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
+                if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX, posAtualY + passos[1], ambiente);
                     if (roboEmpurrado != null){
                         empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
