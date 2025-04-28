@@ -49,7 +49,6 @@ public class Aspirador extends RoboTerrestre{
                 if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
                     this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
                     }
-                }
                 return; // Se ele parou no obstáculo, não continua o movimento 
             }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
                 // Atualizar os valores restantes para deltaX e deltaY

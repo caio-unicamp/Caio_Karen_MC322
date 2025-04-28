@@ -16,11 +16,12 @@ public class Passaro extends RoboAereo{
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
+        // Condição de parada: verificar se ainda há movimento restante
         if (passos[0] == 0 && passos[1] == 0) {
-            return; // Evita chamadas infinitas
+            return; 
         }
         if (deltaX == 0 && deltaY == 0) { 
-            return; // O pássaro já chegou ao destino, então para a recursão
+            return; 
         }
 
         super.mover(deltaX, deltaY, ambiente);
@@ -31,25 +32,23 @@ public class Passaro extends RoboAereo{
         }
 
         if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
-            if (this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente))){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
+            if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos e não consegue desviar de robôs
                 this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente));
                 return;
-            }
-            if (this.getSensorProximidade().getBateria() != 0){ //Só desvia se a bateria do sensor de proximidade não acabar
-                if (desviouXY(deltaX, deltaY, ambiente)){ //Desvia no plano X-Y
-                    this.desviar(deltaX, deltaY, ambiente);
-                    this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente);
-                    qtdDesvios++;
-                    return;
-                }else if (desviouZ(deltaX, deltaY, ambiente)){ //Desvia verticalmente
-                    this.desviar(deltaX, deltaY, ambiente);
-                    this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] -  this.getPosicao()[1], ambiente);
-                    qtdDesvios++;
-                    return;
+            }else{ //Só desvia se a bateria do sensor de proximidade não acabar
+                int novoDeltaX = deltaX - (posAtualX - posInicialX);
+                int novoDeltaY = deltaY - (posAtualY - posInicialY);
+
+                // Condição de parada: verificar se ainda há movimento restante
+                if (novoDeltaX != 0 || novoDeltaY != 0) {
+                    if (desviouXY(novoDeltaX, novoDeltaY, ambiente)  || desviouZ(novoDeltaX, novoDeltaY, ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
+                        this.desviar(novoDeltaX, novoDeltaY, ambiente); // Aplica o desvio
+                        this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
+                        qtdDesvios++;
+                    }
+                    return; // De qualquer forma, se ele não conseguir desviar ele para e se ele conseguir desviar ele continua o movimento com a chamada recursiva
                 }
             }
-        }else{
-
         }
     }
 
@@ -75,7 +74,6 @@ public class Passaro extends RoboAereo{
     }
 
     public boolean desviouZ(int deltaX, int deltaY, Ambiente ambiente){
-
         // Se não conseguiu desviar no plano X-Y, tenta desviar para cima ou para baixo (Z)
         int[] desviosZ = {1, -1}; // Primeiro tenta subir, depois descer
         for (int dz : desviosZ) {
@@ -93,41 +91,39 @@ public class Passaro extends RoboAereo{
     }
 
     //método próprio de desviar, se o Pássaro se esbarrar em alguma coisa ele tenta desviar para todas as possibilidades de direção
-    private boolean desviar(int deltaX, int deltaY, Ambiente ambiente){
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0){ // A posição original não deve ser testada
-                    continue;
+    private void desviar(int deltaX, int deltaY, Ambiente ambiente){
+        if (desviouXY(deltaX, deltaY, ambiente)){
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0){ // A posição original não deve ser testada
+                        continue;
+                    }
+                    
+                    int novoX = this.getPosicao()[0] + i;
+                    int novoY = this.getPosicao()[1] + j;
+                    int novoZ = this.getPosicao()[2]; //Mantém a altura inicial
+    
+                    if (!this.getSensorProximidade().monitorar(novoX, novoY, novoZ, ambiente, this) &&
+                        ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
+                        return;
+                    }
                 }
-                
-                int novoX = this.getPosicao()[0] + i;
-                int novoY = this.getPosicao()[1] + j;
-                int novoZ = this.getPosicao()[2]; //Mantém a altura inicial
-
-                if (!this.getSensorProximidade().monitorar(novoX, novoY, novoZ, ambiente, this) &&
-                    ambiente.dentroDosLimites(novoX, novoY, novoZ)) {
-                    // Move para a posição desviada no plano 2D
-                    this.mover(novoX - this.getPosicao()[0], novoY - this.getPosicao()[1], ambiente);
-                    return true;
+            }
+        }else if (desviouZ(deltaX, deltaY, ambiente)){
+            // Se não conseguiu desviar no plano X-Y, tenta desviar para cima ou para baixo (Z)
+            int[] desviosZ = {1, -1}; // Primeiro tenta subir, depois descer
+            for (int dz : desviosZ) {
+                int novoZ = this.getPosicao()[2] + dz;
+    
+                if (!this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], novoZ, ambiente, this) &&
+                    ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], novoZ)) {
+    
+                    // Move para cima ou para baixo
+                    this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], novoZ);
+                    return;
                 }
             }
         }
-
-        // Se não conseguiu desviar no plano X-Y, tenta desviar para cima ou para baixo (Z)
-        int[] desviosZ = {1, -1}; // Primeiro tenta subir, depois descer
-        for (int dz : desviosZ) {
-            int novoZ = this.getPosicao()[2] + dz;
-
-            if (!this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], novoZ, ambiente, this) &&
-                ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], novoZ)) {
-
-                // Move para cima ou para baixo
-                this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], novoZ);
-                this.mover(this.getPosicao()[0], this.getPosicao()[1], ambiente);
-                return true;
-            }
-        }
-        return false; // Se não encontrou nenhuma rota alternativa
     }            
 
     public int getQtddesvios(){
