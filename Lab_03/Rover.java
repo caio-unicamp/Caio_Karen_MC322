@@ -28,45 +28,41 @@ public class Rover extends RoboTerrestre{
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
 
-        if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0)){
-            if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, ambiente)){
-                if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
-                    Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
-                    if (this.roboParouNoObstaculo(obstaculoIdentificado)){
-                        if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
-                            return;
-                        }else{
-                            this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
-                            return; //Se o obstáculo identificado for um buraco ou mina terrestre, o robô para
-                        }
+        if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2])){ // Movimeto em X
+            if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente)){
+                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
+                //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                if (this.roboParouNoObstaculo(obstaculoIdentificado)){
+                    if (this.getSensorProximidade().getBateria() == 0){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
                     }
-                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente));
-                    return;
+                }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                    Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente);
+                    if (roboEmpurrado != null){
+                        empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
+                    }
+                    this.setPosicao(getPosicao()[0] + passos[0], getPosicao()[1], this.getPosicao()[2]);
+                    this.mover(deltaX - passos[0], 0, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
+                } 
+                return;
+            }     
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])){ // Movimeto em Y
+            if (this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2], ambiente)){
+                Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
+                if ( roboParouNoObstaculo(obstaculoIdentificado)){ //Se o rover identificar um obstáculo e for parado por ele, encerra o movimento
+                    if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
+                    }
+                }else if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
+                    Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente);
+                    if (roboEmpurrado != null){
+                        empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
+                    }
+                    this.setPosicao(getPosicao()[0], getPosicao()[1] + passos[1], this.getPosicao()[2]);
+                    this.mover(0, deltaY - passos[1], ambiente); //Continua o caminho em Y decrementando o tanto que já foi andado
                 }
-                Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente);
-                if (roboEmpurrado != null){
-                    empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
-                }
-            } 
-            this.getPosicao()[0] += passos[0];
-            this.setPosicao(getPosicao()[0], getPosicao()[1], 0);
-            this.mover(deltaX - passos[0], deltaY, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
-            return;
-        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0)){
-            if (this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1] + passos[1], 0, ambiente)){
-                if (this.getSensorProximidade().identificarObstaculo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente) && roboParouNoObstaculo(this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente))){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
-                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente));
-                    return;
-                }
-                Robo roboEmpurrado = getRoboNaPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente);
-                if (roboEmpurrado != null){
-                    empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
-                }
+                return;
             }
-            this.getPosicao()[0] += passos[1];
-            this.setPosicao(getPosicao()[0], getPosicao()[1], 0);
-            this.mover(0, deltaY - passos[1], ambiente); //Continua o caminho em Y decrementando o tanto que já foi andado
-            return;
         }
     }
     
