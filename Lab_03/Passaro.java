@@ -3,8 +3,8 @@ public class Passaro extends RoboAereo{
     private int qtdDesvios;
     private int[] posicao = new int[3]; // Atributo para armazenar a posição do pássaro após o desvio
     //Construtor para inicializar os atributos
-    public Passaro(String nome, String direcao, int x, int y, int altitude, Ambiente ambiente){
-        super(nome, direcao, x, y, altitude, ambiente);
+    public Passaro(String nome, String direcao, int x, int y, int altitude, int altitudeMaxima){
+        super(nome, direcao, x, y, altitude, altitudeMaxima); //Herança da classe robô aéreo
         this.qtdDesvios = 0;
         this.posicao[0] = x;
         this.posicao[1] = y;
@@ -13,16 +13,19 @@ public class Passaro extends RoboAereo{
     
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente){
-        if (this.getSensorProximidade().getBateria() != 0 && this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
-            if (desviouXY(deltaX, deltaY, ambiente)){ //Desvia no plano X-Y
-                this.desviar(deltaX, deltaY, ambiente);
-                this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente);
-                qtdDesvios++;
-                return;
-            }else if (desviouZ(deltaX, deltaY, ambiente)){ //Desvia verticalmente
-                this.mover(this.getPosicao()[0], this.getPosicao()[1], ambiente);
-                qtdDesvios++;
-                return;
+        if ( this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
+            if (this.getSensorProximidade().getBateria() != 0){ //Só desvia se a bateria do sensor de proximidade não acabar
+                if (desviouXY(deltaX, deltaY, ambiente)){ //Desvia no plano X-Y
+                    this.desviar(deltaX, deltaY, ambiente);
+                    this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] - this.getPosicao()[1], ambiente);
+                    qtdDesvios++;
+                    return;
+                }else if (desviouZ(deltaX, deltaY, ambiente)){ //Desvia verticalmente
+                    this.desviar(deltaX, deltaY, ambiente);
+                    this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] -  this.getPosicao()[1], ambiente);
+                    qtdDesvios++;
+                    return;
+            }
             }
         }else if (this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente))){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
             this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente));

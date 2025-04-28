@@ -30,7 +30,16 @@ public class Rover extends RoboTerrestre{
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0)){
             if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + passos[0], this.getPosicao()[1], 0, ambiente)){
-                if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente) && roboParouNoObstaculo(this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente))){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                if (this.getSensorProximidade().identificarObstaculo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
+                    Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
+                    if (this.roboParouNoObstaculo(obstaculoIdentificado)){
+                        if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
+                            return;
+                        }else{
+                            this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
+                            return; //Se o obstáculo identificado for um buraco ou mina terrestre, o robô para
+                        }
+                    }
                     this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente));
                     return;
                 }
