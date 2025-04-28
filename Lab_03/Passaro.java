@@ -13,7 +13,28 @@ public class Passaro extends RoboAereo{
     
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente){
-        if ( this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
+        int posInicialX = this.getPosicao()[0];
+        int posInicialY = this.getPosicao()[1];
+        int[] passos = this.getPasso(deltaX, deltaY);
+        if (passos[0] == 0 && passos[1] == 0) {
+            return; // Evita chamadas infinitas
+        }
+        if (deltaX == 0 && deltaY == 0) { 
+            return; // O pássaro já chegou ao destino, então para a recursão
+        }
+
+        super.mover(deltaX, deltaY, ambiente);
+        int posAtualX = this.getPosicao()[0];
+        int posAtualY = this.getPosicao()[1];
+        if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
+            return; // Se ele andou tudo, não há necessidade de verificar colisões
+        }
+
+        if (this.getSensorProximidade().monitorar(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
+            if (this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente))){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
+                this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente));
+                return;
+            }
             if (this.getSensorProximidade().getBateria() != 0){ //Só desvia se a bateria do sensor de proximidade não acabar
                 if (desviouXY(deltaX, deltaY, ambiente)){ //Desvia no plano X-Y
                     this.desviar(deltaX, deltaY, ambiente);
@@ -25,13 +46,11 @@ public class Passaro extends RoboAereo{
                     this.mover(this.posicao[0] - this.getPosicao()[0], this.posicao[1] -  this.getPosicao()[1], ambiente);
                     qtdDesvios++;
                     return;
+                }
             }
-            }
-        }else if (this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente))){ //Caso a bateria do sensor de proximidade acabe ele não consegue mais desviar, daí realiza-se as colisões com os obstáculos
-            this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(this.getPosicao()[0] + this.getPasso(deltaX, deltaY)[0], this.getPosicao()[1] + this.getPasso(deltaX, deltaY)[1], ambiente));
-            return;
+        }else{
+
         }
-        super.mover(deltaX, deltaY, ambiente);
     }
 
     public boolean desviouXY(int deltaX, int deltaY, Ambiente ambiente){
@@ -103,7 +122,7 @@ public class Passaro extends RoboAereo{
                 ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], novoZ)) {
 
                 // Move para cima ou para baixo
-                this.getPosicao()[2] = novoZ;
+                this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], novoZ);
                 this.mover(this.getPosicao()[0], this.getPosicao()[1], ambiente);
                 return true;
             }

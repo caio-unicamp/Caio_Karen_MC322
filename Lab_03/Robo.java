@@ -18,12 +18,7 @@ public class Robo{
     }
 
     public void mover(int deltaX, int deltaY, Ambiente ambiente) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
-        SensorProximidade sensorProx = null;
-        for (Sensor<?> sensor : listaSensores) {
-            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
-                sensorProx = (SensorProximidade) sensor;
-            }
-        }
+        SensorProximidade sensorProx = this.getSensorProximidade(); //Acessa o sensor de proximidade do robô
         
         if (deltaX == 0 && deltaY == 0) { //Condição de parada da recursão
             return;
@@ -107,7 +102,7 @@ public class Robo{
     public Obstaculo getObstaculoIdentificado(int x, int y, Ambiente ambiente){
         Obstaculo obstaculoIdentificado = null;
             for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() == this.getPosicao()[2]) {
+                if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() >= this.getPosicao()[2]) {
                     obstaculoIdentificado = obstaculo;
                     break;
                 }
