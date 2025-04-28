@@ -33,7 +33,7 @@ public class Rover extends RoboTerrestre{
                 Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
                 //Se o aspirador identificar um obstáculo e for parado por ele, encerra o movimento
                 if (this.roboParouNoObstaculo(obstaculoIdentificado)){
-                    if (this.getSensorProximidade().getBateria() == 0){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
+                    if (this.getSensorProximidade().getBateria() == 0){ // Se a bateria do sensor de proximidade acabar aplica as interações de colisão com obstáculos
                         this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
                     }
                 }else if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô

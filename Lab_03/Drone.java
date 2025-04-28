@@ -7,7 +7,47 @@ public class Drone extends RoboAereo{
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
 
-    public boolean entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente){ //Função para entregar um pacote. Essa função é um booleano pois caso o pacote seja entregue retorna true e caso não seja, retorna false
+    @Override
+    public void mover(int deltaX, int deltaY, Ambiente ambiente){ // Função para mover o drone sem entregar nenhum pacote
+        int posInicialX = this.getPosicao()[0];
+        int posInicialY = this.getPosicao()[1];
+        int[] passos = this.getPasso(deltaX, deltaY);
+        if (passos[0] == 0 && passos[1] == 0) {
+            return; // Evita chamadas infinitas
+        }
+        if (deltaX == 0 && deltaY == 0) { 
+            return; // O drone já chegou ao destino, então para a recursão
+        }
+        
+        super.mover(deltaX, deltaY, ambiente);
+        int posAtualX = this.getPosicao()[0];
+        int posAtualY = this.getPosicao()[1];
+        if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
+            return; // Se ele andou tudo, não há necessidade de verificar colisões
+        }
+
+        if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posInicialY, this.getPosicao()[2])){ // Movimento em X
+            if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){
+                Obstaculo obstaculoIdenObstaculo = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
+                if (this.roboParouNoObstaculo(obstaculoIdenObstaculo)){ // Se o drone identificar um obstáculo e for parado por ele, encerra o movimento
+                    if (this.getSensorProximidade().getBateria() == 0){ // Se a bateria do sensor de proximidade acabar, aplica as interações de colisão com obstáculos
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdenObstaculo);
+                    }
+                }
+            }
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posInicialY + passos[1], this.getPosicao()[2])){ // Movimento em Y
+            if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
+                Obstaculo obstaculoIdenObstaculo = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
+                if (this.roboParouNoObstaculo(obstaculoIdenObstaculo)){ // Se o drone identificar um obstáculo e for parado por ele, encerra o movimento
+                    if (this.getSensorProximidade().getBateria() == 0){ // Se a bateria do sensor de proximidade acabar, aplica as interações de colisão com obstáculos
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdenObstaculo);
+                    }
+                }
+            }
+        }
+    }
+    
+    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente){ //Função para entregar um pacote. Essa função é um booleano pois caso o pacote seja entregue retorna true e caso não seja, retorna false
         //inicializar o robo pacote
         pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], tempoLocomocaoPacote);
         ambiente.adicionarRobo(pacote); //Adiciona o pacote na lista de Robôs ativos
@@ -60,6 +100,11 @@ public class Drone extends RoboAereo{
             }
         }
         return false;
+    }
+    
+    public void adicionaPacote(String nomePacote, Ambiente ambiente){ //Função para adicionar o pacote na lista de robôs ativos
+        pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], tempoLocomocaoPacote);
+        ambiente.adicionarRobo(pacote); //Adiciona o pacote na lista de Robôs ativos
     }
     
     public void destroiPacote(Robo robo, Robo pacote, Ambiente ambiente){
