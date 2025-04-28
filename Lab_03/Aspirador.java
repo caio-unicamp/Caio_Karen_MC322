@@ -50,17 +50,8 @@ public class Aspirador extends RoboTerrestre{
                 if (obstaculoIdentificado != null){
                     if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
                         return;
-                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
-                        if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar a mina terrestre e irá explodir
-                            ambiente.removerRobo(this); //Remove o robô explodido
-                            ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
-                        }
-                        return;
-                    }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica uma mina aérea ele para
-                        if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar o buraco e irá cair
-                            ambiente.removerRobo(this); //Remove o robô que caiu no buraco
-                        }
-                        return;
+                    }else{
+                        this.interacaoRoboObstaculo(ambiente, obstaculoIdentificado);
                     }
                 }
             }
