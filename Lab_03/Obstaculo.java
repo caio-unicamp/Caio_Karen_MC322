@@ -1,9 +1,9 @@
 public class Obstaculo{
-    private int posX1;
-    private int posY1;
-    private int altura;
-    private int posX2;
-    private int posY2;
+    private final int posX1;
+    private final int posY1;
+    private final int altura;
+    private final int posX2;
+    private final int posY2;
     private TipoObstaculo tipoObstaculo;
     //Imagine o nosso plano cartesiano da seguinte forma
     // y

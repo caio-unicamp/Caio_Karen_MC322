@@ -1,7 +1,7 @@
 public class RoboAereo extends Robo{
     private int altitudeMaxima; //Altitude máxima que o robô aéreo pode alcançar
     private int altitude; //Altitude atual do Robô
-    
+
     public RoboAereo(String nome, String direcao, int posicaoX, int posicaoY, int altitude, int altitudeMaxima){ //Constructor para inicializar os atributos do robô aéreo
         super(nome, direcao, posicaoX, posicaoY, altitude); //Herança da classe robô
         this.altitude = altitude;
@@ -27,7 +27,7 @@ public class RoboAereo extends Robo{
         }
         if (ambiente.dentroDosLimites(this.getPosicao()[0],this.getPosicao()[1], this.altitude - 1) && !this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, ambiente, this)){ //O robô desce recursivamente
             this.altitude--;
-            this.setPosicao(this.getPosicao()[0], this.getPosicao()[1],this.altitude);
+            this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], this.altitude);
             descer(deltaZ - 1, ambiente); //Chamada recursiva
             return; //Retorna no caso dele poder descer
         }else{

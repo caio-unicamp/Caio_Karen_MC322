@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Ambiente{
-    private String ambiente; //nome do ambiente
-    private int tamX; //tamanho em X do ambiente
-    private int tamY; //tamanho em Y do ambiente
-    private int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
+    private final String ambiente; //nome do ambiente
+    private final int tamX; //tamanho em X do ambiente
+    private final int tamY; //tamanho em Y do ambiente
+    private final int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
     private ArrayList<Robo> listaRobosAtivos;   //Lista de robôs ativos no ambiente
     private ArrayList<Obstaculo> listaObstaculos; //Lista de obstáculos ativos no ambiente
 
