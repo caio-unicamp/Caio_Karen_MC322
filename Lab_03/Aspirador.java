@@ -43,7 +43,7 @@ public class Aspirador extends RoboTerrestre{
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
 
-        if (passos[0] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2])){ //Movimento em X
+        if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])){ //Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
                 Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
                 if (this.roboParouNoObstaculo(obstaculoIdentificado)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
@@ -60,14 +60,14 @@ public class Aspirador extends RoboTerrestre{
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
-                        if (!ambiente.dentroDosLimites(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2])) {
+                        if (!ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])) {
                             return;
                         }
                         this.mover(novoDeltaX, novoDeltaY, ambiente);
                     }
                 }
             }
-        }else if (passos[1] != 0 && ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])){ //Movimento em Y
+        }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])){ //Movimento em Y
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
                 Obstaculo obstaculoIdentificado = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
                 if (this.roboParouNoObstaculo(obstaculoIdentificado)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
@@ -84,7 +84,7 @@ public class Aspirador extends RoboTerrestre{
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
-                        if (!ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2])) {
+                        if (!ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])) {
                             return;
                         }
                         this.mover(novoDeltaX, novoDeltaY, ambiente);
