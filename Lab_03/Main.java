@@ -73,7 +73,7 @@ public class Main {
             
             if (comando == 0){ //Encerra o programa
                 break;
-            }else if (comando == 1){ //Bloco para criação de robôs
+            }else if (comando == 1){ // Bloco para criação de robôs
                 
                 //Lista de mensagens que vão ser passadas caso o nome escolhido já exista
                 ArrayList<String> mensagensNomeJaExistente = new ArrayList<>();  
@@ -708,7 +708,10 @@ public class Main {
                 }
                 if (obstaculoIdentificado != null){
                     if (sensorProx.getBateria() != 0 && obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.PORTAO)){ //Se o obstáculo identificado for um portão, o robô pode passar por ele, mas ele só saberá que passou por ele caso a bateria não tenha acabado
-                        System.out.println("O " + robo.getNome() + " Adentrou por um portão de " + ambiente.getNomeAmbiente() + "!");
+                        System.out.println("O " + robo.getNome() + " Adentrou majestosamente por um portão de " + ambiente.getNomeAmbiente() + "!");
+                        if (robo instanceof RoboAereo){
+                            System.out.println("Tá, devo adimitir que isso foi lindo de se ver... mas se te perguntarem EU NUNCA FALEI ISSO");
+                        }
                     }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.ARVORE)){ //Se o obstáculo identificado for uma parede, o robô não pode passar por ele
                         if (sensorProx.getBateria() != 0){
                             System.out.println("Existe uma árvore no seu caminho, vou parar de movê-lo para não colidir com ela");

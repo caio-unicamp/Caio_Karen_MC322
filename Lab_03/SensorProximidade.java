@@ -8,6 +8,8 @@ public class SensorProximidade extends Sensor<Boolean>{
     @Override
     //Método abstrato para monitorar a altura do robô
     public Boolean monitorar(Object... atributo){ //Método que verifica se o robô irá colidir com algum obstáculo ou robô
+        this.consumirBateria(5); // Consome 5% da bateria a cada monitoramento
+        
         if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] > 0){ //Se o passo for positivo ele anda para o leste
             ((Robo) atributo[4]).setDirecao("leste");
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] < 0){ //Se o passo for negativo ele anda para o oeste
