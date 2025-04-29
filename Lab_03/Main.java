@@ -344,11 +344,16 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
+                            double taxaRover = rover.getSensorVelocidade(rover).porcentoVelocidade(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima());
+                            String velRover = String.format("%.2f", taxaRover);
                             if (!rover.getSensorVelocidade(rover).velMaxAtingida(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), (double) rover.getVelocidadeMaxima())){
                                 rover.mover(deltaX, deltaY, ambiente);
+                                System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
+                                if (rover.getSensorVelocidade(rover).isMuitoRapido(taxaRover)){
+                                    System.out.println("Quase um SpeedRacer! Impressionante!");
+                                }
                                 break;
                             }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
-                                String velRover = String.format("%.2f", rover.getSensorVelocidade(rover).porcentoVelocidade(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima()));
                                 System.out.println("Calma lá Flash! você tá querendo ir a "+ velRover + "% da velocidade máxima com esse carinha. No estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
                             }
                         }
