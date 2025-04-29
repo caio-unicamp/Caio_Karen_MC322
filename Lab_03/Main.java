@@ -653,6 +653,7 @@ public class Main {
             roboAereo.descer(deltaZ, ambiente);
         }
 
+        if (roboAereo.)
     }
     
     public static void metodosSensores(Scanner scanner, Robo robo){

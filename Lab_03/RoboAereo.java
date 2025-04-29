@@ -38,4 +38,14 @@ public class RoboAereo extends Robo{
     public boolean moveuTudo(int altitudeOriginal, int deltaZ){ //Verifica se o robô chegou até a altura que era pra ir
         return (this.altitude + deltaZ == altitudeOriginal + deltaZ); 
     }
+
+    public SensorAltitude getSensorAltitude(Robo robo){ //Acessa o sensor de altitude do robô aérero
+        SensorAltitude sensorAltitude = null;
+        for (Sensor<?> sensor : robo.getSensores()){
+            if (sensor instanceof SensorAltitude){
+                sensorAltitude = (SensorAltitude) sensor;
+            }
+        }
+        return sensorAltitude;
+    }
 }

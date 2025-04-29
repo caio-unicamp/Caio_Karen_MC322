@@ -37,4 +37,14 @@ public class RoboTerrestre extends Robo{
     public void setTempoLocomocao(int novoTempo){ //Função para setar o novo tempo de locomoção do robo terrestre
         this.tempoLocomocaoTerrestre = novoTempo;
     }
+
+    public SensorVelocidade getSensorVelocidade(Robo robo){ //Acessa o sensor de altitude do robô aérero
+        SensorVelocidade sensorVelocidade = null;
+        for (Sensor<?> sensor : robo.getSensores()){
+            if (sensor instanceof SensorVelocidade){
+                sensorVelocidade = (SensorVelocidade) sensor;
+            }
+        }
+        return sensorVelocidade;
+    }
 } 
