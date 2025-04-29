@@ -135,7 +135,7 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
-                            if (!aspirador.velMaxAtingida(deltaX, deltaY)){
+                            if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
                                 aspirador.mover(deltaX, deltaY, ambiente);
                                 //pegar a qtd de robos eliminados
                                 int qtdEliminados = aspirador.getRobosEliminados();
@@ -146,7 +146,8 @@ public class Main {
                                 }
                                 break;
                             }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
-                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Vai ter que tentar mover ele de novo");
+                                String velAspirador = String.format("%.2f", aspirador.getSensorVelocidade(aspirador).porcentoVelocidade(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima()));
+                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "? Vai ter que tentar mover ele de novo");
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
@@ -338,11 +339,12 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
-                            if (!rover.velMaxAtingida(deltaX, deltaY)){
+                            if (!rover.getSensorVelocidade(rover).velMaxAtingida(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), (double) rover.getVelocidadeMaxima())){
                                 rover.mover(deltaX, deltaY, ambiente);
                                 break;
                             }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
-                                System.out.println("Calma lá Flash! você tá querendo ir rápido demais com esse carinha, no estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                                String velRover = String.format("%.2f", rover.getSensorVelocidade(rover).porcentoVelocidade(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima()));
+                                System.out.println("Calma lá Flash! você tá querendo ir a "+ velRover + "% da velocidade máxima com esse carinha. No estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
                             }
                         }
                         System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados(ambiente) + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
