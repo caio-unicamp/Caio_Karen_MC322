@@ -38,7 +38,7 @@ public class Main {
                     int y1Buraco = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, -1, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, 0, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
                     break;
                 }else if (tipoObstaculo == 3){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");

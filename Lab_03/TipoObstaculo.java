@@ -1,5 +1,5 @@
 public enum TipoObstaculo{
-    BURACO_SEM_FUNDO(-1, false),
+    BURACO_SEM_FUNDO(0, false),
     MINA_TERRESTRE(0, true),
     ARVORE(2, true),
     PORTAO(2, false);
