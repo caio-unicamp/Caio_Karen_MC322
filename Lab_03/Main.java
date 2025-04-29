@@ -139,6 +139,7 @@ public class Main {
                             String velAspirador = String.format("%.2f", taxaAspirador);
                             if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
                                 aspirador.mover(deltaX, deltaY, ambiente);
+                                obstaculoAchado(aspirador, ambiente);
                                 System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
                                 if (aspirador.getSensorVelocidade(aspirador).isMuitoRapido(taxaAspirador)){
                                     System.out.println("Quase um SpeedRacer! Impressionante!");
@@ -270,6 +271,7 @@ public class Main {
                         }
                         //se o drone não consegiu entregar o pacote
                         else{
+                            obstaculoAchado(drone, ambiente);
                             System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: (" + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + ") Tá esperando o que? VAI VER SE ELE TÁ BEM!");
                             int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
                             if (verifica == 1){
@@ -310,6 +312,8 @@ public class Main {
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
                         passaro.mover(deltaX, deltaY, ambiente);
+                        obstaculoAchado(passaro, ambiente);
+
                         //pegar a qtd de desvios
                         int qtdDesvios = passaro.getQtddesvios();
                         //imprimir a qtd de desvios
@@ -348,6 +352,7 @@ public class Main {
                             String velRover = String.format("%.2f", taxaRover);
                             if (!rover.getSensorVelocidade(rover).velMaxAtingida(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), (double) rover.getVelocidadeMaxima())){
                                 rover.mover(deltaX, deltaY, ambiente);
+                                obstaculoAchado(rover, ambiente);
                                 System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
                                 if (rover.getSensorVelocidade(rover).isMuitoRapido(taxaRover)){
                                     System.out.println("Quase um SpeedRacer! Impressionante!");
@@ -392,23 +397,28 @@ public class Main {
                                 break;
                             }
                         }
-                        //mover o Rover
+                        // Empurrar algum robô
                         try{
                             inimigo = ambiente.getListaRobos().get(comando - 1);
+                            int[] posInicialInimigo = {inimigo.getPosicao()[0], inimigo.getPosicao()[1]};
                             rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
-                            int numAnaliseRobosEmpurrados = 0;
-                            for (Robo robo : ambiente.getListaRobos()) {
-                                if (robo.getNome() == inimigo.getNome()){ //No caso de o robô empurrado não ter sido eliminado, printa que ele foi eliminado
-                                    System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
-                                    break;
+                            obstaculoAchado(rover, ambiente);
+
+                            if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles
+                                int numAnaliseRobosEmpurrados = 0;
+                                for (Robo robo : ambiente.getListaRobos()) {
+                                    if (robo.getNome().equals(inimigo.getNome())){ 
+                                        System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                                        break;
+                                    }
+                                    numAnaliseRobosEmpurrados++;
                                 }
-                                numAnaliseRobosEmpurrados++;
-                            }
-                            if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){
-                                System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
-                                int qtdEliminados = rover.getRobosDerrubados();
-                                if (qtdEliminados > 1){
-                                    System.out.println("Eita, e aparentemente não foi só ele, você acabou derrubando " + qtdEliminados + " robôs no processo... oops");
+                                if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){ // Se o robô caiu do mapa, avisa que você empurrou ele para fora
+                                    System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
+                                    int qtdEliminados = rover.getRobosDerrubados();
+                                    if (qtdEliminados > 1){
+                                        System.out.println("Eita, e aparentemente não foi só ele, você acabou derrubando " + qtdEliminados + " robôs no processo... oops");
+                                    }
                                 }
                             }
                         }catch (Exception e) { //No caso de não haver nenhum robô que possa ser empurrado ele segue em frente 
