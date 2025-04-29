@@ -14,14 +14,6 @@ public class RoboTerrestre extends Robo{
         //Essa função será chamada junto da velMaxAtingida na main para que ele só se mova no caso de não ter sido atingido o limite de velocidade
     }
 
-    public boolean velMaxAtingida(int deltaX, int deltaY){
-        if (Math.sqrt(deltaX*deltaX + deltaY*deltaY)/tempoLocomocaoTerrestre < velocidadeMaxima){   
-            return false;
-        }else{
-            return true;
-        }
-    }
-
     public int getVelocidadeMaxima(){ //Função para retornar a velocidade máxima do robô
         return velocidadeMaxima;
     }

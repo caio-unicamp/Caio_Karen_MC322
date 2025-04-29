@@ -683,6 +683,11 @@ public class Main {
         if (roboAereo.getSensorAltitude(roboAereo).isBateriaBaixa()){
             System.out.println("A bateria do seu sensor de altitude está baixa, se você não recarregá-lo ele pode parar de funcionar e você pode acabar caindo");
         }
+
+        System.out.println("Você está atualmente a" + roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + " da altura máxima do seu ambiente");
+        if (roboAereo.getSensorAltitude(roboAereo).isMuitoAlto(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
+            System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
+        }
     }
     
     public static void metodosSensores(Scanner scanner, Robo robo){

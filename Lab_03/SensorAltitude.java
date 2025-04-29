@@ -13,4 +13,12 @@ public class SensorAltitude extends Sensor<Integer>{
     public double porcentoAltura(int altura, int alturaMax){
         return (double) ((altura * 100) / alturaMax); //Retorna a porcentagem de altura do robô em relação a altura máxima do ambiente
     }
+
+    public boolean isMuitoAlto(double taxaAltura){
+        if (taxaAltura >= 90){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

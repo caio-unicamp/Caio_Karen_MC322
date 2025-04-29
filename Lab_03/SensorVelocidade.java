@@ -13,4 +13,20 @@ public class SensorVelocidade extends Sensor<Double>{
     public double porcentoVelocidade(double velocidade, double velocidadeMax){
         return (double) ((velocidade * 100) / velocidadeMax); //Retorna a porcentagem de velocidade do robô em relação a velocidade máxima que ele pode andar
     }
+
+    public boolean isMuitoRapido(double taxaVelocidade){
+        if (taxaVelocidade >= 90){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean velMaxAtingida(int velocidade, int velocidadeMax){
+        if (porcentoVelocidade(velocidade, velocidadeMax) >= 100){   
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
