@@ -496,10 +496,22 @@ public class Main {
             int tempoLocomocaoTerrestre = leTempo(scanner);
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], tempoLocomocaoTerrestre, ambiente.getLimites()[2]);
             ambiente.adicionarRobo(drone);   
+
+            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2]);
+            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            // Adiciona os sensores ao drone
+            drone.adicionarSensor(sensorAltitude);
+            drone.adicionarSensor(sensorProximidade);
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente.getLimites()[2]);
             ambiente.adicionarRobo(passaro);
+
+            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2]);
+            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            // Adiciona os sensores ao drone
+            passaro.adicionarSensor(sensorAltitude);
+            passaro.adicionarSensor(sensorProximidade);
             System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso.");
         }
     }
