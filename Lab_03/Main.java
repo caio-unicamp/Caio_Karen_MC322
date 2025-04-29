@@ -135,8 +135,14 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
+                            double taxaAspirador = aspirador.getSensorVelocidade(aspirador).porcentoVelocidade(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
+                            String velAspirador = String.format("%.2f", taxaAspirador);
                             if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
                                 aspirador.mover(deltaX, deltaY, ambiente);
+                                System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
+                                if (aspirador.getSensorVelocidade(aspirador).isMuitoRapido(taxaAspirador)){
+                                    System.out.println("Quase um SpeedRacer! Impressionante!");
+                                }
                                 //pegar a qtd de robos eliminados
                                 int qtdEliminados = aspirador.getRobosEliminados();
                                 //imprimir a qtd de eliminados
@@ -146,8 +152,7 @@ public class Main {
                                 }
                                 break;
                             }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
-                                String velAspirador = String.format("%.2f", aspirador.getSensorVelocidade(aspirador).porcentoVelocidade(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima()));
-                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "? Vai ter que tentar mover ele de novo");
+                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "% da velocidade máxima? Vai ter que tentar mover ele de novo");
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
