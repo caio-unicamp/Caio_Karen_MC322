@@ -26,10 +26,11 @@ abstract class Sensor<T> {
     }
 
     public void recarregarBateria(int carga) {
-        setBateria(this.bateria + carga);
+        this.bateria += carga;
         if (this.bateria > 100) {
             this.bateria = 100; // Bateria não pode exceder 100%
         }
+        setBateria(this.bateria);
     }
 
     public void consumirBateria(int consumo) {
