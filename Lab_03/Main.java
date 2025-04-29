@@ -526,10 +526,22 @@ public class Main {
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
+
+            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1]);
+            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            // Adiciona os sensores ao drone
+            aspirador.adicionarSensor(sensorVelocidade);
+            aspirador.adicionarSensor(sensorProximidade);
             System.out.println("VAMOOOOOOOOOOOOOO!!! Você é incrível por ter criado o " + aspirador.getNome());
         }else if (tipoRobo == 1){
             Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(rover);
+
+            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1]);
+            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            // Adiciona os sensores ao drone
+            rover.adicionarSensor(sensorVelocidade);
+            rover.adicionarSensor(sensorProximidade);
             System.out.println("Meus olhos se enchem de óleo toda vez, o " + rover.getNome() + " é tão lindo");
         }
     }

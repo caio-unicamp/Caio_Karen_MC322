@@ -11,6 +11,6 @@ public class SensorVelocidade extends Sensor<Double>{
     }
     
     public double porcentoVelocidade(double velocidade, double velocidadeMax){
-        return (double) ((velocidade * 100) / velocidadeMax); //Retorna a porcentagem de velocidade do robô em relação a velocidade máxima do que ele pode andar
+        return (double) ((velocidade * 100) / velocidadeMax); //Retorna a porcentagem de velocidade do robô em relação a velocidade máxima que ele pode andar
     }
 }
