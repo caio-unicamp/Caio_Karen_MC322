@@ -535,14 +535,23 @@ public class Main {
             for (Robo robo : ambiente.getListaRobos()) {
                 qtdAnalisesPosicoes++;
                 if (posicaoX == robo.getPosicao()[0] && posicaoY == robo.getPosicao()[1] && posicaoZ == robo.getPosicao()[2]){
-                    System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein, o " + robo.getNome() + " já tá nessa posição, colega. então vamos tentar colocar o novo robô em outro canto");
                     lugarOcupado = true;
                     qtdAnalisesPosicoes = -1;
                     break;
                 }
             }
-            if (qtdAnalisesPosicoes == ambiente.getListaRobos().size()){
+            for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
+                qtdAnalisesPosicoes++;
+                if (obstaculo.getPosX1() <= posicaoX && obstaculo.getPosX2() >= posicaoX && obstaculo.getPosY1() <= posicaoY && obstaculo.getPosY2() >= posicaoY && obstaculo.getAltura() >= posicaoZ){
+                    lugarOcupado = true;
+                    qtdAnalisesPosicoes = -1;
+                    break;
+                }
+            }
+            if (qtdAnalisesPosicoes == ambiente.getListaRobos().size() + ambiente.getListaObstaculos().size()){ // Se foi analisado todos os robôs e obstáculos e nenhum deles ocupava a posição escolhida, o lugar não está ocupado
                 lugarOcupado = false;
+            }else{
+                System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein. O lugar que você escolheu já está ocupado, colega. então vamos tentar colocar o novo robô em outro canto");
             }
             if (!lugarOcupado){ 
                 if (!ambiente.dentroDosLimites(posicaoX, posicaoY, posicaoZ)){
