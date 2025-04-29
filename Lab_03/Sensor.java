@@ -37,6 +37,7 @@ abstract class Sensor<T> {
         if (this.bateria < 0) {
             this.bateria = 0; // Bateria não pode ser negativa
         }
+        this.setBateria(this.bateria);
     }
 
     public boolean isBateriaBaixa() {
