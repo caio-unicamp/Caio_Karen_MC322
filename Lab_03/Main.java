@@ -644,16 +644,21 @@ public class Main {
     }
 
     public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente){ //Função para subir ou descer o robô aéreo
-        int deltaZ;
-        if (subirOuDescer == 1){
-            deltaZ = lerInteiro("Quantos metros você deseja subir? ", scanner);
-            roboAereo.subir(deltaZ, ambiente);
+        if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
+            System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{
-            deltaZ = lerInteiro("Quantos metros você deseja descer? ", scanner);
-            roboAereo.descer(deltaZ, ambiente);
+            int deltaZ;
+            if (subirOuDescer == 1){
+                deltaZ = lerInteiro("Quantos metros você deseja subir? ", scanner);
+                roboAereo.subir(deltaZ, ambiente);
+            }else{
+                deltaZ = lerInteiro("Quantos metros você deseja descer? ", scanner);
+                roboAereo.descer(deltaZ, ambiente);
+            }
         }
-
-        if (roboAereo.)
+        if (roboAereo.getSensorAltitude(roboAereo).isBateriaBaixa()){
+            System.out.println("A bateria do seu sensor de altitude está baixa, se você não recarregá-lo ele pode parar de funcionar e você pode acabar caindo");
+        }
     }
     
     public static void metodosSensores(Scanner scanner, Robo robo){
