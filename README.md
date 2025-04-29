@@ -9,16 +9,33 @@ Clone este repositório e instale as dependências:
 3. sudo apt install openjdk-21-jre-headless  # version 21.0.6+7-1~24.04.1 
 
 # Como usar
-Para usar o Simulador como está agora em desenvolvimento no lab02, é necessário estar na pasta Lab_02 e executar os seguintes comandos no Terminal:
+Para usar o Simulador como está agora em desenvolvimento no lab03, é necessário estar na pasta Lab_03 e executar os seguintes comandos no Terminal:
 
 1. javac -d bin *.java
 2. java -cp bin Main
 
-## instruções 
- Siga as instruções no Terminal, começa com as definições do seu Ambiente
- Após isso você poderá digitar um comando específico para povoar seu ambiente de robôs
 
-### Para criar um Robô, digite:
+## instruções 
+1. Configuração do Ambiente
+    Ao iniciar o programa, você será solicitado a configurar o ambiente:
+
+    Nome do Ambiente: Escolha um nome para o ambiente.
+    Dimensões do Ambiente: Defina a largura, altura e profundidade do ambiente.
+    Você também poderá adicionar obstáculos ao ambiente, como:
+
+    Mina Terrestre
+    Buraco Sem Fundo
+    Árvore
+    Portão
+2. Interação com Obstáculos
+    Os robôs interagem com obstáculos no ambiente:
+
+    Mina Terrestre: Pode explodir o robô.
+    Buraco Sem Fundo: O robô pode cair e ser removido do ambiente.
+    Árvore: Bloqueia o caminho do robô.
+    Portão: Permite a passagem do robô.
+
+## Para criar um Robô, digite:
  1. 1 
     Após isso, você escolher uma categoria para ele. As categorias são Áereo que possue movimento em 3 dimensões e Terrestre, que se movimenta em 2 direções (z=0).
     Para um Robô Áereo, digite
@@ -45,7 +62,7 @@ Para usar o Simulador como está agora em desenvolvimento no lab02, é necessár
     2. "nomeEscolhido"
     Parabéns, você criou um Robô!
 
-### Para mover um Robô, digite:
+## Para mover um Robô, digite:
  1. 2
  Agora que você quer mover um Robô, saibam que seus robôs movem ignorantes ao Teorema de Pitágoras, ou seja não se movem na diagonal mas sim pelos eixos x e depois y.
  No Terminal, seus Robôs devem ter aparecido conectados a um número como o seguinte exemplo: 
@@ -56,10 +73,10 @@ Para usar o Simulador como está agora em desenvolvimento no lab02, é necessár
  Agora que você escolheu o seu Robô, aparecerá na tela os comandos associados a ele
  ###### Ainda não há como utilizar os métodos pelo terminal, faremos mais a frente.
 
-### Para verificar lista de Robôs, digite:
+## Para verificar lista de Robôs, digite:
  1. 3
  Deve aparecer a lista de Robôs, não há nada para o Usuário mexer, Digite outro comando dos apresentados previamente (para criar um Robô, mover um Robô e Encerrar a sessão)
 
-### Para encerrar a sessão basta digitar o comando:
+## Para encerrar a sessão basta digitar o comando:
  1. 0
  Parabéns, você encerrou a sessão
