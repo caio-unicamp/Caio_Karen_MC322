@@ -213,6 +213,7 @@ public class Main {
                             }
                         }
                         //se o drone conseguiu entregar o pacote
+                        //(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente)
                         if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                         }
@@ -434,14 +435,17 @@ public class Main {
         System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
         int[] coordenadas = lerCoordenadas(scanner, true, ambiente);
+        int altitudeMaxima = lerInteiro("Altitude Máxima: ", scanner); // Prompt user for altitudeMaxima
         if (tipoRobo == 0){
             System.out.println("Para o pacote a ser entregue");
             int tempoLocomocaoTerrestre = leTempo(scanner);
-            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
+            //Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre, int altitudeMaxima)
+            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], tempoLocomocaoTerrestre,altitudeMaxima);
             ambiente.adicionarRobo(drone);   
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
-            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
+            //Passaro(String nome, String direcao, int x, int y, int altitude, int altitudeMaxima)
+            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], altitudeMaxima);
             ambiente.adicionarRobo(passaro);
             System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso.");
         }
@@ -455,11 +459,11 @@ public class Main {
         int velMax = leVelocidade(scanner);
         int tempoLocomocaoTerrestre = leTempo(scanner);
         if (tipoRobo == 0){
-            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
+            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
             System.out.println("VAMOOOOOOOOOOOOOO!!! Você é incrível por ter criado o " + aspirador.getNome());
         }else if (tipoRobo == 1){
-            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
+            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(rover);
             System.out.println("Meus olhos se enchem de óleo toda vez, o " + rover.getNome() + " é tão lindo");
         }
