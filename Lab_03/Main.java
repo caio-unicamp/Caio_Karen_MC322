@@ -19,7 +19,7 @@ public class Main {
 
         System.out.println("Os obstáculos serão inseridos de forma que");
         printaMapa();
-        int qtdObstaculos = lerInteiro("\0", scanner);
+        int qtdObstaculos = lerInteiro("Quantos obstáculos você quer criar?", scanner);
         for (int i = 0; i < qtdObstaculos; i++){
             System.out.println("Ótimo, agora me diga qual é o tipo de obstáculo que você quer adicionar");
             while (true) {
@@ -61,7 +61,7 @@ public class Main {
                 }
             }
         }
-        
+
         System.out.println("Incrível! Com seu ambiente todo pronto, vamos começar a nos divertir!");
         while (comando != 0){ //Cria um looping para as ações possíveis
             scanner.nextLine(); //Ignora a quebra de Linha
@@ -69,7 +69,7 @@ public class Main {
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
-            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs", scanner);
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos", scanner);
             
             if (comando == 0){ //Encerra o programa
                 break;
@@ -439,6 +439,17 @@ public class Main {
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
+            }else if(comando == 4){ // Bloco para mostrar a lista de obstáculos
+                if (ambiente.getListaObstaculos().size() == 0){
+                    System.out.println("Oops, parece que " + ambiente.getNomeAmbiente() + " não possui nenhum defeito, impressionante!");
+                }else{
+                    System.out.println("Vamos dar uma olhada em quem você já criou até agora");
+                    int contadorObstaculo = 1;
+                    for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
+                        System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getPosX1() + "," + obstaculo.getPosY1() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
+                    }
+                }
+
             }else{ //Caso seja digitado um número inválido
                 System.out.println("Foi mal, por enquanto eu só sei contar até quatro... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
             }
