@@ -34,24 +34,24 @@ public class Main {
                     break;
                 }else if (tipoObstaculo == 2){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o buraco");
-                    int x1Buraco = lerInteiro("Coordenada em X: ", scanner);
-                    int y1Buraco = lerInteiro("Coordenada em Y: ", scanner);
+                    int x1Buraco = lerInteiro("Coordenada em X1: ", scanner);
+                    int y1Buraco = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
                     ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, -1, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
                     break;
                 }else if (tipoObstaculo == 3){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");
-                    int x1Arvore = lerInteiro("Coordenada em X: ", scanner);
-                    int y1Arvore = lerInteiro("Coordenada em Y: ", scanner);
+                    int x1Arvore = lerInteiro("Coordenada em X1: ", scanner);
+                    int y1Arvore = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Arvore = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Arvore = lerInteiro("Coordenada em Y2: ", scanner);
                     ambiente.adicionarObstaculo(new Obstaculo(x1Arvore, y1Arvore, 2, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
                     break;
                 }else if (tipoObstaculo == 4){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o teto");
-                    int x1Portao = lerInteiro("Coordenada em X: ", scanner);
-                    int y1Portao = lerInteiro("Coordenada em Y: ", scanner);
+                    int x1Portao = lerInteiro("Coordenada em X1: ", scanner);
+                    int y1Portao = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Portao = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Portao = lerInteiro("Coordenada em Y2: ", scanner);
                     ambiente.adicionarObstaculo(new Obstaculo(x1Portao, y1Portao, 2, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
@@ -437,13 +437,13 @@ public class Main {
                     for (Robo robo : ambiente.getListaRobos()) {
                         System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
                     }
-                    System.out.println("Mas calma lá marujo isso daqui é so pra vizualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
+                    System.out.println("Mas calma lá marujo isso daqui é so pra visualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
             }else if(comando == 4){ // Bloco para mostrar a lista de obstáculos
                 if (ambiente.getListaObstaculos().size() == 0){
                     System.out.println("Oops, parece que " + ambiente.getNomeAmbiente() + " não possui nenhum defeito, impressionante!");
                 }else{
-                    System.out.println("Vamos dar uma olhada em quem você já criou até agora");
+                    System.out.println("Vamos dar uma olhada nos obstáculos de "+ ambiente.getNomeAmbiente() + " você já criou até agora");
                     int contadorObstaculo = 1;
                     for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
                         System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getPosX1() + "," + obstaculo.getPosY1() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
