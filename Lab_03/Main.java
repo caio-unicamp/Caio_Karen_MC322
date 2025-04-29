@@ -15,8 +15,54 @@ public class Main {
         int y = lerInteiro("Profundidade: ", scanner);
 
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
-        System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente());
+        System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + ". Infelizmente, como prefeito você também deve me dizer quais são os defeitos da sua cidade, então me diga, quantos obstáculos você quer adicionar? (Lembre-se que o número de obstáculos não pode ocupar todo o ambiente se não será impossível criar robôs)");
+
+        System.out.println("Os obstáculos serão inseridos de forma que");
+        printaMapa();
+        int qtdObstaculos = lerInteiro("\0", scanner);
+        for (int i = 0; i < qtdObstaculos; i++){
+            System.out.println("Ótimo, agora me diga qual é o tipo de obstáculo que você quer adicionar");
+            while (true) {
+                int tipoObstaculo = lerInteiro("1 - Mina Terrestre\n2 - Buraco\n3 - Árvore\n4 - Portão", scanner);
+                if (tipoObstaculo == 1){
+                    System.out.println("Ótimo, agora me diga onde você quer colocar a mina");
+                    int x1Mina = lerInteiro("Coordenada em X1: ", scanner);
+                    int y1Mina = lerInteiro("Coordenada em Y1: ", scanner);
+                    int x2Mina = lerInteiro("Coordenada em X2: ", scanner);
+                    int y2Mina = lerInteiro("Coordenada em Y2: ", scanner);
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Mina, y1Mina, 0, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
+                    break;
+                }else if (tipoObstaculo == 2){
+                    System.out.println("Ótimo, agora me diga onde você quer colocar o buraco");
+                    int x1Buraco = lerInteiro("Coordenada em X: ", scanner);
+                    int y1Buraco = lerInteiro("Coordenada em Y: ", scanner);
+                    int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
+                    int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, -1, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
+                    break;
+                }else if (tipoObstaculo == 3){
+                    System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");
+                    int x1Arvore = lerInteiro("Coordenada em X: ", scanner);
+                    int y1Arvore = lerInteiro("Coordenada em Y: ", scanner);
+                    int x2Arvore = lerInteiro("Coordenada em X2: ", scanner);
+                    int y2Arvore = lerInteiro("Coordenada em Y2: ", scanner);
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Arvore, y1Arvore, 2, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
+                    break;
+                }else if (tipoObstaculo == 4){
+                    System.out.println("Ótimo, agora me diga onde você quer colocar o teto");
+                    int x1Portao = lerInteiro("Coordenada em X: ", scanner);
+                    int y1Portao = lerInteiro("Coordenada em Y: ", scanner);
+                    int x2Portao = lerInteiro("Coordenada em X2: ", scanner);
+                    int y2Portao = lerInteiro("Coordenada em Y2: ", scanner);
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Portao, y1Portao, 2, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
+                    break;
+                }else{
+                    System.out.println("Um prefeito que não sabe contar ironicamente não é tão incomum, mas ainda preciso que você escolha um número entre 1 e 5");
+                }
+            }
+        }
         
+        System.out.println("Incrível! Com seu ambiente todo pronto, vamos começar a nos divertir!");
         while (comando != 0){ //Cria um looping para as ações possíveis
             scanner.nextLine(); //Ignora a quebra de Linha
             System.out.println("Digite enter para continuarmos");
@@ -213,7 +259,7 @@ public class Main {
                             }
                         }
                         //se o drone conseguiu entregar o pacote
-                        if (drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
+                        if (drone.entregouPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                         }
                         //se o drone não consegiu entregar o pacote
@@ -437,11 +483,11 @@ public class Main {
         if (tipoRobo == 0){
             System.out.println("Para o pacote a ser entregue");
             int tempoLocomocaoTerrestre = leTempo(scanner);
-            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente, tempoLocomocaoTerrestre);
+            Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], tempoLocomocaoTerrestre, ambiente.getLimites()[2]);
             ambiente.adicionarRobo(drone);   
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
-            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente);
+            Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente.getLimites()[2]);
             ambiente.adicionarRobo(passaro);
             System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso.");
         }
@@ -455,11 +501,11 @@ public class Main {
         int velMax = leVelocidade(scanner);
         int tempoLocomocaoTerrestre = leTempo(scanner);
         if (tipoRobo == 0){
-            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
+            Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(aspirador);
             System.out.println("VAMOOOOOOOOOOOOOO!!! Você é incrível por ter criado o " + aspirador.getNome());
         }else if (tipoRobo == 1){
-            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, ambiente, tempoLocomocaoTerrestre);
+            Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
             ambiente.adicionarRobo(rover);
             System.out.println("Meus olhos se enchem de óleo toda vez, o " + rover.getNome() + " é tão lindo");
         }
@@ -668,5 +714,18 @@ public class Main {
                 }
             }
         }
+    }
+
+    public static void printaMapa(){
+        System.out.println("y");
+        System.out.println("^");
+        System.out.println("|                    # isso define x2,y2");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|");
+        System.out.println("|      # isso define x1,y1");
+        System.out.println("------------------------------------>x");
     }
 }
