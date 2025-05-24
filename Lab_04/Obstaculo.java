@@ -1,7 +1,6 @@
 public class Obstaculo{
     private final int posX1;
     private final int posY1;
-    private final int altura;
     private final int posX2;
     private final int posY2;
     private TipoObstaculo tipoObstaculo;
@@ -17,10 +16,9 @@ public class Obstaculo{
     // |      # isso define x1,y1
     // ------------------------------------>x
     // Essa área está demarcada pelo obstáculo  de modo que tudo que estiver numa cordenada x1<= x <= x2 e y1<=y<=y2 é a área que o robô não pode andar
-    public Obstaculo(int posX1, int posY1, int altura, int posX2, int posY2, TipoObstaculo tipoObstaculo, Ambiente ambiente){
+    public Obstaculo(int posX1, int posY1, int posX2, int posY2, TipoObstaculo tipoObstaculo, Ambiente ambiente){
         this.posX1 = posX1;
         this.posY1 = posY1;
-        this.altura = altura;
         this.posX2 = posX2;
         this.posY2 = posY2;
         this.tipoObstaculo = tipoObstaculo;

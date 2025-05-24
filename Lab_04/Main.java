@@ -30,7 +30,7 @@ public class Main {
                     int y1Mina = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Mina = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Mina = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Mina, y1Mina, 0, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Mina, y1Mina, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
                     break;
                 }else if (tipoObstaculo == 2){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o buraco");
@@ -38,7 +38,7 @@ public class Main {
                     int y1Buraco = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, 0, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
                     break;
                 }else if (tipoObstaculo == 3){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");
@@ -46,7 +46,7 @@ public class Main {
                     int y1Arvore = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Arvore = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Arvore = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Arvore, y1Arvore, 2, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Arvore, y1Arvore, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
                     break;
                 }else if (tipoObstaculo == 4){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o teto");
@@ -54,7 +54,7 @@ public class Main {
                     int y1Portao = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Portao = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Portao = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Portao, y1Portao, 2, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
+                    ambiente.adicionarObstaculo(new Obstaculo(x1Portao, y1Portao, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
                     break;
                 }else{
                     System.out.println("Um prefeito que não sabe contar ironicamente não é tão incomum, mas ainda preciso que você escolha um número entre 1 e 5");
