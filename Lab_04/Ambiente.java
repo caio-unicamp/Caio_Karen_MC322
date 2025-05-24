@@ -7,17 +7,16 @@ public class Ambiente{
     private final int tamX; //tamanho em X do ambiente
     private final int tamY; //tamanho em Y do ambiente
     private final int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
-    private ArrayList<Robo> listaRobosAtivos;   //Lista de robôs ativos no ambiente
-    private ArrayList<Obstaculo> listaObstaculos; //Lista de obstáculos ativos no ambiente
-    private Map<Posicao, Entidade> mapa = new HashMap<>(); //Cria o mapa do ambiente usando um hash com a chave sendo as posições e o valor sendo a entidade que ocupa aquela posição
-
+    private ArrayList<Entidade> listaEntidades; //Lista das entidades ativas presentes no ambiente 
+    private Entidade[][][] mapa;
+    
     public Ambiente(String ambiente, int tamX, int tamY, int tamZ){ //Construtor para inicializar os atributos
         this.ambiente = ambiente;
         this.tamX = tamX;
         this.tamY = tamY;
         this.tamZ = tamZ;
-        listaRobosAtivos = new ArrayList<>();
-        listaObstaculos = new ArrayList<>();
+        this.mapa = new Entidade[this.tamX - 1][this.tamY - 1][this.tamZ - 1];
+        listaEntidades = new ArrayList<>();
     }
     public String getNomeAmbiente(){ //retorna o nome do ambiente 
         return this.ambiente;
