@@ -1,5 +1,3 @@
-// Entidade.java
-
 /**
  * Interface que define o contrato para todas as entidades que podem existir no ambiente.
  * Garante que qualquer objeto no ambiente tenha uma posição, tipo, descrição e representação.
