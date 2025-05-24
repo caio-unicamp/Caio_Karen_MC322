@@ -33,7 +33,7 @@ public class Obstaculo{
         return posY1;
     }
     public int getAltura() {
-        return altura;
+        return this.getTipoObstaculo().getAltura();
     }
     public int getPosX2() {
         return posX2;
@@ -47,5 +47,5 @@ public class Obstaculo{
     public void setTipoObstaculo(TipoObstaculo tipoObstaculo) {
         this.tipoObstaculo = tipoObstaculo;
     }
-    
+
 }
