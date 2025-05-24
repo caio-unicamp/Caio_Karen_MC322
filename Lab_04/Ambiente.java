@@ -58,9 +58,15 @@ public class Ambiente{
 
     public void adicionarEntidade(int x, int y, int z, Entidade entidade){ //Adiciona a entidade no dicionário com sua respectiva chave 
         Posicao pos = new Posicao(x, y, z); //Cria a chave de acordo com as coordenadas
-        mapa.put(pos, entidade); 
+        mapa.putIfAbsent(pos, entidade); //Só adiciona a entidade nessa chave de coordenada se ela não está relacionada a nenhum valor
     }
 
+    public void removerEntidade(Entidade entidade){
+        entidade.get
+        Posicao pos = new Posicao(x, y, z);
+        mapa.remove(pos);
+    }
+    
     public Entidade getEntidade(int x, int y, int z){
         Posicao pos = new Posicao(x, y, z);
         return mapa.get(pos); //Retorna NULL se a chave não existir no mapa
