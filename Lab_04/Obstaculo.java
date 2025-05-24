@@ -45,5 +45,4 @@ public class Obstaculo{
     public void setTipoObstaculo(TipoObstaculo tipoObstaculo) {
         this.tipoObstaculo = tipoObstaculo;
     }
-
 }

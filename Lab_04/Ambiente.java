@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Ambiente{
     private final String ambiente; //nome do ambiente
@@ -7,6 +9,7 @@ public class Ambiente{
     private final int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
     private ArrayList<Robo> listaRobosAtivos;   //Lista de robôs ativos no ambiente
     private ArrayList<Obstaculo> listaObstaculos; //Lista de obstáculos ativos no ambiente
+    private Map<Posicao, Entidade> mapa = new HashMap<>(); //Cria o mapa do ambiente usando um hash com a chave sendo as posições e o valor sendo a entidade que ocupa aquela posição
 
     public Ambiente(String ambiente, int tamX, int tamY, int tamZ){ //Construtor para inicializar os atributos
         this.ambiente = ambiente;
@@ -51,6 +54,16 @@ public class Ambiente{
     
     public ArrayList<Obstaculo> getListaObstaculos(){ //Retorna a lista de obstáculos ativos no ambiente
         return listaObstaculos;
+    }
+
+    public void adicionarEntidade(int x, int y, int z, Entidade entidade){ //Adiciona a entidade no dicionário com sua respectiva chave 
+        Posicao pos = new Posicao(x, y, z); //Cria a chave de acordo com as coordenadas
+        mapa.put(pos, entidade); 
+    }
+
+    public Entidade getEntidade(int x, int y, int z){
+        Posicao pos = new Posicao(x, y, z);
+        return mapa.get(pos); //Retorna NULL se a chave não existir no mapa
     }
     
 }

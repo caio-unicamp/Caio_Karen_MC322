@@ -1,7 +1,8 @@
 public enum TipoEntidade{
     VAZIO(false, ' '),
     ROBO(true, 'a'),
-    OBSTACULO(false, '#');
+    OBSTACULO(false, '#'),
+    DESCONHECIDO(false, '*');
 
     private final boolean movel; 
     private final char simbolo;
@@ -15,7 +16,7 @@ public enum TipoEntidade{
         return this.movel;
     }
 
-    public char simbolo(){
+    public char getSimbolo(){
         return this.simbolo;
     }
 }
