@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 
+/**
+ * Representa o espaço 3D onde as entidades operam.
+ * Gerencia uma lista polimórfica de entidades e um mapa de ocupação.
+ */
 public class Ambiente{
-    private final String ambiente; //nome do ambiente
-    private final int tamX; //tamanho em X do ambiente
-    private final int tamY; //tamanho em Y do ambiente
+    private final String ambiente; //Nome do ambiente
+    private final int tamX; //Tamanho em X do ambiente
+    private final int tamY; //Tamanho em Y do ambiente
     private final int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
     private ArrayList<Entidade> listaEntidades; //Lista das entidades ativas presentes no ambiente 
     private TipoEntidade[][][] mapa;
@@ -16,20 +20,35 @@ public class Ambiente{
         this.mapa = new TipoEntidade[this.tamX - 1][this.tamY - 1][this.tamZ - 1];
         listaEntidades = new ArrayList<>();
     }
-    public String getNomeAmbiente(){ //retorna o nome do ambiente 
+    /**
+     * Método para saber o nome do ambiente que a simulação está sendo rodada
+     * @return Nome do ambiente 
+     */
+    public String getNomeAmbiente(){  
         return this.ambiente;
     }
-    
-    public int[] getLimites(){ //Retorna os limites do ambiente
+    /**
+     * Método para saber os limites do ambiente
+     * @return Uma lista de inteiros com tamanho 3, tendo no índice 0 a largura máxima (X), no índice 1 a profundidade máxima (Y) e no índice 2 a altura máxima (Z)
+     */
+    public int[] getLimites(){ 
         int [] limites = {this.tamX, this.tamY, this.tamZ};
         return limites;
     }
-
-    public boolean dentroDosLimites(int x, int y, int altura){ //Retorna um booleano para analisar se o robô está dentro dos limites
+    /**
+     * Analisa se as coordenadas passadas estão dentro dos limites do ambiente.
+     * @param x Posição x
+     * @param y Posição y
+     * @param altura Altura
+     * @return Um booleano sendo true caso as coordenadas estejam dentro do ambiente e false caso contrário 
+     */
+    public boolean dentroDosLimites(int x, int y, int altura){ 
         return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.tamZ);
     }
-
-    private void inicializarMapa(){
+    /**
+     * Método para inicializar o mapa 3D do ambiente com todas as posições vazias
+     */
+    public void inicializarMapa(){
         for (int x = 0; x < this.tamX; x++){
             for (int y = 0; y < this.tamY; y++){
                 for (int z  = 0; z < this.tamZ; z++){
@@ -38,5 +57,18 @@ public class Ambiente{
             }
         }
     }
-    
+    /**
+     * Método para adicionar uma entidade na lista de entidades ativas
+     * @param entidade a ser adicionada na lista
+     */
+    public void adicionarEntidade(Entidade entidade){ 
+        listaEntidades.add(entidade);
+    }
+    /**
+     * Método para remover uma entidade da lista de entidades ativas
+     * @param entidade a ser removida da lista
+     */
+    public void removerEntidade(Entidade entidade){ 
+        listaEntidades.remove(entidade);
+    }
 }
