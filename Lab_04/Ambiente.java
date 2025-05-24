@@ -62,8 +62,7 @@ public class Ambiente{
     }
 
     public void removerEntidade(Entidade entidade){
-        entidade.get
-        Posicao pos = new Posicao(x, y, z);
+        Posicao pos = new Posicao(entidade.getX(), entidade.getY(), entidade.getZ()); //Procura a chave de acordo com o método get das coordenadas da entidade
         mapa.remove(pos);
     }
     
