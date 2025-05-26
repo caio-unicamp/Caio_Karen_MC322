@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-
+import sensores.*;
+import obstaculos.*;
 public class Robo implements Entidade{
     private String nome;    //nome do robô
     private String direcao;   //direção do robô
