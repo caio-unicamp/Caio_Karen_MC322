@@ -3,6 +3,7 @@ public class Obstaculo implements Entidade{
     private final int posY1;
     private final int posX2;
     private final int posY2;
+    private final TipoEntidade tipoEntidade; //Tipo da entidade, que nesse caso é um Obstáculo
     private final TipoObstaculo tipoObstaculo; //Tipo do obstáculo de acordo com o enum referente a ele
     /**
     <pre>
@@ -33,52 +34,74 @@ public class Obstaculo implements Entidade{
         this.posX2 = posX2;
         this.posY2 = posY2;
         this.tipoObstaculo = tipoObstaculo;
+        this.tipoEntidade = TipoEntidade.OBSTACULO;
     }
     /**
-     * Método para saber a posição X1 do obstáculo
+     * Método para saber o nome do Obstáculo de acordo com o Enum dos tipos de obstáculos
+     * @return nome do Obstáculo
+     */
+    public String getNome(){
+        return this.tipoObstaculo.getNome();
+    }
+    /**
+     * Método para saber a posição X1 do obstáculo.
      * @return posX1
      */
     public int getPosX1() { 
         return posX1;
     }
     /**
-     * Método para saber a posição Y1 do obstáculo
+     * Método para saber a posição Y1 do obstáculo.
      * @return posY1
      */
     public int getPosY1() { 
         return posY1;
     }
     /**
-     * Método para saber a altura do obstáculo de acordo com o método do enum de TipoObstaculo
-     * @return altura do obstáculo
+     * Método para saber a altura do obstáculo de acordo com o método do enum de TipoObstaculo.
+     * @return altura do obstáculo.
      */
     public int getAltura() { 
         return this.getTipoObstaculo().getAltura();
     }
     /**
-     * Método para saber a posição X2 do obstáculo
+     * Método para saber a posição X2 do obstáculo.
      * @return posX2
      */
     public int getPosX2() { 
         return posX2;
     }
     /**
-     * Método para saber a posição Y2 do obstáculo
+     * Método para saber a posição Y2 do obstáculo.
      * @return posY2
      */
     public int getPosY2() { 
         return posY2;
     }
     /**
-     * Método para saber o tipo do obstáculo
+     * Método para saber o tipo do obstáculo.
      * @return tipoObstaculo
      */
     public TipoObstaculo getTipoObstaculo() { 
         return tipoObstaculo;
     }
     /**
-     * Explicação do que essa Entidade é no mapa
-     * @return Uma descrição da entidade obstáculo 
+     * Método para saber o tipo dessa entidade.
+     * @return OBSTACULO
+     */
+    public TipoEntidade getTipoEntidade(){
+        return this.tipoEntidade;
+    }
+    /**
+     * Método para saber a representação do Obstáculo no mapa.
+     * @return '#'
+     */
+    public char getSimbolo(){
+        return this.tipoEntidade.getSimbolo();
+    }
+    /**
+     * Explicação do que essa Entidade é no mapa.
+     * @return Uma descrição da entidade obstáculo.
      */
     public String getDescricao(){
         return "Por conta da baixa qualidade da vida fora dessa simulação, os criadores fizeram com que houvessem empecilhos para treinar como os nossos robôs iriam interagir com esses obstáculos na vida real. Dentre os obstáculos que podem existir na nossa simulação estão:\nÁrvores\nBuracos sem fundo\nMinas terrestres\nPortões\nCada um deles tem uma interação diferente com os robôs e só tem como descobrir quais são testando.";
