@@ -36,11 +36,16 @@ public class Drone extends RoboAereo implements Comunicavel{
         this.mover(posicaoXdronefinal - posInicialX, posicaoYdronefinal - posInicialY, ambiente);
         
         int numRobosAnalisados = 0;
-        for (Robo robo : ambiente.getListaRobos()){
-            if (!robo.equals(this)){
-                numRobosAnalisados++;
+        for (Entidade entidade : ambiente.getListaEntidades()){
+            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                continue; //Caso não seja, passa para a próxima interação
             }else{
-                break;
+                Robo robo = (Robo) entidade; //Faz o cast para robô
+                if (!robo.equals(this)){
+                    numRobosAnalisados++;
+                }else{
+                    break;
+                }
             }
         }if (numRobosAnalisados == ambiente.getListaRobos().size()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
             return false;
