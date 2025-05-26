@@ -71,4 +71,11 @@ public class Ambiente{
     public void removerEntidade(Entidade entidade){ 
         listaEntidades.remove(entidade);
     }
+    /**
+     * Confere a lista de entidades ativas no ambiente.
+     * @return Uma lista de entidades ativas no ambiente, podendo ser robôs, obstáculos ou outros objetos que implementem a interface Entidade.
+     */
+    public ArrayList<Entidade> getListaEntidades(){ 
+        return listaEntidades;
+    }
 }

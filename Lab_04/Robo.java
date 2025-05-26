@@ -206,19 +206,34 @@ public class Robo implements Entidade, Sensoreavel{
         }
         return sensorProx;
     }
-
+    /**
+     * Identificação de qual obstáculo o robô está detectando.
+     * @param x
+     * @param y
+     * @param ambiente
+     * @return O obstáculo identificado, caso exista, ou null caso não exista nenhum obstáculo na posição informada.
+     */
     public Obstaculo getObstaculoIdentificado(int x, int y, Ambiente ambiente){
         Obstaculo obstaculoIdentificado = null;
-            for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() >= this.getPosicao()[2]) {
-                    obstaculoIdentificado = obstaculo;
-                    break;
-                }
+            for (Entidade entidade : ambiente.getListaEntidades()) {
+                if (!(entidade instanceof Obstaculo)) { //Verifica se a entidade é um obstáculo
+                    continue; //Se não for, pula para a próxima iteração
+                }else{
+                    Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para Obstaculo
+                    if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() >= this.getPosicao()[2]) {
+                        obstaculoIdentificado = obstaculo;
+                        break;
+                    }
+                }  
             }
         return obstaculoIdentificado;
     }
-    
-    public boolean roboParouNoObstaculo(Obstaculo obstaculoIdentificado){ //Função que verifica se o robô parou em um obstáculo
+    /**
+     * Verifica se o robô parou em um obstáculo.
+     * @param obstaculoIdentificado
+     * @return true se o robô parou em um obstáculo, false caso contrário.
+     */
+    public boolean roboParouNoObstaculo(Obstaculo obstaculoIdentificado){ 
         if (obstaculoIdentificado != null){
             if (!obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.PORTAO)){ //Se o obstáculo identificado for qualquer um deles, exceto o portao, ele para
                 return true;
