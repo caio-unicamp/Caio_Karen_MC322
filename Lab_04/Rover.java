@@ -59,7 +59,7 @@ public class Rover extends RoboTerrestre{
         if (this.getSensorProximidade().monitorar(novaPosicao[0], novaPosicao[1], 0, ambiente)){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
             Robo novoRoboEmpurrado = getRoboNaPosicao(novaPosicao[0], novaPosicao[1], ambiente);
             if (novoRoboEmpurrado != null){
-                ambiente.getListaRobos().add(novoRoboEmpurrado);
+                ambiente.getListaEntidades().add(novoRoboEmpurrado);
                 empurrarRobo(novoRoboEmpurrado, deltaX, deltaY, ambiente);
             }
         }
@@ -71,7 +71,7 @@ public class Rover extends RoboTerrestre{
         int posicaoY = empurrado.getPosicao()[1] + deltaY;
         
         if (!ambiente.dentroDosLimites(posicaoX, posicaoY, 0)){ //Se o robô que foi empurrado sai dos limites, ele é eliminado da lista de robôs ativos
-            ambiente.getListaRobos().remove(empurrado);
+            ambiente.getListaEntidades().remove(empurrado);
             qtdRobosDerrubados++;
         }
 
@@ -79,18 +79,29 @@ public class Rover extends RoboTerrestre{
     }
 
     public int getQtdRobosEmpurrados(Ambiente ambiente){ //Função que mostra quantos robôs foram empurrados
-        return ambiente.getListaRobos().size();
+        return ambiente.getListaEntidades().size();
     }
     public int getRobosDerrubados(){ //Função que mostra quantos robôs foram derrubados
         return qtdRobosDerrubados;
     }
-    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param ambiente
+     * @return O robô que está nas coordenadas procuradas, caso não haja nenhum robô nessas coordenadas do ambiente, retorna NULL
+     */
     private Robo getRoboNaPosicao(int x, int y, Ambiente ambiente) { //Função para não ter que percorrer a lista inteira de robôs até achar um específico
-        for (Robo robo : ambiente.getListaRobos()) {
-            if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y) {
-                return robo;
+        for (Entidade entidade : ambiente.getListaEntidades()) {
+            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                continue; //Se não for, segue para a próxima interação
+            }else{
+                Robo robo = (Robo) entidade;
+                if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y) { 
+                    return robo;
+                }
             }
         }
-        return null;
+        return null; 
     }
 }
