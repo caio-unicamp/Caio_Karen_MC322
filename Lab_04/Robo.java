@@ -249,13 +249,13 @@ public class Robo implements Entidade, Sensoreavel{
     public void interacaoRoboObstaculo(Ambiente ambiente, Obstaculo obstaculoIdentificado){
         if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
             if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar a mina terrestre e irá explodir
-                ambiente.removerRobo(this); //Remove o robô explodido
-                ambiente.removerObstaculo(obstaculoIdentificado); //Remove a mina terrestre explodida
+                ambiente.removerEntidade(this); //Remove o robô explodido
+                ambiente.removerEntidade(obstaculoIdentificado); //Remove a mina terrestre explodida
             }
             return;
         }else if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.BURACO_SEM_FUNDO)){ //Se ele identifica um buraco sem fundo ele para
             if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar o buraco e irá cair
-                ambiente.removerRobo(this); //Remove o robô que caiu no buraco
+                ambiente.removerEntidade(this); //Remove o robô que caiu no buraco
             }
             return;
         }

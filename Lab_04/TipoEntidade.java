@@ -1,5 +1,5 @@
 public enum TipoEntidade{
-    VAZIO(false, ' '),
+    VAZIO(false, '.'),
     ROBO(true, '*'),
     OBSTACULO(false, '#'),
     DESCONHECIDO(false, '?');
