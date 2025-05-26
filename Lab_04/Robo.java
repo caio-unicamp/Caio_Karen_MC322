@@ -1,9 +1,10 @@
 import java.util.ArrayList;
-import sensores.*;
-import obstaculos.*;
-public class Robo implements Entidade{
-    private String nome;    //nome do robô
+
+public class Robo implements Entidade, Sensoreavel{
+    private String nome;    //id do robô
     private String direcao;   //direção do robô
+    private EstadoRobo estado; //Estado do robô, que pode ser LIGADO ou DESLIGADO 
+    private TipoEntidade tipoEntidade; //Tipo da entidade, que nesse caso é um robô
     private int posicaoX;   //coordenada X no Ambiente
     private int posicaoY;   //coordenada Y no Ambiente
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
@@ -16,9 +17,30 @@ public class Robo implements Entidade{
         this.posicaoY = y;
         this.posicaoZ = z;
         this.listaSensores = new ArrayList<>();
+        this.estado = EstadoRobo.LIGADO; //Por padrão o robô está ligado
+        this.tipoEntidade = TipoEntidade.ROBO; //Define o tipo da entidade como robô
     }
-
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) { //Atualiza a posicão do robô de modo que ele anda primeiro no eixo x e depois no eixo y
+    /**
+     * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.
+     * @param deltaX
+     * @param deltaY
+     * @param ambiente
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     * @throws ColisaoException
+     */
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException {
+        //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
+        try{
+            acionarSensores();
+        }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
+            System.out.println(e.getMessage());
+            return; //Se o sensor estiver desligado, não consegue monitorar o ambiente
+        }catch (SensorDesligadoException e) {
+            System.out.println(e.getMessage());
+            return; //Se o sensor estiver desligado, não consegue monitorar o ambiente
+        }
+        
         SensorProximidade sensorProx = this.getSensorProximidade(); //Acessa o sensor de proximidade do robô
 
         int posInicialX = this.getPosicao()[0];
@@ -76,12 +98,51 @@ public class Robo implements Entidade{
         }
     }
 
-    public String getNome(){ //Retorna o nome do robô
+    public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException { //Função que aciona os sensores do robô
+        for (Sensor<?> sensor : this.listaSensores) { //Percorre a lista de sensores do robô
+            if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
+                throw new RoboDesligadoException("AAAAAAAAAAAAAAAAAAAA");
+            }else if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
+                throw new SensorDesligadoException("A bateria do sensor " + sensor.getClass().getSimpleName() + " acabou.");
+            }else{
+                System.out.println("Sensor " + sensor.getClass().getSimpleName() + " acionado.");
+            }
+        }
+    }
+    /**
+     * Método para saber o nome do robô, o qual nesse caso irá funcionar como um id por ser único para cada robô no ambiente.
+     * @return O nome do robô.
+    */
+    public String getNome(){ 
         return nome;
     }
-
-    public int[] getPosicao(){ //Retorna a posição do robô
-        int[] posicao = {this.posicaoX, this.posicaoY, this.posicaoZ};
+    /** 
+     * Método para saber a posição X do robô no ambiente.
+     * @return A coordenada X do robô.
+    */
+    public int getX(){
+        return this.posicaoX;
+    }
+    /**
+     * Método para saber a posição Y do robô no ambiente.
+     * @return A coordenada Y do robô.
+    */
+    public int getY(){
+        return this.posicaoY;
+    }
+    /**
+     * Método para saber a posição Z do robô no ambiente.
+     * @return A coordenada Z do robô, que é a altura no caso de robôs aéreos.
+     */
+    public int getZ(){
+        return this.posicaoZ;
+    }
+    /**
+     * Método que da as coordenadas do robô no ambiente em forma de lista.
+     * @return Uma lista de inteiros com tamanho 3, onde o índice 0 é a coordenada X, o índice 1 é a coordenada Y e o índice 2 é a coordenada Z.
+     */
+    public int[] getPosicao(){
+        int[] posicao = {this.getX(), this.getY(), this.getZ()};
         return posicao;
     }
 
@@ -111,7 +172,7 @@ public class Robo implements Entidade{
         return listaPasso;
     }
 
-    public void adicionarSensor(Sensor<?> sensor){ //Adiciona um sensor na lista de sensores do robô
+    public void adicionarSensores(Sensor<?> sensor){ //Adiciona um sensor na lista de sensores do robô
         listaSensores.add(sensor);
     }
 
@@ -152,7 +213,11 @@ public class Robo implements Entidade{
         }
         return false; //Se não parou por conta de nenhum obstáculo, retorna false
     }
-
+    /**
+     * Método que define as interações padrões dos robôs com os obstáculos.
+     * @param ambiente
+     * @param obstaculoIdentificado
+     */
     public void interacaoRoboObstaculo(Ambiente ambiente, Obstaculo obstaculoIdentificado){
         if (obstaculoIdentificado.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ //Se ele identifica uma mina terrestre ele para
             if (this.getSensorProximidade().getBateria() == 0){ //Se a bateria dele tiver acabado, ele não consegue identificar a mina terrestre e irá explodir
@@ -166,5 +231,39 @@ public class Robo implements Entidade{
             }
             return;
         }
+    }
+    /**
+     * Método para saber o tipo dessa entidade.
+     * @return ROBO
+     */
+    public TipoEntidade getTipoEntidade(){
+        return this.tipoEntidade;
+    }
+    /**
+     * Método para saber a representação do Robô no mapa.
+     * @return '*'
+     */
+    public char getSimbolo(){
+        return this.tipoEntidade.getSimbolo();
+    }
+    /**
+     * Explicação do que essa Entidade é no mapa.
+     * @return Uma descrição da entidade robô.
+     */
+    public String getDescricao(){ //Função que retorna a descrição do robô
+        return "ROBO";
+    }
+    public void ligar(){ //Função que liga o robô
+        this.estado = EstadoRobo.LIGADO;
+    }
+    public void desligar(){ //Função que desliga o robô
+        this.estado = EstadoRobo.DESLIGADO;
+    }
+    /**
+     * Método para saber se o robô está ligado ou desligado.
+     * @return O estado do robô
+     */
+    public EstadoRobo getEstadoRobo(){ 
+        return this.estado; 
     }
 }

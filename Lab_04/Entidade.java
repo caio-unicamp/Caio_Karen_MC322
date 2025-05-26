@@ -2,8 +2,8 @@
  * Interface que define o contrato para todas as entidades que podem existir no ambiente.
  * Garante que qualquer objeto no ambiente tenha uma posição, tipo, descrição e representação.
  */
-
 public interface Entidade {
+    
     public int getX(); //Retorna a posição x da entidade
 
     public int getY(); //Retorna a posição y da entidade
