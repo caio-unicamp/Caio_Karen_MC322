@@ -76,4 +76,11 @@ public class Obstaculo implements Entidade{
     public TipoObstaculo getTipoObstaculo() { 
         return tipoObstaculo;
     }
+    /**
+     * Explicação do que essa Entidade é no mapa
+     * @return Uma descrição da entidade obstáculo 
+     */
+    public String getDescricao(){
+        return "Por conta da baixa qualidade da vida fora dessa simulação, os criadores fizeram com que houvessem empecilhos para treinar como os nossos robôs iriam interagir com esses obstáculos na vida real. Dentre os obstáculos que podem existir na nossa simulação estão:\nÁrvores\nBuracos sem fundo\nMinas terrestres\nPortões\nCada um deles tem uma interação diferente com os robôs e só tem como descobrir quais são testando.";
+    }
 }

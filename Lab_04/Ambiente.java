@@ -78,4 +78,28 @@ public class Ambiente{
     public ArrayList<Entidade> getListaEntidades(){ 
         return listaEntidades;
     }
+    /**
+     * Verifica se houve uma colisão entre uma entidade e o ambiente.
+     * @param entidade a ser verificada
+     * @param passoX
+     * @param passoY
+     * @throws ColisaoException
+     */
+    public void verificarColisoes(Entidade entidade, int passoX, int passoY) throws ColisaoException{
+        if (!dentroDosLimites(entidade.getX() + passoX, entidade.getY() + passoY, entidade.getZ())){ //Verifica se a entidade está dentro dos limites do ambiente
+            throw new ColisaoException("Houve uma colisão com os limites do ambiente ao tentar ");
+        }
+    }
+    /**
+     * Printa uma vizualização do mapa no plano XY dado um nível de altura.
+     * @param altura do mapa a ser vizualizado
+     */
+    public void vizualizarMapa(int altura){
+        for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
+            for (int j = 0; j < this.tamY; j++){
+                System.out.print(mapa[i][j][altura].getSimbolo() + " ");
+            }
+            System.out.println();
+        }
+    }
 }

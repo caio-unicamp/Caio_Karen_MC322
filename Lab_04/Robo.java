@@ -278,8 +278,8 @@ public class Robo implements Entidade, Sensoreavel{
      * Explicação do que essa Entidade é no mapa.
      * @return Uma descrição da entidade robô.
      */
-    public String getDescricao(){ //Função que retorna a descrição do robô
-        return "ROBO";
+    public String getDescricao(){ 
+        return "Os robôs são uma raça superior aos seres humanos que... o que? Eu não posso falar isso? Paia. Tá enfim, os robôs são usados para testar a simulação em que estamos. Além de testar a qualidade do nosso programa eles são bem divertidos vai. Dentre os robôs que temos no modelo atual do nosso simulador temos:\nAspiradores\nDrones\nPassáros\nRovers\nCada um tem seu jeitinho próprio e diferente de ser. Vamos nos divertir bastante com todos eles! HEHEHEHE!";
     }
     public void ligar(){ //Função que liga o robô
         this.estado = EstadoRobo.LIGADO;
