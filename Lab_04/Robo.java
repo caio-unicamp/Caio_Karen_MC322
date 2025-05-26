@@ -35,12 +35,12 @@ public class Robo implements Entidade, Sensoreavel{
             acionarSensores();
         }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
             System.out.println(e.getMessage());
-            return; //Se o sensor estiver desligado, não consegue monitorar o ambiente
-        }catch (SensorDesligadoException e) {
+            return; 
+        }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
             System.out.println(e.getMessage());
-            return; //Se o sensor estiver desligado, não consegue monitorar o ambiente
+            return; 
         }
-        
+
         SensorProximidade sensorProx = this.getSensorProximidade(); //Acessa o sensor de proximidade do robô
 
         int posInicialX = this.getPosicao()[0];
@@ -97,15 +97,20 @@ public class Robo implements Entidade, Sensoreavel{
             return;
         }
     }
-
-    public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException { //Função que aciona os sensores do robô
+    /**
+     * Método que aciona os sensores do robô, verificando se o robô está ligado e se os sensores estão com bateria.
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     */
+    public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException {
+        if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Confere se o robô está desligado
+            throw new RoboDesligadoException("Você desliga o robô e depois quer que eu faça magia pra ligar ele de novo? Se quiser tentar movê-lo (obviamente) terá de ligá-lo novamente.");
+        }
         for (Sensor<?> sensor : this.listaSensores) { //Percorre a lista de sensores do robô
-            if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
-                throw new RoboDesligadoException("AAAAAAAAAAAAAAAAAAAA");
-            }else if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
-                throw new SensorDesligadoException("A bateria do sensor " + sensor.getClass().getSimpleName() + " acabou.");
+            if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
+                throw new SensorDesligadoException("A bateria do " + sensor.getClass().getSimpleName() + " do "+ this.getNome() + " acabou, tente recarregar antes de prosseguir com a simulação.");
             }else{
-                System.out.println("Sensor " + sensor.getClass().getSimpleName() + " acionado.");
+                continue;
             }
         }
     }
@@ -145,8 +150,11 @@ public class Robo implements Entidade, Sensoreavel{
         int[] posicao = {this.getX(), this.getY(), this.getZ()};
         return posicao;
     }
-
-    public String getDirecao(){ //Retorna a direção que o robô está encarando
+    /**
+     * Método para saber a direção que o robô está encarando.
+     * @return Norte, Sul, Leste ou Oeste.
+     */
+    public String getDirecao(){ 
         return direcao;
     }
     
@@ -159,8 +167,13 @@ public class Robo implements Entidade, Sensoreavel{
         this.posicaoY = y;
         this.posicaoZ = z;
     }
-
-    public int[] getPasso(int deltaX, int deltaY){ //Retorna o passo negativo ou positivo de x e de y
+    /**
+     * Analisa o passo do robô em X e Y podendo ser +1 ou -1 dependendo da direção que ele está indo.
+     * @param deltaX
+     * @param deltaY
+     * @return Um array de inteiros com tamanho 2, onde o índice 0 é o passo em X e o índice 1 é o passo em Y.
+     */
+    public int[] getPasso(int deltaX, int deltaY){ 
         int passoX = 0, passoY = 0;
         if (deltaX != 0){
             passoX = deltaX/Math.abs(deltaX);
