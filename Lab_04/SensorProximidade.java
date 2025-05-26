@@ -21,17 +21,27 @@ public class SensorProximidade extends Sensor<Boolean>{
     }
 
     public boolean identificarRobo(int x, int y, int z, Ambiente ambiente, Robo roboProprio){
-        for (Robo robo: ambiente.getListaRobos()){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
-            if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && !robo.equals(roboProprio)){ //Se a posição já estiver ocupada por outro robô, ele retorna true
-                return true;
+        for (Entidade entidade: ambiente.getListaEntidades()){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
+            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                continue; //Se não for, pula para a próxima interação
+            }else{
+                Robo robo = (Robo) entidade; //Fazo cast para Robô
+                if (robo.getPosicao()[0] == x && robo.getPosicao()[1] == y && robo.getPosicao()[2] == z && !robo.equals(roboProprio)){ //Se a posição já estiver ocupada por outro robô, ele retorna true
+                    return true;
+                }
             }
         }return false;
     }
 
     public boolean identificarObstaculo(int x, int y, int z, Ambiente ambiente){ //Identifica se o robô está colidindo com algum obstáculo
-        for (Obstaculo obstaculo: ambiente.getListaObstaculos()){ //Para cada obstáculo na lista de obstáculos, ele analisa se a posição que o robô em questão quer ir já está ocupada 
-            if (obstaculo.getPosX1() >= x && obstaculo.getPosX2() <= x && obstaculo.getPosY1() >= y && obstaculo.getPosY2() <= y && obstaculo.getAltura() == z){ //Se a posição já estiver ocupada por um obstáculo, ele retorna true
-                return true;
+        for (Entidade entidade: ambiente.getListaEntidades()){ //Para cada obstáculo na lista de obstáculos, ele analisa se a posição que o robô em questão quer ir já está ocupada 
+            if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo
+                continue; //Se não for, pula para a próxima interação
+            }else{
+                Obstaculo obstaculo = (Obstaculo) entidade;
+                if (obstaculo.getPosX1() >= x && obstaculo.getPosX2() <= x && obstaculo.getPosY1() >= y && obstaculo.getPosY2() <= y && obstaculo.getAltura() == z){ //Se a posição já estiver ocupada por um obstáculo, ele retorna true
+                    return true;
+                }
             }
         }return false;
     }
