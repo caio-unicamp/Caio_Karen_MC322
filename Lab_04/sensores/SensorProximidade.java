@@ -1,3 +1,4 @@
+package sensores;
 public class SensorProximidade extends Sensor<Boolean>{
     public SensorProximidade(double raio){
         super(raio);

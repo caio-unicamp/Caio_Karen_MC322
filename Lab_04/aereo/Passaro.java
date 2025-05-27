@@ -1,3 +1,4 @@
+package aerero;
 public class Passaro extends RoboAereo{
     //Atributo próprio da quantidade de desvios que ele fez
     private int qtdDesvios;

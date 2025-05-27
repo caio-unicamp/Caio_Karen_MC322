@@ -1,3 +1,4 @@
+package sensores;
 abstract class Sensor<T> {
     private double raio;
     private int bateria;
@@ -45,5 +46,5 @@ abstract class Sensor<T> {
         return this.bateria <= 20; // Considera bateria baixa se estiver abaixo de 20%
     }
 
-    public String getNome(){}
+    public String getNome();
 }
