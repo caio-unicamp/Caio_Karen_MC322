@@ -1,10 +1,12 @@
 abstract class Sensor<T> {
     private double raio;
     private int bateria;
+    private final String nomeSensor;
     
-    Sensor(double raio){
+    Sensor(double raio, String nomeSensor){
         this.raio = raio;
         this.bateria = 100; // Bateria inicial em 100%
+        this.nomeSensor = nomeSensor;
     }
     /**
      * Método abstrato para monitoramento feito pelos sensores que depende de cada um deles
@@ -68,6 +70,11 @@ abstract class Sensor<T> {
     public boolean isBateriaBaixa() {
         return this.bateria <= 20; 
     }
-
-
+    /**
+     * Método para saber o nome do sensor usado
+     * @return nome do sensor
+     */
+    public String getNomeSensor(){
+        return this.nomeSensor;
+    }
 }

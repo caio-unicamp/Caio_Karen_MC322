@@ -1,6 +1,6 @@
 public class SensorProximidade extends Sensor<Boolean>{
-    public SensorProximidade(double raio){
-        super(raio);
+    public SensorProximidade(double raio, String nomeSensor){
+        super(raio, nomeSensor);
     }
     /**
      * O monitoramento do sensor de proximidade funciona verificando por robôs e obstáculos próximos.
