@@ -1,4 +1,3 @@
-package terrestre;
 public class RoboTerrestre extends Robo{
     private int velocidadeMaxima; //Velocidade máxima permitida para o robô
     private int tempoLocomocaoTerrestre; //Tempo que o robô demora em uma locomoção

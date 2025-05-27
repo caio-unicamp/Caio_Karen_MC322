@@ -1,4 +1,3 @@
-package excecoes;
 /**
  * Exceção lançada quando ocorre um erro de comunicação. <p>
  * Esta exceção é usada para indicar que houve um problema na comunicação

@@ -1,4 +1,3 @@
-package excecoes;
 /**
  * Exceção lançada quando ocorre uma colisão. <p>
  * Esta exceção é usada para indicar que um evento de colisão foi detectado

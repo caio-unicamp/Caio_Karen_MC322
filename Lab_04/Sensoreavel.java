@@ -1,4 +1,3 @@
-package interfaces;
 /**
  * Interface para robôs com capacidade de usar sensores.
  */

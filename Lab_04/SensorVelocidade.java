@@ -1,4 +1,3 @@
-package sensores;
 public class SensorVelocidade extends Sensor<Double>{
 
     public SensorVelocidade(double raio){
