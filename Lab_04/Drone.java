@@ -63,7 +63,7 @@ public class Drone extends RoboAereo implements Comunicavel{
 
     // Método para mover o drone sem entregar nenhum pacote
     @Override
-        public void mover(int deltaX, int deltaY, Ambiente ambiente){ // Função para mover o drone sem entregar nenhum pacote
+        public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{ // Função para mover o drone sem entregar nenhum pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
