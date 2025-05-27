@@ -1,4 +1,7 @@
 package sensores;
+import robo.*;
+import ambiente.*;
+import interfaces.Entidade;
 public class SensorProximidade extends Sensor<Boolean>{
     public SensorProximidade(double raio, String nomeSensor){
         super(raio, nomeSensor);

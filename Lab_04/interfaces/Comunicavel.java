@@ -1,4 +1,5 @@
 package interfaces;
+import excecoes.*;
 /**
  * Interface para robôs com capacidade de comunicação.
  */

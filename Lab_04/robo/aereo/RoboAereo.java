@@ -1,4 +1,6 @@
-package robo;
+package robo.aereo;
+import ambiente.*;
+import sensores.*;
 public class RoboAereo extends Robo{
     private int altitudeMaxima; //Altitude máxima que o robô aéreo pode alcançar
     private int altitude; //Altitude atual do Robô

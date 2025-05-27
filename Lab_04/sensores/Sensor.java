@@ -1,10 +1,10 @@
 package sensores;
-abstract class Sensor<T> {
+public abstract class Sensor<T> {
     private double raio;
     private int bateria;
     private final String nomeSensor;
     
-    Sensor(double raio, String nomeSensor){
+    public Sensor(double raio, String nomeSensor){
         this.raio = raio;
         this.bateria = 100; // Bateria inicial em 100%
         this.nomeSensor = nomeSensor;

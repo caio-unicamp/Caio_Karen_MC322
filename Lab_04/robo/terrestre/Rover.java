@@ -1,4 +1,9 @@
 package terrestre;
+import interfaces.*;
+import enums.*;
+import excecoes.*;
+import ambiente.*;
+import sensores.*;
 public class Rover extends RoboTerrestre{
     //atributo próprio
     int tempoLocomocaoTerrestre;

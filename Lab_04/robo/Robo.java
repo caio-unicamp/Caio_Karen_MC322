@@ -1,4 +1,11 @@
 package robo;
+import interfaces.*;
+import sensores.*;
+import enums.*;
+import ambiente.*;
+import excecoes.*;
+import robo.aereo.*;
+
 import java.util.ArrayList;
 
 public class Robo implements Entidade, Sensoreavel{

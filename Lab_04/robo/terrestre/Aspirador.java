@@ -1,4 +1,9 @@
 package terrestre;
+import interfaces.*;
+import enums.*;
+import excecoes.*;
+import ambiente.*;
+import sensores.*;
 
 public class Aspirador extends RoboTerrestre implements Comunicavel {
     //atributo numero de robos que eliminou

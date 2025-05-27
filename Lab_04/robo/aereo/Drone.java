@@ -1,4 +1,10 @@
 package aereo;
+import interfaces.*;
+import enums.*;
+import excecoes.*;
+import ambiente.*;
+import sensores.*;
+
 public class Drone extends RoboAereo implements Comunicavel{
     Robo pacote; //Atributo próprio é um robô que será entregue pelo drone
     int tempoLocomocaoPacote;

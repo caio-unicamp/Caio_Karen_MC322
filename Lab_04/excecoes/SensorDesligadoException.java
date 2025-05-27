@@ -1,4 +1,5 @@
 package excecoes;
+import sensores.Sensor;
 /**
  * Exceção lançada quando um robô está desligado. <p>
  * Esta exceção é usada para indicar que uma ação foi tentada em um robô que
