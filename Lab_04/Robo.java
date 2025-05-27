@@ -157,12 +157,20 @@ public class Robo implements Entidade, Sensoreavel{
     public String getDirecao(){ 
         return direcao;
     }
-    
-    public void setDirecao(String direcao){ //Função para alterar a direção que o robô está encarando
+    /**
+     * Altera a direção que o robô está encarando
+     * @param direcao
+     */
+    public void setDirecao(String direcao){ 
         this.direcao = direcao;
     }
-
-    public void setPosicao(int x, int y, int z){ //Função para setar a posição dos robôs
+    /**
+     * Seta a posição do robô.
+     * @param x
+     * @param y
+     * @param z
+     */
+    public void setPosicao(int x, int y, int z){ 
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;

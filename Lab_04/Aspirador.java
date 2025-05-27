@@ -10,11 +10,16 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
 
     //método de aspirar robôs
     public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
-        for (Robo robo : ambiente.getListaRobos()) {
-            if (robo != this && robo.getPosicao()[0] == this.getPosicao()[0] + passosX && robo.getPosicao()[1] == this.getPosicao()[1] + passosY){ //Se ele achou um robô na mesma posição que ele está e não for ele próprio, ele elimina esse robô 
-                ambiente.removerRobo(robo);
-                robosEliminados++; 
-                return; //Se ele eliminou o robô ele retorna true
+        for (Entidade entidade : ambiente.getListaEntidades()) {
+            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                continue; //Se não for, pula para a próxima iteração
+            }else{
+                Robo robo = (Robo) entidade;
+                if (robo != this && robo.getPosicao()[0] == this.getPosicao()[0] + passosX && robo.getPosicao()[1] == this.getPosicao()[1] + passosY){ //Se ele achou um robô na mesma posição que ele está e não for ele próprio, ele elimina esse robô 
+                    ambiente.removerEntidade(robo);
+                    robosEliminados++; 
+                    return; //Se ele eliminou o robô ele encerra a função
+                }
             }
         }
     }
@@ -24,7 +29,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
     }
     
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) { //Função para mover o aspirador e eliminar os robôs
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException { //Função para mover o aspirador e eliminar os robôs
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);

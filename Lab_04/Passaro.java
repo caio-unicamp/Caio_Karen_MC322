@@ -12,7 +12,7 @@ public class Passaro extends RoboAereo{
     }
     
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente){
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);

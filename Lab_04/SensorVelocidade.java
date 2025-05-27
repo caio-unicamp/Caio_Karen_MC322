@@ -1,7 +1,7 @@
 public class SensorVelocidade extends Sensor<Double>{
 
-    public SensorVelocidade(double raio){
-        super(raio);
+    public SensorVelocidade(double raio, String nomeSensor){
+        super(raio, nomeSensor);
     }
 
     // Aqui o atributo[0] será o deltaX e o atributo[1] será o deltaY e o atributo[2] é o próprio robo terrestre
