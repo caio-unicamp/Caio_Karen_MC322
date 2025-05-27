@@ -11,7 +11,7 @@ public class Drone extends RoboAereo implements Comunicavel{
      */
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o robô está ligado
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o drone está ligado
             throw new RoboDesligadoException( this.getNome());
         }
 
@@ -19,10 +19,8 @@ public class Drone extends RoboAereo implements Comunicavel{
             throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
         }
 
-        // Check if the recipient robot is ligado (optional, but good practice before calling receive)
-        // This assumes destinatario is also a Robo or has a similar state check
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) {
-             CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem);
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem não está ligado
+            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
             throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
         }
 
