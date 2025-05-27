@@ -5,10 +5,12 @@
 public interface Entidade {
     
     public int getX(); //Retorna a posição x da entidade
-
+    
     public int getY(); //Retorna a posição y da entidade
 
     public int getZ(); //Retorna a posição z da entidade
+ 
+    public void setPosicao(int x, int y, int z); //Seta a posição da entidade
 
     TipoEntidade getTipoEntidade(); //Retorna o tipo da entidade de acordo com o enum de entidades 
 

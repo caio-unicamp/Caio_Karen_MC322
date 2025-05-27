@@ -117,10 +117,16 @@ public class Ambiente{
             System.out.println();
         }
     }
-
+    /**
+     * Muda a posição da entidade no mapa do ambiente
+     * @param entidade
+     * @param novoX
+     * @param novoY
+     * @param novoZ
+     */
     public void moverEntidade(Entidade entidade, int novoX, int novoY, int novoZ){
         this.mapa[entidade.getX()][entidade.getY()][entidade.getZ()] = TipoEntidade.VAZIO;
-        entidade.
-        this.mapa[]
+        entidade.setPosicao(novoX, novoY, novoZ);
+        this.mapa[novoX][novoY][novoZ] = entidade.getTipoEntidade();
     }
 }
