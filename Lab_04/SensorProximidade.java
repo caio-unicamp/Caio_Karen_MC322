@@ -2,10 +2,13 @@ public class SensorProximidade extends Sensor<Boolean>{
     public SensorProximidade(double raio){
         super(raio);
     }
-    //Método abstrato para monitorar a altura do robô
     /**
-     * Utilizamos uma lista de objetos diversos, aqui atributo[0] e atributo[1] são as coordenadas x e y do robô respectivamente, atributo[2] é a altura do robô, atributo[3] é o ambiente e atributo[4] é o robô que está tentando se mover
-     * @param atributo
+     * O monitoramento do sensor de proximidade funciona verificando por robôs e obstáculos próximos.
+     * @param atributo lista de objetos diversos
+     * @implNote atributo[0] e atributo[1] são as coordenadas x e y que o robô tentará ir
+     * @implNote atributo[2] é a altura do robô 
+     * @implNote atributo[3] é o ambiente
+     * @implNote atributo[4] é o robô que está usando esse sensor
      * @return true se o sensor identificar um obstáculo ou um robô e false caso contrário
      */
     @Override
