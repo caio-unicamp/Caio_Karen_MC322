@@ -3,8 +3,11 @@ public class SensorAltitude extends Sensor<Integer>{
     public SensorAltitude(double raio){
         super(raio);
     }
-
+    
     @Override
+    /**
+     * O monitoramento do sensor de altitude
+     */
     public Integer monitorar(Object... atributo){//Método abstrato para monitorar a altura do robô
         this.consumirBateria(5); // Consome 5% da bateria a cada monitoramento
         return (int) atributo[2];   

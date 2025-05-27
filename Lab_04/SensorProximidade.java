@@ -2,9 +2,13 @@ public class SensorProximidade extends Sensor<Boolean>{
     public SensorProximidade(double raio){
         super(raio);
     }
-    //Utilizamos uma lista de objetos diversos, aqui atributo[0] e atributo[1] são as coordenadas x e y do robô, atributo[2] é a altura do robô, atributo[3] é o ambiente e atributo[4] é o robô que está tentando se mover
-    @Override
     //Método abstrato para monitorar a altura do robô
+    /**
+     * Utilizamos uma lista de objetos diversos, aqui atributo[0] e atributo[1] são as coordenadas x e y do robô respectivamente, atributo[2] é a altura do robô, atributo[3] é o ambiente e atributo[4] é o robô que está tentando se mover
+     * @param atributo
+     * @return true se o sensor identificar um obstáculo ou um robô e false caso contrário
+     */
+    @Override
     public Boolean monitorar(Object... atributo){ //Método que verifica se o robô irá colidir com algum obstáculo ou robô
         this.consumirBateria(5); // Consome 5% da bateria a cada monitoramento
 
