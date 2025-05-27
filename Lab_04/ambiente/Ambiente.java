@@ -1,6 +1,8 @@
 package ambiente;
 import java.util.ArrayList;
-
+import interfaces.*;
+import enums.TipoEntidade;
+import excecoes.*;
 /**
  * Representa o espaço 3D onde as entidades operam.
  * Gerencia uma lista polimórfica de entidades e um mapa de ocupação.
