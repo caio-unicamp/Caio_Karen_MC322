@@ -40,6 +40,20 @@ public class Ambiente{
         return limites;
     }
     /**
+     * Verifica quantos robôs existem no ambiente
+     * @return número de robôs no ambiente
+     */
+    public int getNumRobosAmbiente(){   
+        return numRobosAmbiente;
+    }
+    /**
+     * Verifica quantos obstáculos existem no ambiente
+     * @return número de obstáculos no ambiente
+     */
+    public int getNumObstaculosAmbiente(){
+        return numObstaculosAmbiente;
+    }
+    /**
      * Analisa se as coordenadas passadas estão dentro dos limites do ambiente.
      * @param x Posição x
      * @param y Posição y
