@@ -2,19 +2,17 @@ public class Drone extends RoboAereo implements Comunicavel{
     Robo pacote; //Atributo próprio é um robô que será entregue pelo drone
     int tempoLocomocaoPacote;
     
-    // Construtor da classe Drone
     public Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre, int altitudeMaxima){ //Construtor para inicializar os atributos
         super(nome, direcao, x, y, altitude, altitudeMaxima);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
-
+    /**
+     * Envia uma mensagem para outro robô
+     */
     @Override
-    // Função de Enviar Mensagem
-    // Implementa o método enviarMensagem da interface Comunicavel
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        // Check if the sending robot (this Drone) is ligado
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //
-            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode enviar mensagens."); //
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o robô está ligado
+            throw new RoboDesligadoException( this.getNome());
         }
 
         if (destinatario == null) {
@@ -60,10 +58,11 @@ public class Drone extends RoboAereo implements Comunicavel{
         // Logic for what the robot does with the message and nothing more happens
         System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
     }
-
-    // Método para mover o drone sem entregar nenhum pacote
+    /**
+     *  Método para mover o drone sem entregar nenhum pacote
+     */
     @Override
-        public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{ // Função para mover o drone sem entregar nenhum pacote
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{ // Função para mover o drone sem entregar nenhum pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
@@ -81,8 +80,15 @@ public class Drone extends RoboAereo implements Comunicavel{
             return; // Se ele andou tudo, não há necessidade de verificar colisões
         }
     }
-    
-    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente){ //Função para entregar um pacote. Essa função é um booleano pois caso o pacote seja entregue retorna true e caso não seja, retorna false
+    /**
+     * Verifica se o pacote conseguiu ser entregue
+     * @param posicaoXdronefinal
+     * @param posicaoYdronefinal
+     * @param nomePacote
+     * @param ambiente
+     * @return true se o pacote foi entregue na posição que foi indicada e false se houve algum problema no caminho
+     */
+    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente){
         //inicializar o robo pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
@@ -102,7 +108,7 @@ public class Drone extends RoboAereo implements Comunicavel{
                     break;
                 }
             }
-        }if (numRobosAnalisados == ambiente.getListaRobos().size()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
+        }if (numRobosAnalisados == ambiente.getNumRobosAmbiente()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
             return false;
         }
         
