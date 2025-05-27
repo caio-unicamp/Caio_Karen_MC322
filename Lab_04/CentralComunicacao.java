@@ -35,19 +35,20 @@ public class CentralComunicacao {
         String log = "[De: " + remetente + " | Para: " + destinatario + "]: " + msg;
         mensagens.add(log);
     }
-
-    /**
-     * Exibe todas as mensagens registradas no console.
-     */
-    public void exibirMensagens() { //Atenção!!! PASSAR ESSA PARTE PARA A MAIN
-        System.out.println("\n--- Log de Comunicações ---");
+    
+    //Retorna o histórico de mensagens formatado.
+    //@return Lista de mensagens formatadas.
+    public List<String> getMensagensFormatadas() {
+        List<String> logFormatado = new ArrayList<>();
+        logFormatado.add("\n--- Log de Comunicações ---");
         if (mensagens.isEmpty()) {
-            System.out.println("Nenhuma mensagem trocada.");
+            logFormatado.add("Nenhuma mensagem trocada.");
         } else {
             for (String msg : mensagens) {
-                System.out.println(msg);
+                logFormatado.add(msg);
             }
         }
-        System.out.println("---------------------------\n");
+        logFormatado.add("---------------------------\n");
+        return logFormatado;
     }
 }

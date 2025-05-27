@@ -1,7 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import excecoes.ColisaoException;
 
 public class Main {
     public static void main(String[] args){
@@ -71,7 +71,7 @@ public class Main {
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
-            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos", scanner);
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos\n - Listar mensagens trocadas", scanner);
             
             if (comando == 0){ //Encerra o programa
                 break;
@@ -474,6 +474,13 @@ public class Main {
                     }
                 }
 
+            } else if (comando == 5) {  // Bloco para exibir as mensagens do log
+                System.out.println("Exibindo mensagens do log:");
+                List<String> logs = CentralComunicacao.getInstancia().getMensagensFormatadas();     // Obtém as mensagens formatadas do log na CentralComunicacao
+                for (String logEntry : logs) {
+                    System.out.println(logEntry);   // Exibe cada mensagem formatada
+                }
+
             }else{ //Caso seja digitado um número inválido
                 System.out.println("Foi mal, por enquanto eu só sei contar até quatro... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
             }
@@ -482,6 +489,21 @@ public class Main {
         scanner.close();
     }   
     
+    //Exibe todas as mensagens registradas no console.
+    public void exibirMensagens() { //Atenção!!! PASSAR ESSA PARTE PARA A MAIN
+        System.out.println("\n--- Log de Comunicações ---");
+        if (mensagens.isEmpty()) {
+            System.out.println("Nenhuma mensagem trocada.");
+        } else {
+            for (String msg : mensagens) {
+                System.out.println(msg);
+            }
+        }
+        System.out.println("---------------------------\n");
+    }
+
+
+
     //Quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
     public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
         Random random = new Random();
