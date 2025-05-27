@@ -144,9 +144,14 @@ public class Drone extends RoboAereo implements Comunicavel{
                     return true;
                 }
             }else{
-                for (Robo robo : ambiente.getListaRobos()){
-                    if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
-                        destroiRoboColidido(robo, ambiente);
+                for (Entidade entidade : ambiente.getListaEntidades()){
+                    if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                        continue; //Se não for, pula para a próxima iteração
+                    }else{
+                        Robo robo = (Robo) entidade; //Faz o cast para robô
+                        if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
+                            destroiRoboColidido(robo, ambiente);
+                        }
                     }
                 }
             }
