@@ -44,4 +44,6 @@ abstract class Sensor<T> {
     public boolean isBateriaBaixa() {
         return this.bateria <= 20; // Considera bateria baixa se estiver abaixo de 20%
     }
+
+    public String getNome(){}
 }

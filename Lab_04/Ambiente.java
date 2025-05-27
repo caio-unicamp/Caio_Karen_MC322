@@ -95,8 +95,8 @@ public class Ambiente{
      * @param altura do mapa a ser vizualizado
      */
     public void vizualizarMapa(int altura){
-        for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
-            for (int j = 0; j < this.tamY; j++){
+        for (int j = this.tamY-1; j >= 0; j--){
+            for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
                 System.out.print(mapa[i][j][altura].getSimbolo() + " ");
             }
             System.out.println();

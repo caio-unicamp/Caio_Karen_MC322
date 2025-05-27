@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Robo implements Entidade, Sensoreavel{
-    private String nome;    //id do robô
+    private String nomeRobo;    //id do robô
     private String direcao;   //direção do robô
     private EstadoRobo estado; //Estado do robô, que pode ser LIGADO ou DESLIGADO 
     private TipoEntidade tipoEntidade; //Tipo da entidade, que nesse caso é um robô
@@ -11,7 +11,7 @@ public class Robo implements Entidade, Sensoreavel{
     private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
     
     public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
-        this.nome = nomeRobo;
+        this.nomeRobo = nomeRobo;
         this.direcao = direcaoRobo;
         this.posicaoX = x;
         this.posicaoY = y;
@@ -34,10 +34,10 @@ public class Robo implements Entidade, Sensoreavel{
         try{
             acionarSensores();
         }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return; 
         }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return; 
         }
 
@@ -104,7 +104,7 @@ public class Robo implements Entidade, Sensoreavel{
      */
     public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException {
         if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Confere se o robô está desligado
-            throw new RoboDesligadoException("Você desliga o robô e depois quer que eu faça magia pra ligar ele de novo? Se quiser tentar movê-lo (obviamente) terá de ligá-lo novamente.");
+            throw new RoboDesligadoException(this.getNome());
         }
         for (Sensor<?> sensor : this.listaSensores) { //Percorre a lista de sensores do robô
             if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
@@ -119,7 +119,7 @@ public class Robo implements Entidade, Sensoreavel{
      * @return O nome do robô.
     */
     public String getNome(){ 
-        return nome;
+        return this.nomeRobo;
     }
     /** 
      * Método para saber a posição X do robô no ambiente.
