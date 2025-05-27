@@ -85,8 +85,11 @@ public class Drone extends RoboAereo implements Comunicavel{
      * @param nomePacote
      * @param ambiente
      * @return true se o pacote foi entregue na posição que foi indicada e false se houve algum problema no caminho
+     * @throws ColisaoException 
+     * @throws RoboDesligadoException 
+     * @throws SensorDesligadoException 
      */
-    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente){
+    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
         //inicializar o robo pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
@@ -158,22 +161,39 @@ public class Drone extends RoboAereo implements Comunicavel{
         }
         return false; // Caso o robô não tenha conseguido entregar o pacote, retorna false
     }
-
+    /**
+     * Verifica se já existe um robô no local que o pacote seria derrubado
+     * @param ambiente
+     * @return true caso exista e false caso contrário
+     */
     public boolean jaExisteRobo(Ambiente ambiente){
-        for (Robo robo : ambiente.getListaRobos()){
-            if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ambos são destruídos
-                return true;
+        for (Entidade entidade : ambiente.getListaEntidades()){
+            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                continue; //Se não for, segue para a próxima iteração
+            }else{
+                Robo robo = (Robo) entidade; //Faz o cast para robô
+                if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){
+                    return true;
+                }
             }
         }
         return false;
     }
-    
-    public void adicionaPacote(String nomePacote, Ambiente ambiente){ //Função para adicionar o pacote na lista de robôs ativos
+    /**
+     * Adiciona o pacote na lista de entidades no ambiente
+     * @param nomePacote
+     * @param ambiente
+     */
+    public void adicionaPacote(String nomePacote, Ambiente ambiente){
         pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], tempoLocomocaoPacote);
-        ambiente.adicionarRobo(pacote); //Adiciona o pacote na lista de Robôs ativos
+        ambiente.adicionarEntidade(pacote);
     }
-
-    public void destroiRoboColidido(Robo roboColidido, Ambiente ambiente){ //Função para destruir o robô colidido
-        ambiente.removerRobo(roboColidido);
+    /**
+     * Destrói o robô que colidiu
+     * @param roboColidido
+     * @param ambiente
+     */
+    public void destroiRoboColidido(Robo roboColidido, Ambiente ambiente){
+        ambiente.removerEntidade(roboColidido);
     }
 }
