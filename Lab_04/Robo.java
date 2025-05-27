@@ -108,7 +108,7 @@ public class Robo implements Entidade, Sensoreavel{
         }
         for (Sensor<?> sensor : this.listaSensores) { //Percorre a lista de sensores do robô
             if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
-                throw new SensorDesligadoException("A bateria do " + sensor.getClass().getSimpleName() + " do "+ this.getNome() + " acabou, tente recarregar antes de prosseguir com a simulação.");
+                throw new SensorDesligadoException(sensor, this.getNome());
             }else{
                 continue;
             }
