@@ -10,7 +10,7 @@ public class Rover extends RoboTerrestre{
     }
     
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente){ //Função para mover recursivamente o rover e acessar a função empurrar robô
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException { //Função para mover recursivamente o rover e acessar a função empurrar robô
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
