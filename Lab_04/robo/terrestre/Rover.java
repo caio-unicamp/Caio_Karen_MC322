@@ -1,3 +1,4 @@
+package terrestre;
 public class Rover extends RoboTerrestre{
     //atributo próprio
     int tempoLocomocaoTerrestre;

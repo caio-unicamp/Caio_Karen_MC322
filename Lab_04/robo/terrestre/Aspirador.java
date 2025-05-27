@@ -1,3 +1,5 @@
+package terrestre;
+
 public class Aspirador extends RoboTerrestre implements Comunicavel {
     //atributo numero de robos que eliminou
     private int robosEliminados;

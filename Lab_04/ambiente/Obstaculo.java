@@ -1,3 +1,4 @@
+package ambiente;
 public class Obstaculo implements Entidade{
     private final int posX1;
     private final int posY1;

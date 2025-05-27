@@ -1,3 +1,4 @@
+package sensores;
 public class SensorAltitude extends Sensor<Integer>{
 
     public SensorAltitude(double raio, String nomeSensor){

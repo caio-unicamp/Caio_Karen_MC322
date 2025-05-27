@@ -1,3 +1,4 @@
+package robo;
 import java.util.ArrayList;
 
 public class Robo implements Entidade, Sensoreavel{

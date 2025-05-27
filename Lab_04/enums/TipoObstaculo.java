@@ -1,3 +1,4 @@
+package enums;
 public enum TipoObstaculo{
     BURACO_SEM_FUNDO(0, false, "Cratera"),
     MINA_TERRESTRE(0, true, "KABUM!"),

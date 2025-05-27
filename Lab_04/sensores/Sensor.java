@@ -1,3 +1,4 @@
+package sensores;
 abstract class Sensor<T> {
     private double raio;
     private int bateria;

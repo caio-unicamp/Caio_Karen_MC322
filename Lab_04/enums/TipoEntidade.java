@@ -1,3 +1,4 @@
+package enums;
 public enum TipoEntidade{
     VAZIO(false, '.'),
     ROBO(true, '*'),
