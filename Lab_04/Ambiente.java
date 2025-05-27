@@ -9,6 +9,8 @@ public class Ambiente{
     private final int tamX; //Tamanho em X do ambiente
     private final int tamY; //Tamanho em Y do ambiente
     private final int tamZ; //Tamanho em Z do ambiente no caso do robô aéreo
+    private int numRobosAmbiente; //Número de robos que existem no ambiente
+    private int numObstaculosAmbiente; //Número de obstáculos que existem no ambiente
     private ArrayList<Entidade> listaEntidades; //Lista das entidades ativas presentes no ambiente 
     private TipoEntidade[][][] mapa;
     
@@ -17,6 +19,8 @@ public class Ambiente{
         this.tamX = tamX;
         this.tamY = tamY;
         this.tamZ = tamZ;
+        this.numRobosAmbiente = 0; // Inicia com 0 robôs no ambiente
+        this.numObstaculosAmbiente = 0; // Inicia com 0 obstáculos no ambiente
         this.mapa = new TipoEntidade[this.tamX - 1][this.tamY - 1][this.tamZ - 1];
         listaEntidades = new ArrayList<>();
     }
@@ -62,6 +66,11 @@ public class Ambiente{
      * @param entidade a ser adicionada na lista
      */
     public void adicionarEntidade(Entidade entidade){ 
+        if (entidade.getTipoEntidade().equals(TipoEntidade.ROBO)){ //Se for um robô, aumenta o número de robôs que existem no ambiente
+            this.numRobosAmbiente++;
+        }else if (entidade.getTipoEntidade().equals(TipoEntidade.OBSTACULO)){ //Se for um obstáculo, aumenta o número de obstáculos que existem no ambiente
+            this.numObstaculosAmbiente++;
+        }
         listaEntidades.add(entidade);
     }
     /**
@@ -69,6 +78,11 @@ public class Ambiente{
      * @param entidade a ser removida da lista
      */
     public void removerEntidade(Entidade entidade){ 
+        if (entidade.getTipoEntidade().equals(TipoEntidade.ROBO)){ //Se for um robô diminui o número de robôs que existem no ambiente
+            this.numRobosAmbiente--;
+        }else if (entidade.getTipoEntidade().equals(TipoEntidade.OBSTACULO)){ //Se for um obstáculo diminui o número de obstáculos que existem no ambiente
+            this.numObstaculosAmbiente--;
+        }
         listaEntidades.remove(entidade);
     }
     /**
