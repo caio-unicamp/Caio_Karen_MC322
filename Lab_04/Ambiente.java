@@ -72,6 +72,21 @@ public class Ambiente{
         listaEntidades.remove(entidade);
     }
     /**
+     * Verifica se existe uma entidade ocupando uma posição específica no ambiente.
+     * @param x
+     * @param y
+     * @param z
+     * @return true se existe uma entidade nas coordenadas dadas e false caso contrário.
+     */
+    public boolean estaOcupado(int x, int y, int z){
+        for (Entidade entidade : this.listaEntidades) {
+            if (entidade.getX() == x && entidade.getY() == y && entidade.getZ() == z){
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * Confere a lista de entidades ativas no ambiente.
      * @return Uma lista de entidades ativas no ambiente, podendo ser robôs, obstáculos ou outros objetos que implementem a interface Entidade.
      */
@@ -97,9 +112,15 @@ public class Ambiente{
     public void vizualizarMapa(int altura){
         for (int j = this.tamY-1; j >= 0; j--){
             for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
-                System.out.print(mapa[i][j][altura].getSimbolo() + " ");
+                System.out.print(this.mapa[i][j][altura].getSimbolo() + " ");
             }
             System.out.println();
         }
+    }
+
+    public void moverEntidade(Entidade entidade, int novoX, int novoY, int novoZ){
+        this.mapa[entidade.getX()][entidade.getY()][entidade.getZ()] = TipoEntidade.VAZIO;
+        entidade.
+        this.mapa[]
     }
 }
