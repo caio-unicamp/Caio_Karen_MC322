@@ -2,13 +2,68 @@ public class Drone extends RoboAereo implements Comunicavel{
     Robo pacote; //Atributo próprio é um robô que será entregue pelo drone
     int tempoLocomocaoPacote;
     
+    // Construtor da classe Drone
     public Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre, int altitudeMaxima){ //Construtor para inicializar os atributos
         super(nome, direcao, x, y, altitude, altitudeMaxima);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
 
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente){ // Função para mover o drone sem entregar nenhum pacote
+    // Função de Enviar Mensagem
+    // Implementa o método enviarMensagem da interface Comunicavel
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        // Check if the sending robot (this Drone) is ligado
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //
+            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode enviar mensagens."); //
+        }
+
+        if (destinatario == null) {
+            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
+        }
+
+        // Check if the recipient robot is ligado (optional, but good practice before calling receive)
+        // This assumes destinatario is also a Robo or has a similar state check
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) {
+             CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem);
+            throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
+        }
+
+        // Call destinatario's receberMensagem method
+        // The 'remetente' parameter in receberMensagem will be the name of this robot
+        destinatario.receberMensagem(this.getNome(), mensagem); //
+
+        // Register the message with CentralComunicacao
+        // Assuming the destinatario can be cast to Robo to get its name for logging.
+        // If not all Comunicavel are Robo, you might need a getNome() in Comunicavel or handle this differently.
+        String nomeDestinatario = "Desconhecido";
+        if (destinatario instanceof Robo) {
+            nomeDestinatario = ((Robo) destinatario).getNome();
+        } else if (destinatario instanceof Entidade) { // Fallback if it's some other Entidade that's Comunicavel
+             nomeDestinatario = ((Entidade) destinatario).getNome();
+        }
+        // Register the message in the communication central
+        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); //
+        //COLOCAR PRINT NA MAIN DEPOIS DE REGISTRAR A MENSAGEM
+        System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
+    }
+
+    @Override
+    public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //
+            // Even if off, it might be argued a message "arrives" but isn't processed.
+            // However, per PDF for Comunicavel.receberMensagem, it can throw RoboDesligadoException.
+            // Logging it might still be useful.
+            // CentralComunicacao.getInstancia().registrarMensagem(remetente, this.getNome(), "[TENTATIVA FALHA DE ENTREGA - RECEPTOR DESLIGADO] " + mensagem);
+            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
+        }
+
+        // Logic for what the robot does with the message and nothing more happens
+        System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
+    }
+
+    // Método para mover o drone sem entregar nenhum pacote
+    @Override
+        public void mover(int deltaX, int deltaY, Ambiente ambiente){ // Função para mover o drone sem entregar nenhum pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
