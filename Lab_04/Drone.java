@@ -114,18 +114,28 @@ public class Drone extends RoboAereo implements Comunicavel{
             this.descer(this.getPosicao()[2] - 1, ambiente); //Desce o drone até uma unidade antes do chão para conseguir entregar o pacote
             if (this.getPosicao()[2] == 1){ //Nesse ponto depois da descida o pacote foi entregue com sucesso
                 this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], posInicialZ); //Após a entrega o drone sobe para a altura que estava no início, como a função descer já analisou se existiam obstáculos, basta apenas setar a posição z como a mesma do início sem necessidade de nenhuma conferência extra
-                for (Obstaculo obstaculo: ambiente.getListaObstaculos()){
-                    if (obstaculo.getPosX1() <= this.getPosicao()[0] && obstaculo.getPosX2() >= this.getPosicao()[0] && obstaculo.getPosY1() <= this.getPosicao()[1] && obstaculo.getPosY2() >= this.getPosicao()[1] && obstaculo.getAltura() >= this.getPosicao()[2]){ //Se já existe um obstáculo no lugar que o pacote seria derrubado, ele será destruído
-                        if (obstaculo.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ // No caso do pacote cair em uma mina, ela é destruída
-                            ambiente.removerObstaculo(obstaculo);
+                for (Entidade entidade: ambiente.getListaEntidades()){
+                    if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo
+                        continue; //Se não for, segue para a próxima iteração
+                    }else{
+                        Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para obstáculo
+                        if (obstaculo.getPosX1() <= this.getPosicao()[0] && obstaculo.getPosX2() >= this.getPosicao()[0] && obstaculo.getPosY1() <= this.getPosicao()[1] && obstaculo.getPosY2() >= this.getPosicao()[1] && obstaculo.getAltura() >= this.getPosicao()[2]){ //Se já existe um obstáculo no lugar que o pacote seria derrubado, ele será destruído
+                            if (obstaculo.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ // No caso do pacote cair em uma mina, ela é destruída
+                                ambiente.removerEntidade(obstaculo);
+                            }
+                            return false;
                         }
-                        return false;
                     }
                 }
                 if (jaExisteRobo(ambiente)){ //Caso exista robô onde seria entregue, ele e o pacote serão destruídos
-                    for (Robo robo : ambiente.getListaRobos()){
-                        if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
-                            destroiRoboColidido(robo, ambiente);
+                    for (Entidade entidade : ambiente.getListaEntidades()){
+                        if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                            continue; //Se não for, pula para a próxima iteração
+                        }else{
+                            Robo robo = (Robo) entidade; //Faz o cast para robô
+                            if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
+                                destroiRoboColidido(robo, ambiente);
+                            }
                         }
                     }
                     return false;
