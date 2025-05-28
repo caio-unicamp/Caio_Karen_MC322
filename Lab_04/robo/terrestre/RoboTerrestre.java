@@ -1,4 +1,4 @@
-package robo;
+package terrestre;
 import ambiente.*;
 import excecoes.*;
 import sensores.*;
