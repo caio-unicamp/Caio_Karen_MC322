@@ -152,8 +152,16 @@ public class Main {
                             int deltaY = lerInteiro("Passos em y: ", scanner);
                             double taxaAspirador = aspirador.getSensorVelocidade(aspirador).porcentoVelocidade(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
                             String velAspirador = String.format("%.2f", taxaAspirador);
-                            if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
-                                aspirador.mover(deltaX, deltaY, ambiente);
+                            try{
+                                try{
+                                    aspirador.mover(deltaX, deltaY, ambiente);
+                                }catch(SensorDesligadoException e){
+    
+                                }catch(RoboDesligadoException e){
+    
+                                }catch(ColisaoException e){
+                                    
+                                }
                                 obstaculoAchado(aspirador, ambiente);
                                 System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
                                 if (aspirador.getSensorVelocidade(aspirador).isMuitoRapido(taxaAspirador)){
@@ -166,7 +174,12 @@ public class Main {
                                 if (qtdEliminados > 10){
                                     System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
                                 }
-                                break;
+                                break;    
+                            }catch(VelocidadeMaximaAtingidaException e){ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
+                                System.err.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "% da velocidade máxima? Vai ter que tentar mover ele de novo");
+                                
+                            }
+                            if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
                             }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
                                 System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "% da velocidade máxima? Vai ter que tentar mover ele de novo");
                             }

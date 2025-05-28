@@ -19,26 +19,41 @@ public class RoboTerrestre extends Robo{
         super.mover(deltaX, deltaY, ambiente); 
         //Essa função será chamada junto da velMaxAtingida na main para que ele só se mova no caso de não ter sido atingido o limite de velocidade
     }
-
-    public int getVelocidadeMaxima(){ //Função para retornar a velocidade máxima do robô
+    /**
+     * Verifica qual a velocidade máxima que o robô terrestre pode assumir
+     * @return
+     */
+    public int getVelocidadeMaxima(){ 
         return velocidadeMaxima;
     }
-
-    public void setVelMaxima(int velMax){ //Função para alterar a velocidade máxima do robô
+    /**
+     * Altera a velocidade máxima que o robô terrestre pode atingir
+     * @param velMax
+     */
+    public void setVelMaxima(int velMax){ 
         this.velocidadeMaxima = velMax;
     }
-
-    public int getTempoLocomocao(){ //Função para ver o tempo de locomoção do robô terrestre
+    /**
+     * Verifica qual o tempo de locomoção do robô terrestre
+     * @return tempo de locomoção
+     */
+    public int getTempoLocomocao(){
         return tempoLocomocaoTerrestre;
     }
-
-    public void setTempoLocomocao(int novoTempo){ //Função para setar o novo tempo de locomoção do robo terrestre
+    /**
+     * Seta o tempo de locomoção do robô terrestre
+     * @param novoTempo
+     */
+    public void setTempoLocomocao(int novoTempo){ 
         this.tempoLocomocaoTerrestre = novoTempo;
     }
-
-    public SensorVelocidade getSensorVelocidade(Robo robo){ //Acessa o sensor de altitude do robô aérero
+    /**
+     * Busca pelo sensor de velocidade do robô
+     * @return o sensor de velocidade que ele possui
+     */
+    public SensorVelocidade getSensorVelocidade(){ 
         SensorVelocidade sensorVelocidade = null;
-        for (Sensor<?> sensor : robo.getSensores()){
+        for (Sensor<?> sensor : this.getSensores()){
             if (sensor instanceof SensorVelocidade){
                 sensorVelocidade = (SensorVelocidade) sensor;
             }

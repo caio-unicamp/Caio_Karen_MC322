@@ -12,13 +12,6 @@ public class SensorProximidade extends Sensor<Boolean>{
         this.ultimoTipoDetectado = TipoEntidade.VAZIO;
     }
     /**
-     * Verifica qual entidade esse sensor detectou
-     * @return tipo da entidade detectada (Robo ou Obstáculo)
-     */
-    public TipoEntidade getUltimoTipoDetectado(){
-        return this.ultimoTipoDetectado;
-    }
-    /**
      * O monitoramento do sensor de proximidade funciona verificando por robôs e obstáculos próximos.
      * @param atributo lista de objetos diversos
      * @implNote atributo[0] e atributo[1] são as coordenadas x e y que o robô tentará ir
@@ -47,7 +40,7 @@ public class SensorProximidade extends Sensor<Boolean>{
         int z = (int) atributo[2];
         Ambiente ambiente = (Ambiente) atributo[3];
         Robo roboProprio = (Robo) atributo[4];
-
+        
         // Identifica se achou um robô e altera a variável do tipo da entidade
         if (identificarRobo(x, y, z, ambiente, roboProprio)) {
             this.ultimoTipoDetectado = TipoEntidade.ROBO;
@@ -60,7 +53,7 @@ public class SensorProximidade extends Sensor<Boolean>{
         }
         return false; // Retorna false se nada foi encontrado
     }
-
+    
     public boolean identificarRobo(int x, int y, int z, Ambiente ambiente, Robo roboProprio){
         for (Entidade entidade: ambiente.getListaEntidades()){ //Para cada Robô na lista de robôs (obviamente não sendo o robô que está tentando identificar um obstáculo), ele analisa se a posição que o robô em questão quer ir já está ocupada 
             if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
@@ -73,7 +66,7 @@ public class SensorProximidade extends Sensor<Boolean>{
             }
         }return false;
     }
-
+    
     public boolean identificarObstaculo(int x, int y, int z, Ambiente ambiente){ //Identifica se o robô está colidindo com algum obstáculo
         for (Entidade entidade: ambiente.getListaEntidades()){ //Para cada obstáculo na lista de obstáculos, ele analisa se a posição que o robô em questão quer ir já está ocupada 
             if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo
@@ -85,5 +78,12 @@ public class SensorProximidade extends Sensor<Boolean>{
                 }
             }
         }return false;
+    }
+    /**
+     * Verifica qual entidade esse sensor detectou
+     * @return tipo da entidade detectada (Robo ou Obstáculo)
+     */
+    public TipoEntidade getUltimoTipoDetectado(){
+        return this.ultimoTipoDetectado;
     }
 }
