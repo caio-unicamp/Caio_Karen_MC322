@@ -9,7 +9,7 @@ Clone este repositório e instale as dependências:
 3. sudo apt install openjdk-21-jre-headless  # version 21.0.6+7-1~24.04.1 
 
 # Como usar
-Para usar o Simulador como está agora em desenvolvimento no lab02, é necessário estar na pasta Lab_02 e executar os seguintes comandos no Terminal:
+Para usar o Simulador como está agora em desenvolvimento no lab02, é necessário estar na pasta Lab_0* (referente ao Lab a ser testado) e executar os seguintes comandos no Terminal:
 
 1. javac -d bin *.java
 2. java -cp bin Main

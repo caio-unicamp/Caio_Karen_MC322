@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import ambiente.*;
+import enums.*;
+import excecoes.*;
+import interfaces.*;
+import robots.*;
+import robots.aereo.*;
+import robots.terrestre.*;
+import sensores.*;
 
 public class Main {
     public static void main(String[] args){

@@ -1,12 +1,13 @@
-package aereo;
+package robots.aereo;
 import interfaces.*;
 import enums.*;
 import excecoes.*;
 import ambiente.*;
-import sensores.*;
+import robots.*;
+import robots.terrestre.Rover;
 
 public class Drone extends RoboAereo implements Comunicavel{
-    Robo pacote; //Atributo próprio é um robô que será entregue pelo drone
+    Rover pacote; //Atributo próprio é um robô que será entregue pelo drone
     int tempoLocomocaoPacote;
     
     public Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre, int altitudeMaxima){ //Construtor para inicializar os atributos
@@ -193,7 +194,7 @@ public class Drone extends RoboAereo implements Comunicavel{
      */
     public void adicionaPacote(String nomePacote, Ambiente ambiente){
         pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], tempoLocomocaoPacote);
-        ambiente.adicionarEntidade(pacote);
+        ambiente.adicionarEntidade((Entidade)pacote);
     }
     /**
      * Destrói o robô que colidiu
