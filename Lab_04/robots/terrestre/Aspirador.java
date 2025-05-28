@@ -35,7 +35,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         destinatario.receberMensagem(this.getNome(), mensagem);
         // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
         String nomeDestinatario = (destinatario instanceof Robo) ? ((Robo) destinatario).getNome() : "Desconhecido";
-        
+        //Registra que a mensagem foi enviada
         CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
         //COLOCAR O PRINT NA MAIN DEPOIS DE TERMINAR
         System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
@@ -46,7 +46,8 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
         if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Confere se o Aspirador está ligado
-            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens."); //Se não estiver lança o respectivo erro
+            //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
+            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
         }
         //BOTAR O PRINT NA MAIN DEPOIS
         System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
