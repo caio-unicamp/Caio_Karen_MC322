@@ -40,7 +40,7 @@ public class Main {
                     int y1Mina = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Mina = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Mina = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Mina, y1Mina, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
+                    ambiente.adicionarEntidade(new Obstaculo(x1Mina, y1Mina, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
                     break;
                 }else if (tipoObstaculo == 2){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o buraco");
@@ -48,7 +48,7 @@ public class Main {
                     int y1Buraco = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Buraco, y1Buraco, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
+                    ambiente.adicionarEntidade(new Obstaculo(x1Buraco, y1Buraco, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
                     break;
                 }else if (tipoObstaculo == 3){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");
@@ -56,7 +56,7 @@ public class Main {
                     int y1Arvore = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Arvore = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Arvore = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Arvore, y1Arvore, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
+                    ambiente.adicionarEntidade(new Obstaculo(x1Arvore, y1Arvore, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
                     break;
                 }else if (tipoObstaculo == 4){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o teto");
@@ -64,7 +64,7 @@ public class Main {
                     int y1Portao = lerInteiro("Coordenada em Y1: ", scanner);
                     int x2Portao = lerInteiro("Coordenada em X2: ", scanner);
                     int y2Portao = lerInteiro("Coordenada em Y2: ", scanner);
-                    ambiente.adicionarObstaculo(new Obstaculo(x1Portao, y1Portao, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
+                    ambiente.adicionarEntidade(new Obstaculo(x1Portao, y1Portao, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
                     break;
                 }else{
                     System.out.println("Um prefeito que não sabe contar ironicamente não é tão incomum, mas ainda preciso que você escolha um número entre 1 e 5");
@@ -123,13 +123,18 @@ public class Main {
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
                 System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
                 int numEscolhaAcaoRobo = 1;
-                for (Robo robo : ambiente.getListaRobos()){
-                    System.out.println(numEscolhaAcaoRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());
+                for (Entidade entidade : ambiente.getListaEntidades()){
+                    if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                        continue; //Se não for, segue para a próxima iteração
+                    }else{
+                        Robo robo = (Robo) entidade; //Faz o cast para robô
+                        System.out.println(numEscolhaAcaoRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());
+                    }
                 }
                 Robo roboEscolhido;
                 while(true){
                     comando = lerInteiro("\0", scanner);
-                    if (comando >= 1 && comando <= ambiente.getListaRobos().size()){
+                    if (comando >= 1 && comando <= ambiente.getNumRobosAmbiente()){
                         roboEscolhido = ambiente.getListaRobos().get(comando - 1);
                         break;
                     }else{
@@ -171,10 +176,15 @@ public class Main {
                         while (true) {
                             int numRoboMatar = 1;
                             boolean podeMatar = false;
-                            for (Robo robo : ambiente.getListaRobos()){
-                                System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
-                                if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode matar robôs que não sejam o próprio aspirador e que estejam no chão
-                                    podeMatar = true;
+                            for (Entidade entidade : ambiente.getListaEntidades()){
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                    continue; //Se não for segue para a próxima iteração
+                                }else{
+                                    Robo robo = (Robo) entidade; //Faz o cast para robô
+                                    System.out.println(numRoboMatar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                                    if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode matar robôs que não sejam o próprio aspirador e que estejam no chão
+                                        podeMatar = true;
+                                    }
                                 }
                             }
                             if (!podeMatar){ //Se não tiver nenhum robô que possa ser eliminado, ele não deixa o usuário continuar
@@ -251,13 +261,18 @@ public class Main {
                             int contaCoordenadasRobos = 0;
                             coordenadaX = lerInteiro("Coordenada em x: ", scanner);
                             coordenadaY = lerInteiro("Coordenada em Y: ", scanner);
-                            for (Robo robo : ambiente.getListaRobos()) {
-                                contaCoordenadasRobos++;
-                                if ((coordenadaX == robo.getPosicao()[0] && coordenadaY == robo.getPosicao()[1] && robo.getPosicao()[2] == 0)){
-                                    break;
+                            for (Entidade entidade : ambiente.getListaEntidades()) {
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um Robô
+                                    continue; //Se não for segue para a próxima iteração
+                                }else{
+                                    Robo robo = (Robo) entidade; //Faz o cast para robô
+                                    contaCoordenadasRobos++;
+                                    if ((coordenadaX == robo.getPosicao()[0] && coordenadaY == robo.getPosicao()[1] && robo.getPosicao()[2] == 0)){
+                                        break;
+                                    }
                                 }
                             }
-                            if (contaCoordenadasRobos == ambiente.getListaRobos().size()){
+                            if (contaCoordenadasRobos == ambiente.getNumRobosAmbiente()){
                                 break;
                             }else{
                                 System.out.println("Puts, que chato, aparentemente já tem alguém ocupando essa posição. Mas claro que se você quiser mandar ele pra lá eu não vou poder impedir");
@@ -379,10 +394,15 @@ public class Main {
                         while (true) {
                             int numRoboEmpurrar = 1;
                             boolean podeEmpurrar = false;
-                            for (Robo robo : ambiente.getListaRobos()){
-                                System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
-                                if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode empurrar robôs que não sejam o próprio rover e que estejam no chão
-                                    podeEmpurrar = true;
+                            for (Entidade entidade : ambiente.getListaEntidades()){
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                    continue; //Se não for, segue para a próxima iteração
+                                }else{                                 
+                                    Robo robo = (Robo) entidade; //Faz o cast para robô
+                                    System.out.println(numRoboEmpurrar++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());       
+                                    if (!robo.equals(roboEscolhido) && robo.getPosicao()[2] == 0){ //Só pode empurrar robôs que não sejam o próprio rover e que estejam no chão
+                                        podeEmpurrar = true;
+                                    }
                                 }
                             }
                             if (!podeEmpurrar){ //Se não tiver nenhum robô que possa ser empurrado, ele não deixa o usuário continuar
@@ -416,14 +436,19 @@ public class Main {
 
                             if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles
                                 int numAnaliseRobosEmpurrados = 0;
-                                for (Robo robo : ambiente.getListaRobos()) {
-                                    if (robo.getNome().equals(inimigo.getNome())){ 
-                                        System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
-                                        break;
+                                for (Entidade entidade : ambiente.getListaEntidades()) {
+                                    if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                        continue; //Se não for, segue para a próxima iteração
+                                    }else{
+                                        Robo robo = (Robo) entidade;
+                                        if (robo.getNome().equals(inimigo.getNome())){ 
+                                            System.out.println("O + " + inimigo + " recebeu o recado... ele não gostou muito, se eu fosse você eu dormiria de olho aberto essa noite");
+                                            break;
+                                        }
+                                        numAnaliseRobosEmpurrados++;
                                     }
-                                    numAnaliseRobosEmpurrados++;
                                 }
-                                if (numAnaliseRobosEmpurrados != ambiente.getListaRobos().size()){ // Se o robô caiu do mapa, avisa que você empurrou ele para fora
+                                if (numAnaliseRobosEmpurrados != ambiente.getNumRobosAmbiente()){ // Se o robô caiu do mapa, avisa que você empurrou ele para fora
                                     System.out.println("Acho que você foi um pouco longe demais, o " + inimigo.getNome() + " acabou caindo pra fora de " + ambiente.getNomeAmbiente() + " e não vai voltar mais. Se esse era o recado que você queria, estou ficando mais intrigado com essa novela");
                                     int qtdEliminados = rover.getRobosDerrubados();
                                     if (qtdEliminados > 1){
@@ -461,24 +486,34 @@ public class Main {
                 }
 
             }else if (comando == 3){ //Bloco para mostrar a lista de robôs
-                if (ambiente.getListaRobos().size() == 0){
+                if (ambiente.getNumRobosAmbiente() == 0){
                     System.out.println("Oops, parece que você ainda não criou nenhum robô");
                 }else{
                     System.out.println("Vamos dar uma olhada em quem você já criou até agora");
                     int contadorRobo = 1;
-                    for (Robo robo : ambiente.getListaRobos()) {
-                        System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
+                    for (Entidade entidade : ambiente.getListaEntidades()) {
+                        if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                            continue; //Se não for segue para a próxima iteração
+                        }else{
+                            Robo robo = (Robo) entidade;
+                            System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
+                        }
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra visualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
             }else if(comando == 4){ // Bloco para mostrar a lista de obstáculos
-                if (ambiente.getListaObstaculos().size() == 0){
-                    System.out.println("Oops, parece que " + ambiente.getNomeAmbiente() + " não possui nenhum defeito, impressionante!");
+                if (ambiente.getNumObstaculosAmbiente() == 0){
+                    System.out.println("Oops, parece que " + ambiente.getNomeAmbiente() + " não possui nenhum defeito, impressionante! Mesmo que irrealistíco");
                 }else{
-                    System.out.println("Vamos dar uma olhada nos obstáculos de "+ ambiente.getNomeAmbiente() + " você já criou até agora");
+                    System.out.println("Vamos dar uma olhada nos obstáculos existentes em "+ ambiente.getNomeAmbiente());
                     int contadorObstaculo = 1;
-                    for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                        System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getPosX1() + "," + obstaculo.getPosY1() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
+                    for (Entidade entidade : ambiente.getListaEntidades()) {
+                        if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo
+                            continue; //Se não for, segue para a próxima iteração
+                        }else{
+                            Obstaculo obstaculo = (Obstaculo) entidade;
+                            System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getPosX1() + "," + obstaculo.getPosY1() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
+                        }
                     }
                 }
 
@@ -495,10 +530,11 @@ public class Main {
         }
         System.out.println("Obrigado por usar o sistema de simulação, não esqueça de avaliar nossos serviços, espero que tenha gostado! Se não gostou: Eu não ligo! Eu sou só um robô. Até mais!");
         scanner.close();
-    }   
-    
-    //Exibe todas as mensagens registradas no console.
-    public void exibirMensagens() { //Atenção!!! PASSAR ESSA PARTE PARA A MAIN
+    }  
+    /**
+     * Exibe todas as mensagens registradas na central de comunicações dos robôs
+     */
+    public static void exibirMensagens() { //CONFERIR E CONSERTAR
         System.out.println("\n--- Log de Comunicações ---");
         if (mensagens.isEmpty()) {
             System.out.println("Nenhuma mensagem trocada.");
@@ -509,11 +545,15 @@ public class Main {
         }
         System.out.println("---------------------------\n");
     }
-
-
-
     //Quando já tem o nome que o usuário quer colocar no Robô que está criando, na lista de Robôs
-    public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ //Função que será chamada toda vez que o usuário tentar criar um robô cujo nome já existe
+    /**
+     * Quando já existe no ambiente um robô com o nome que o usuário quer colocar no ambiente exibe aleatoriamente mensagens pedindo para ele tentar inserir outro nome
+     * @param scanner
+     * @param mensagensNomeJaExistente
+     * @param ambiente
+     * @return nome do robô criado após conferência
+     */
+    public static String exibirMensagemAleatoria(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente){ 
         Random random = new Random();
         scanner.nextLine();
         String nome = scanner.nextLine();
@@ -524,14 +564,19 @@ public class Main {
                 nome = scanner.nextLine();
                 continue;
             }
-            for (Robo robo : ambiente.getListaRobos()){
-                if (robo.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
-                    String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
-                    System.out.println(mensagemMostrada);
-                    nome = scanner.nextLine();
-                    nomeExiste = true;
-                    break;
-                } 
+            for (Entidade entidade : ambiente.getListaEntidades()){
+                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                    continue; // Se não for, segue para a próxima iteração
+                }else{
+                    Robo robo = (Robo) entidade;
+                    if (robo.getNome().equals(nome)){ //Printa uma das mensagens da lista de mensagens possíveis de erro de nome já existente
+                        String mensagemMostrada = mensagensNomeJaExistente.get(random.nextInt(mensagensNomeJaExistente.size()));
+                        System.out.println(mensagemMostrada);
+                        nome = scanner.nextLine();
+                        nomeExiste = true;
+                        break;
+                    } 
+                }
             }
             if (!nomeExiste){ //Quando tiver analisado todos os nomes na lista de robôs ativos, pode prosseguir na criação do robô
                 break;
@@ -539,8 +584,14 @@ public class Main {
         }
         return nome;
     }
-
-    public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs aéreos
+    /**
+     * Cria os robôs aéreos no ambiente
+     * @param scanner
+     * @param mensagensNomeJaExistente
+     * @param ambiente
+     * @param tipoRobo
+     */
+    public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ 
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
@@ -549,28 +600,34 @@ public class Main {
             System.out.println("Para o pacote a ser entregue");
             int tempoLocomocaoTerrestre = leTempo(scanner);
             Drone drone = new Drone(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], tempoLocomocaoTerrestre, ambiente.getLimites()[2]);
-            ambiente.adicionarRobo(drone);   
+            ambiente.adicionarEntidade(drone);   
 
-            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2]);
-            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2], "Sensor de Altitude");
+            SensorProximidade sensorProximidade = new SensorProximidade(1, "Sensor de Proximidade");
             // Adiciona os sensores ao drone
-            drone.adicionarSensor(sensorAltitude);
-            drone.adicionarSensor(sensorProximidade);
+            drone.adicionarSensores(sensorAltitude);
+            drone.adicionarSensores(sensorProximidade);
             System.out.println("É... você criou um rover pelo menos! E tem esse " + drone.getNome() + " também... yay");
         }else if (tipoRobo == 1){
             Passaro passaro = new Passaro(nomeRoboAereo, direcao, coordenadas[0], coordenadas[1], coordenadas[2], ambiente.getLimites()[2]);
-            ambiente.adicionarRobo(passaro);
+            ambiente.adicionarEntidade(passaro);
 
-            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2]);
-            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2], "Sensor de Altitude");
+            SensorProximidade sensorProximidade = new SensorProximidade(1, "Sensor de Proximidade");
             // Adiciona os sensores ao drone
-            passaro.adicionarSensor(sensorAltitude);
-            passaro.adicionarSensor(sensorProximidade);
+            passaro.adicionarSensores(sensorAltitude);
+            passaro.adicionarSensores(sensorProximidade);
             System.out.println("Meus superiores dizem que eu deveria dizer parabéns por ter criado o " + passaro.getNome() +" nesse ponto, mas eu me recuso.");
         }
     }
-
-    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ //Função para criação de robôs terrestres
+    /**
+     * Cria os robôs terrestres no ambiente
+     * @param scanner
+     * @param mensagensNomeJaExistente
+     * @param ambiente
+     * @param tipoRobo
+     */
+    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
@@ -579,27 +636,33 @@ public class Main {
         int tempoLocomocaoTerrestre = leTempo(scanner);
         if (tipoRobo == 0){
             Aspirador aspirador = new Aspirador(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
-            ambiente.adicionarRobo(aspirador);
+            ambiente.adicionarEntidade(aspirador);
 
-            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1]);
-            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1], "Sensor de Velocidade");
+            SensorProximidade sensorProximidade = new SensorProximidade(1, "Sensor de Proximidade");
             // Adiciona os sensores ao drone
-            aspirador.adicionarSensor(sensorVelocidade);
-            aspirador.adicionarSensor(sensorProximidade);
+            aspirador.adicionarSensores(sensorVelocidade);
+            aspirador.adicionarSensores(sensorProximidade);
             System.out.println("VAMOOOOOOOOOOOOOO!!! Você é incrível por ter criado o " + aspirador.getNome());
         }else if (tipoRobo == 1){
             Rover rover = new Rover(nomeRoboTerrestre, direcao, coordenadas[0], coordenadas[1], velMax, tempoLocomocaoTerrestre);
-            ambiente.adicionarRobo(rover);
+            ambiente.adicionarEntidade(rover);
 
-            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1]);
-            SensorProximidade sensorProximidade = new SensorProximidade(1);
+            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1], "Sensor de Velocidade");
+            SensorProximidade sensorProximidade = new SensorProximidade(1, "Sensor de Proximidade");
             // Adiciona os sensores ao drone
-            rover.adicionarSensor(sensorVelocidade);
-            rover.adicionarSensor(sensorProximidade);
+            rover.adicionarSensores(sensorVelocidade);
+            rover.adicionarSensores(sensorProximidade);
             System.out.println("Meus olhos se enchem de óleo toda vez, o " + rover.getNome() + " é tão lindo");
         }
     }
-
+    /**
+     * Lê coordenadas identificando erros de inserção de não inteiros e se já existe alguma entidade já existente nelas
+     * @param scanner
+     * @param roboVoador
+     * @param ambiente
+     * @return
+     */
     public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador, Ambiente ambiente){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
         boolean lugarOcupado = false;
         while (true){
@@ -610,23 +673,15 @@ public class Main {
                 posicaoZ = lerInteiro("Posição Z: ", scanner);
             }
             int qtdAnalisesPosicoes = 0;
-            for (Robo robo : ambiente.getListaRobos()) {
+            for (Entidade entidade : ambiente.getListaEntidades()) { //Analisa todas as entidades verificando se existe alguma na posição indicada
                 qtdAnalisesPosicoes++;
-                if (posicaoX == robo.getPosicao()[0] && posicaoY == robo.getPosicao()[1] && posicaoZ == robo.getPosicao()[2]){
+                if (posicaoX == entidade.getX() && posicaoY == entidade.getY() && posicaoZ == entidade.getZ()){
                     lugarOcupado = true;
                     qtdAnalisesPosicoes = -1;
                     break;
                 }
             }
-            for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                qtdAnalisesPosicoes++;
-                if (obstaculo.getPosX1() <= posicaoX && obstaculo.getPosX2() >= posicaoX && obstaculo.getPosY1() <= posicaoY && obstaculo.getPosY2() >= posicaoY && obstaculo.getAltura() >= posicaoZ){
-                    lugarOcupado = true;
-                    qtdAnalisesPosicoes = -1;
-                    break;
-                }
-            }
-            if (qtdAnalisesPosicoes == ambiente.getListaRobos().size() + ambiente.getListaObstaculos().size()){ // Se foi analisado todos os robôs e obstáculos e nenhum deles ocupava a posição escolhida, o lugar não está ocupado
+            if (qtdAnalisesPosicoes == ambiente.getListaEntidades().size()){ // Se foi analisado todos os robôs e obstáculos e nenhum deles ocupava a posição escolhida, o lugar não está ocupado
                 lugarOcupado = false;
             }else{
                 System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein. O lugar que você escolheu já está ocupado, colega. então vamos tentar colocar o novo robô em outro canto");
@@ -641,8 +696,15 @@ public class Main {
             
         }
     }
-
-    public static int lerInteiro(String mensagem, Scanner scanner) { //Função para excessões de inteiros lidos como string
+    /**
+     * Tratamento de excessões para leituras de inteiros
+     * @param mensagem a ser mostrada para que o usuário saiba a que inteiro está se referindo quando for pedido no buffer
+     * @param scanner
+     * @return inteiro lido após conferências
+     * @implNote Existe uma chance de 10% em que o programa irá encerrar caso o usuário digite algo que não é um inteiro.
+     * @implNote Sim isso é uma feature :)
+     */
+    public static int lerInteiro(String mensagem, Scanner scanner) { 
         Random random = new Random();
         int valor;
         while (true) { // Continua pedindo até o usuário digitar corretamente
@@ -664,7 +726,10 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Tratamento de erros ao digitar a direção para que sejam aceitas apenas norte, sul, leste e oeste
+     * @implNote Não importa se a direção será escrita com letras maiúsculas ou minúsculas, apenas se foi escrito corretamente
+     */
     public static String leDirecao(Scanner scanner){ //Função para ficar pedindo a direção até o usuário digitar corretamente
         String nomeDirecao = scanner.nextLine();
         while (true){
@@ -677,8 +742,11 @@ public class Main {
         }
         return nomeDirecao;
     }
-
-    public static void limparTela(String sistemaOperacional){ //Função para limpar o terminal após algumas interações
+    /**
+     * Limpa o terminal após um ciclo de iterações para ficar mais agradável para o usuário no terminal
+     * @param sistemaOperacional
+     */
+    public static void limparTela(String sistemaOperacional){ 
         try {
             if (sistemaOperacional.contains("win")){
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); //Da clear no cmd usando cls
@@ -690,7 +758,9 @@ public class Main {
             System.out.println("\n".repeat(50)); //No caso de erro ele apenas "limpa" o terminal printando diversas vezes uma quebra de linha
         }
     }
-
+    /**
+     * Lê a velocidade para os robôs terrestres que serão criados, não permitindo velocidades negativas nem nulas
+     */
     public static int leVelocidade(Scanner scanner){
         int velMax = 0;
         while (true){ //Loop para analisar a velocidade máxima
@@ -705,7 +775,9 @@ public class Main {
         }
         return velMax;
     }
-    
+    /**
+     * Lê o tempo de locomoção para os robôs terrestres que serão criados, não permitindo tempos negativos nem nulos
+     */
     public static int leTempo(Scanner scanner){
         int tempoLocomocaoTerrestre = 0;
         while (true){ //Loop para analisar o tempo de locomoção
@@ -720,8 +792,10 @@ public class Main {
         }
         return tempoLocomocaoTerrestre;
     }
-
-    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente){ //Função para subir ou descer o robô aéreo
+    /**
+     * Métodos dos robôs aéreos básicos (Subir ou descer)
+     */
+    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente){ 
         if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
             System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{
@@ -744,7 +818,9 @@ public class Main {
             System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
         }
     }
-    
+    /**
+     * Métodos dos sensores básicos (Checagem de baterias)
+     */
     public static void metodosSensores(Scanner scanner, Robo robo){
         int comando;
         while (true){
@@ -764,7 +840,9 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Printa as interações que os robôs possuem ao encontrarem obstáculos no caminho
+     */
     public static void obstaculoAchado(Robo robo, Ambiente ambiente){
         String[] direcoes = {"norte", "sul", "leste", "oeste"}; //Lista das direções possíveis
         int[] passos = {0,0}; 
@@ -828,7 +906,9 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Printa o mapa 2D para que o usuário entenda como posicionar um obstáculo durante a sua criação
+     */
     public static void printaMapa(){
         System.out.println("y");
         System.out.println("^");
