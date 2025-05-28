@@ -58,7 +58,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])){ //Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
-                if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Aspirador identificar um robô
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
@@ -76,7 +76,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
             }
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])){ //Movimento em Y
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
-                if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Aspirador identificar um robô
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
