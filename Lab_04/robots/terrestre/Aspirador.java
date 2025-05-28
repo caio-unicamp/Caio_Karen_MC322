@@ -19,36 +19,45 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
      */
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException(this.getNome());
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o aspirador está ligado
+            throw new RoboDesligadoException(this.getNome()); //Se não estiver lança o respectivo erro
         }
 
         if (destinatario == null) {
             throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
         }
 
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) {
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem não está desligado
             CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem);
             throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
         }
-
+        //Faz o destinatário receber a mensagem (caso ele não esteja desligado)
         destinatario.receberMensagem(this.getNome(), mensagem);
-
+        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
         String nomeDestinatario = (destinatario instanceof Robo) ? ((Robo) destinatario).getNome() : "Desconhecido";
-        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
         
+        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
+        //COLOCAR O PRINT NA MAIN DEPOIS DE TERMINAR
         System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
     }
-
+    /**
+     * Recebe mensagens enviadas por outros robôs comunicáveis
+     */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Confere se o Aspirador está ligado
+            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens."); //Se não estiver lança o respectivo erro
         }
+        //BOTAR O PRINT NA MAIN DEPOIS
         System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
     }
-    //método de aspirar robôs
-    public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
+    /**
+     * Aspira os robôs encontrados no caminho quando ele se move
+     * @param passosX
+     * @param passosY
+     * @param ambiente
+     */
+    public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){
         for (Entidade entidade : ambiente.getListaEntidades()) {
             if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                 continue; //Se não for, pula para a próxima iteração
@@ -62,11 +71,16 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
             }
         }
     }
-    
-    public int getRobosEliminados(){ //Função que retorna o número de robôs que foram eliminados
+    /**
+     * Verifica quantos robôs foram eliminados
+     * @return número de robôs eliminados
+     */
+    public int getRobosEliminados(){
         return robosEliminados;
     }
-    
+    /**
+     * Move o aspirador aspirando os robôs encontrados no seu caminho
+     */
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException { //Função para mover o aspirador e eliminar os robôs
         int posInicialX = this.getPosicao()[0];

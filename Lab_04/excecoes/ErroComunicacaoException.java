@@ -6,6 +6,6 @@ package excecoes;
  */
 public class ErroComunicacaoException extends Exception {
     public ErroComunicacaoException(String message) {
-        super("Erros de comunicações são comuns entre relacionamentos, mas precisam ser tratados antes de piorar tudo. Normalmente um terapetua ajuda bastante.");
+        super(message);
     }
 }

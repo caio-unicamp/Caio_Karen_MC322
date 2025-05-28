@@ -20,48 +20,36 @@ public class Drone extends RoboAereo implements Comunicavel{
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o drone está ligado
-            throw new RoboDesligadoException( this.getNome());
+            throw new RoboDesligadoException(this.getNome());
         }
 
         if (destinatario == null) {
             throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
         }
 
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem não está ligado
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem está ligado
             CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
             throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
         }
-
-        // Call destinatario's receberMensagem method
-        // The 'remetente' parameter in receberMensagem will be the name of this robot
-        destinatario.receberMensagem(this.getNome(), mensagem); //
-
-        // Register the message with CentralComunicacao
-        // Assuming the destinatario can be cast to Robo to get its name for logging.
-        // If not all Comunicavel are Robo, you might need a getNome() in Comunicavel or handle this differently.
-        String nomeDestinatario = "Desconhecido";
-        if (destinatario instanceof Robo) {
-            nomeDestinatario = ((Robo) destinatario).getNome();
-        } else if (destinatario instanceof Entidade) { // Fallback if it's some other Entidade that's Comunicavel
-             nomeDestinatario = ((Entidade) destinatario).getNome();
-        }
-        // Register the message in the communication central
-        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); //
+        //Faz o destinatário receber a mensagem (caso ele não esteja desligado)
+        destinatario.receberMensagem(this.getNome(), mensagem); 
+        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
+        String nomeDestinatario = (destinatario instanceof Robo) ? ((Robo) destinatario).getNome() : "Desconhecido"; 
+        // Registra que a mensagem foi enviada.
+        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
         //COLOCAR PRINT NA MAIN DEPOIS DE REGISTRAR A MENSAGEM
         System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
     }
-
+    /**
+     * Recebe mensagens enviadas por outros robôs comunicáveis
+     */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //
-            // Even if off, it might be argued a message "arrives" but isn't processed.
-            // However, per PDF for Comunicavel.receberMensagem, it can throw RoboDesligadoException.
-            // Logging it might still be useful.
-            // CentralComunicacao.getInstancia().registrarMensagem(remetente, this.getNome(), "[TENTATIVA FALHA DE ENTREGA - RECEPTOR DESLIGADO] " + mensagem);
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { 
+            //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
             throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
         }
-
-        // Logic for what the robot does with the message and nothing more happens
+        //BOTAR O PRINT NA MAIN
         System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
     }
     /**
