@@ -1,9 +1,7 @@
 package robots.terrestre;
 import interfaces.*;
-import enums.*;
 import excecoes.*;
 import ambiente.*;
-import sensores.*;
 import robots.Robo;
 
 public class Rover extends RoboTerrestre{

@@ -1,10 +1,22 @@
 package sensores;
-import robo.*;
+import robots.*;
 import ambiente.*;
 import interfaces.Entidade;
+import enums.TipoEntidade;
+
 public class SensorProximidade extends Sensor<Boolean>{
+    private TipoEntidade ultimoTipoDetectado; //Atributo para tornar mais fácil que tipo de entidade o sensor detecta
+    
     public SensorProximidade(double raio, String nomeSensor){
         super(raio, nomeSensor);
+        this.ultimoTipoDetectado = TipoEntidade.VAZIO;
+    }
+    /**
+     * Verifica qual entidade esse sensor detectou
+     * @return tipo da entidade detectada (Robo ou Obstáculo)
+     */
+    public TipoEntidade getUltimoTipoDetectado(){
+        return this.ultimoTipoDetectado;
     }
     /**
      * O monitoramento do sensor de proximidade funciona verificando por robôs e obstáculos próximos.
@@ -18,7 +30,8 @@ public class SensorProximidade extends Sensor<Boolean>{
     @Override
     public Boolean monitorar(Object... atributo){ //Método que verifica se o robô irá colidir com algum obstáculo ou robô
         this.consumirBateria(5); // Consome 5% da bateria a cada monitoramento
-
+        this.ultimoTipoDetectado = TipoEntidade.VAZIO; //Reseta a detecção
+        //Lógica para definir a direção
         if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] > 0){ //Se o passo for positivo ele anda para o leste
             ((Robo) atributo[4]).setDirecao("leste");
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[0] < 0){ //Se o passo for negativo ele anda para o oeste
@@ -28,7 +41,24 @@ public class SensorProximidade extends Sensor<Boolean>{
         }else if (((Robo) atributo[4]).getPasso((int) atributo[0], (int) atributo[1])[1] < 0){ //Se o passo for negativo ele anda para o oeste
             ((Robo) atributo[4]).setDirecao("sul");
         }
-        return(identificarRobo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3],(Robo) atributo[4]) || identificarObstaculo((int) atributo[0],(int) atributo[1],(int) atributo[2],(Ambiente) atributo[3])); //Caso o robô identifique um obstáculo ou um robô, ele retorna true caso contrário, retorna false
+        //Deixando claro como funcionam os atributos
+        int x = (int) atributo[0];
+        int y = (int) atributo[1];
+        int z = (int) atributo[2];
+        Ambiente ambiente = (Ambiente) atributo[3];
+        Robo roboProprio = (Robo) atributo[4];
+
+        // Identifica se achou um robô e altera a variável do tipo da entidade
+        if (identificarRobo(x, y, z, ambiente, roboProprio)) {
+            this.ultimoTipoDetectado = TipoEntidade.ROBO;
+            return true;
+        }
+        // Identifica se achou um obstáculo e altera a variável do tipo da entidade
+        if (identificarObstaculo(x, y, z, ambiente)) {
+            this.ultimoTipoDetectado = TipoEntidade.OBSTACULO;
+            return true;
+        }
+        return false; // Retorna false se nada foi encontrado
     }
 
     public boolean identificarRobo(int x, int y, int z, Ambiente ambiente, Robo roboProprio){
