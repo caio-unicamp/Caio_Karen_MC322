@@ -3,7 +3,6 @@ import interfaces.*;
 import enums.*;
 import excecoes.*;
 import ambiente.*;
-import sensores.*;
 import robots.Robo;
 
 public class Aspirador extends RoboTerrestre implements Comunicavel {
@@ -15,7 +14,39 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         super(nome, direcao, x, y, velocidadeMaxima, tempoLocomocaoTerrestre); //Herança da classe robô
         this.robosEliminados = 0;   //inicializar o atritubo próprio
     }
+    /**
+     * Envia uma mensagem para outro robô
+     */
+    @Override
+    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
+            throw new RoboDesligadoException(this.getNome());
+        }
 
+        if (destinatario == null) {
+            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
+        }
+
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) {
+            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem);
+            throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
+        }
+
+        destinatario.receberMensagem(this.getNome(), mensagem);
+
+        String nomeDestinatario = (destinatario instanceof Robo) ? ((Robo) destinatario).getNome() : "Desconhecido";
+        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
+        
+        System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
+    }
+
+    @Override
+    public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
+            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
+        }
+        System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
+    }
     //método de aspirar robôs
     public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){ //Função para eliminar robôs quando ele se mover
         for (Entidade entidade : ambiente.getListaEntidades()) {
