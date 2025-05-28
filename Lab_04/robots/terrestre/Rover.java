@@ -2,6 +2,7 @@ package robots.terrestre;
 import interfaces.*;
 import excecoes.*;
 import ambiente.*;
+import enums.TipoEntidade;
 import robots.Robo;
 
 public class Rover extends RoboTerrestre{
@@ -36,7 +37,7 @@ public class Rover extends RoboTerrestre{
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])){ // Movimeto em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente)){
-                if (this.getSensorProximidade().identificarRobo(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ // O código abaixo é executado se o robô não identificar um obstáculo mas sim um robô
+                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Rover identificar um robô
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX + passos[0], this.getPosicao()[1], ambiente);
                     if (roboEmpurrado != null){
                         empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
@@ -47,7 +48,7 @@ public class Rover extends RoboTerrestre{
             }     
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])){ // Movimeto em Y
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente)){
-                if (this.getSensorProximidade().identificarRobo(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
+                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Rover identificar um robô
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX, posAtualY + passos[1], ambiente);
                     if (roboEmpurrado != null){
                         empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
