@@ -423,7 +423,7 @@ public class Main {
                         }
                     }else if (comando == 2){ //Método para empurrar um robô específico
                         System.out.println("Parece que você tem uma richa com alguém, não é mesmo? Me diz quem é e a gente esbarra nele");
-                        Robo inimigo;
+                        Robo inimigo = null;
                         while (true) {
                             int numRoboEmpurrar = 1;
                             boolean podeEmpurrar = false;
@@ -442,10 +442,16 @@ public class Main {
                                 System.out.println("Que fim sem graça dessa novela, não tem ninguém pra você empurrar");
                                 break;
                             }
-                            comando = lerInteiro("\0", scanner);
-                            inimigo = ambiente.getListaRobos().get(comando - 1);
-                            if (comando < 1 || comando > ambiente.getListaRobos().size()){ //Se for escolhido um número inválido volta a pedir o número
-                                System.out.println("Ah sim, é claro, você quer que eu adivinhe o número que você escolheu? Que legal, mas não sou tão bom assim, então por favor escolha um dos números mostrados");
+                            String nomeRoboInimigo = scanner.nextLine();
+                            for (Entidade entidade : ambiente.getListaEntidades()) {
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                    continue; //Se não for segue para a próxima iteração
+                                }else if (entidade.getNome().equals(nomeRoboInimigo)){
+                                    inimigo = (Robo) entidade;
+                                }
+                            }
+                            if (inimigo == null){ //Se for escolhido um número inválido volta a pedir o número
+                                System.out.println("Ah sim, é claro, você quer que eu adivinhe um robô que você escolheu e que não existe? Que legal, mas não sou tão bom assim, então por favor escolha um dos nomes mostrados");
                                 continue;
                             }else if (inimigo.equals(roboEscolhido)){ //Não deixa empurrar a si próprio
                                 System.out.println("Não seja tão duro consigo mesmo, vamos lá, deve haver outra pessoa que você odeia mais do que a si próprio");
@@ -455,6 +461,7 @@ public class Main {
                                 break;
                             }else if (inimigo.getPosicao()[2] == 0){
                                 System.out.println("Eu também teria ranço desses tipinhos aí, se eles chegarem perto do chão eu te aviso pra você barruar neles");
+                                continue;
                             }
                             else{
                                 break;
@@ -462,11 +469,9 @@ public class Main {
                         }
                         // Empurrar algum robô
                         try{
-                            inimigo = ambiente.getListaRobos().get(comando - 1);
                             int[] posInicialInimigo = {inimigo.getPosicao()[0], inimigo.getPosicao()[1]};
                             rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
                             obstaculoAchado(rover, ambiente);
-
                             if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles
                                 int numAnaliseRobosEmpurrados = 0;
                                 for (Entidade entidade : ambiente.getListaEntidades()) {
