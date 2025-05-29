@@ -15,9 +15,11 @@ public class Rover extends RoboTerrestre{
         this.qtdRobosDerrubados = 0;
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
-    
+    /**
+     * Move recursivamente o rover empurrando quem estiver no caminho dele
+     */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException { //Função para mover recursivamente o rover e acessar a função empurrar robô
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException {
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
@@ -59,8 +61,14 @@ public class Rover extends RoboTerrestre{
             }
         }
     }
-    
-    //metodo de mover com empurrar um robo junto
+    /**
+     * Empurra um robô que estiver no caminho
+     * @param empurrado
+     * @param deltaX
+     * @param deltaY
+     * @param ambiente
+     * @implNote Caso existam vários robôs na linha que o rover tenta se mover, cada robô consegue empurrar o próximo na fila
+     */
     public void empurrarRobo(Robo empurrado, int deltaX, int deltaY, Ambiente ambiente){
         int[] novaPosicao = getPosicaoFinalRoboEmpurrado(deltaX, deltaY, empurrado, ambiente);
         if (this.getSensorProximidade().monitorar(novaPosicao[0], novaPosicao[1], 0, ambiente)){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
@@ -72,8 +80,15 @@ public class Rover extends RoboTerrestre{
         }
         empurrado.setPosicao(novaPosicao[0], novaPosicao[1], 0); //Como o robô está sendo empurrado pelo rover ele também passará a ignorar qualquer obstáculo, então basta setar a posição nova dele até a posição final dele até o fim da locomoção do rover
     }   
-
-    public int[] getPosicaoFinalRoboEmpurrado(int deltaX, int deltaY, Robo empurrado, Ambiente ambiente){ //Função que retorna as posições finais dos robôs empurrados pelo rover
+    /**
+     * Retorna as posições finais dos robôs que serão empurrados pelo rover.
+     * @param deltaX
+     * @param deltaY
+     * @param empurrado
+     * @param ambiente
+     * @return uma lista de tamanho 2 representando as posições finais do robô após ser empurrado, sendo o índice 0 a posição x e o índice 1 a posição y.
+     */
+    public int[] getPosicaoFinalRoboEmpurrado(int deltaX, int deltaY, Robo empurrado, Ambiente ambiente){ 
         int posicaoX = empurrado.getPosicao()[0] + deltaX;
         int posicaoY = empurrado.getPosicao()[1] + deltaY;
         
@@ -84,11 +99,19 @@ public class Rover extends RoboTerrestre{
 
         return new int[] {posicaoX, posicaoY};
     }
-
-    public int getQtdRobosEmpurrados(Ambiente ambiente){ //Função que mostra quantos robôs foram empurrados
+    /**
+     * Verifica quantos robôs foram empurrados pelo rover no total
+     * @param ambiente
+     * @return número de robôs que o rover já empurrou
+     */
+    public int getQtdRobosEmpurrados(Ambiente ambiente){
         return ambiente.getListaEntidades().size();
     }
-    public int getRobosDerrubados(){ //Função que mostra quantos robôs foram derrubados
+    /**
+     * Verifica quantos robôs foram derrubados do ambiente
+     * @return número de robôs que o rover derrubou do mapa
+     */
+    public int getRobosDerrubados(){ 
         return qtdRobosDerrubados;
     }
     /**
