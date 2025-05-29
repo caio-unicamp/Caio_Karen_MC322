@@ -1,6 +1,8 @@
 package robots.aereo;
 import excecoes.*;
 import ambiente.*;
+import sensores.*;
+import enums.EstadoRobo;
 public class Passaro extends RoboAereo{
     //Atributo próprio da quantidade de desvios que ele fez
     private int qtdDesvios;
@@ -16,6 +18,14 @@ public class Passaro extends RoboAereo{
     
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
+        if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Lança o erro se o pássaro estiver desligado
+            throw new RoboDesligadoException("Esse desgraçadinho graças à Hyperion não está ligado");
+        }
+        for (Sensor<?> sensor : this.getSensores()){ //Verifica os sensores
+            if (sensor.getBateria() == 0){ //Se algum sensor estiver descarregado lança o erro
+                throw new SensorDesligadoException(sensor, this.getNome());
+            }
+        }
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);

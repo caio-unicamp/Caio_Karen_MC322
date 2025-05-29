@@ -8,7 +8,7 @@ import excecoes.*;
 import java.util.ArrayList;
 
 public class Robo implements Entidade, Sensoreavel{
-    private String nomeRobo;    //id do robô
+    private String idRobo;    //id do robô que será o nome durante sua criação
     private String direcao;   //direção do robô
     private EstadoRobo estado; //Estado do robô, que pode ser LIGADO ou DESLIGADO 
     private TipoEntidade tipoEntidade; //Tipo da entidade, que nesse caso é um robô
@@ -17,8 +17,8 @@ public class Robo implements Entidade, Sensoreavel{
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
     private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
     
-    public Robo (String nomeRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
-        this.nomeRobo = nomeRobo;
+    public Robo (String idRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
+        this.idRobo = idRobo;
         this.direcao = direcaoRobo;
         this.posicaoX = x;
         this.posicaoY = y;
@@ -98,8 +98,6 @@ public class Robo implements Entidade, Sensoreavel{
                 }
             }
         }
-        
-
         if (!moveu){ //Se não conseguiu mover nem em X e nem em Y ele para a função
             return;
         }
@@ -126,7 +124,7 @@ public class Robo implements Entidade, Sensoreavel{
      * @return O nome do robô.
     */
     public String getNome(){ 
-        return this.nomeRobo;
+        return this.idRobo;
     }
     /** 
      * Método para saber a posição X do robô no ambiente.
