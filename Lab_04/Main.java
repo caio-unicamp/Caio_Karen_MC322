@@ -121,7 +121,7 @@ public class Main {
                     }
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
-                System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora");
+                System.out.println("Vamos ver do que esses pequeninos são capazes. Mas antes escolha com qual deles você quer se divertir agora. Digite o nome do robô que você deseja testar.");
                 int numEscolhaAcaoRobo = 1;
                 for (Entidade entidade : ambiente.getListaEntidades()){
                     if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
@@ -131,14 +131,18 @@ public class Main {
                         System.out.println(numEscolhaAcaoRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName());
                     }
                 }
-                Robo roboEscolhido;
+                Robo roboEscolhido = null;
                 while(true){
-                    comando = lerInteiro("\0", scanner);
-                    if (comando >= 1 && comando <= ambiente.getNumRobosAmbiente()){
-                        roboEscolhido = ambiente.getListaRobos().get(comando - 1);
+                    String nomeRoboEscolhido = scanner.nextLine();
+                    for (Entidade entidade : ambiente.getListaEntidades()) { //Procura pelo robô pelo nome digitado
+                        if (entidade.getNome().equals(nomeRoboEscolhido)){
+                            roboEscolhido = (Robo) entidade;
+                        }
+                    }
+                    if ((ambiente.getListaEntidades().contains(roboEscolhido))){
                         break;
                     }else{
-                        System.out.println("Talvez os números antes dos nomes dos robôs não estejam claros o suficiente, mas tipo, você tem que escolher um dos números dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos números que está do lado esquerdo");
+                        System.out.println("Não sei como, mas acho que não me fiz claro o suficiente, mas tipo, você tem que escolher um dos robôs dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos nomes que está do lado direito");
                     }
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
