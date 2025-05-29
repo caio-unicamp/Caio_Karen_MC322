@@ -138,13 +138,13 @@ public class Ambiente{
     }
     /**
      * Salva os símbolos correspondentes ao x e y em uma altura específica para printar na main
-     * @param altura do mapa a ser vizualizado
+     * @param altura em que pede-se a vizualização
      * @return uma matriz referente aos símbolos das entidades em suas respectivas posições no ambiente
      */
     public char[][] vizualizarMapa(int altura){
         char [][] vizuMapa = new char[this.tamX - 1][this.tamY - 1];
         for (int j = this.tamY-1; j >= 0; j--){
-            for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
+            for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e adciona o símbolo de cada entidade no nível de altura especificado
                 vizuMapa[i][j] = (this.mapa[i][j][altura].getSimbolo());
             }
         }

@@ -79,7 +79,7 @@ public class Main {
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
-            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos\n5 - Verificar Central de Comunicação", scanner);
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos\n5 - Verificar Central de Comunicação\n6 - Vizualisar o ambiente", scanner);
             
             if (comando == 0){ //Encerra o programa
                 break;
@@ -560,6 +560,22 @@ public class Main {
                 exibirMensagensCentral(logs);
                 for (String logEntry : logs) {
                     System.out.println(logEntry); // Exibe cada mensagem formatada
+                }
+            }else if(comando == 6){
+                int alturaVizualizacao = lerInteiro("Perfeito! Infelizmente no momento não posso te dar uma vizualização completa do ambiente por limitações gráficas, então preciso que você me diga uma altura que esteja dentro dos limites do ambiente para eu te mostrar um corte no plano XY nessa altura", scanner);
+                while (true) {
+                    if (alturaVizualizacao < 0){ //Se a altura pedida for menor que 0
+                        alturaVizualizacao = lerInteiro("Seria bem legal poder ir para baixo da terra, mas meus sensores tem medo do escuro, então vou ter que pedir para você escolher uma altura acima da terra", scanner);
+                    }else if(alturaVizualizacao > ambiente.getLimites()[2]){
+                        alturaVizualizacao = lerInteiro("Ao infinito e além! É o que eu diria se eu pudesse estar acima dos céus, que inveja daqueles que podem voar. Escolha uma altura dentro dos limites de " + ambiente.getNomeAmbiente(), scanner);
+                    }else{
+                        break;
+                    }
+                }
+                for (int j = ambiente.getLimites()[1] - 1; j >= 0; j--){
+                    for (int i = 0; i < ambiente.getLimites()[0]; i++){
+                        System.out.println(ambiente.vizualizarMapa(alturaVizualizacao)[i][j]);
+                    }
                 }
             }else{ //Caso seja digitado um número inválido
                 System.out.println("Foi mal, por enquanto eu só sei contar até 6... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
