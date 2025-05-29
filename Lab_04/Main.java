@@ -935,6 +935,12 @@ public class Main {
         System.out.println("------------------------------------>x");
     }
     public static void metodosRobosComunicaveis(Ambiente ambiente, Scanner scanner, Comunicavel remetente){
+        //Faz o cast para qual dos robôs comunicáveis o remetente é
+        if (remetente instanceof Drone){ 
+            remetente = (Drone) remetente;
+        }else{
+            remetente = (Aspirador) remetente;
+        }
         System.out.println("Para quem você deseja enviar sua mensagem? (Digite o nome ao lado do número)");
         while (true) {
             int numAnaliseRobosMensagem = 1;
