@@ -161,13 +161,14 @@ public class Drone extends RoboAereo implements Comunicavel{
                         continue; //Se não for, pula para a próxima iteração
                     }else{
                         Robo robo = (Robo) entidade; //Faz o cast para robô
-                        if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
+                        if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído e não adiciona o pacote
                             destroiRoboColidido(robo, ambiente);
                             throw new ColisaoException("Que desastre, além do seu drone ter tido um problema na descida e ter derrubado seu pacote, ja tinha um robô no lugar que o pacote caiu e ambos foram destruídos");
                         }
                     }
                 }
-                throw new ColisaoException("Durante a descida para entregar o pacote o drone encontrou um problema e acabou derrubando seu pacote que infelizmente não poderá ser recuperado");
+                adicionaPacote(nomePacote, ambiente);
+                throw new ColisaoException("Durante a descida para entregar o pacote o drone encontrou um problema e acabou derrubando seu pacote.");
             }
         }
     }
@@ -195,7 +196,7 @@ public class Drone extends RoboAereo implements Comunicavel{
      * @param ambiente
      */
     public void adicionaPacote(String nomePacote, Ambiente ambiente){
-        pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2], tempoLocomocaoPacote);
+        pacote = new Rover(nomePacote, this.getDirecao(), this.getPosicao()[0], this.getPosicao()[1], 0, this.tempoLocomocaoPacote);
         ambiente.adicionarEntidade((Entidade)pacote);
     }
     /**

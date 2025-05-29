@@ -314,27 +314,30 @@ public class Main {
                             }
                         }
                         try{
-
-                        }catch (RoboDesligadoException e){
-
-                        }catch (ColisaoException e){
-
-                        }catch (SensorDesligadoException e){
-                            
-                        }
-                        //se o drone conseguiu entregar o pacote
-                        if (drone.entregouPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
+                            drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente);
+                            //Indica se o drone conseguiu entregar o pacote
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
-                        }
-                        //se o drone não consegiu entregar o pacote
-                        else{
-                            obstaculoAchado(drone, ambiente);
-                            System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: (" + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + ") Tá esperando o que? VAI VER SE ELE TÁ BEM!");
-                            int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
-                            if (verifica == 1){
-                                System.err.println("É bom mesmo...");
-                            }else{
-                                System.out.println("Estou gostando cada vez menos de você");
+                        }catch (RoboDesligadoException e){ //Indica que drone está desligado
+                            System.err.println(e.getMessage());
+                        }catch (SensorDesligadoException e){ //Indica que algum sensor do drone está desligado
+                            System.err.println(e.getMessage());
+                        }catch (ColisaoException e){
+                            obstaculoAchado(drone, ambiente); //Printa interações com obstáculos
+                            for (Entidade entidade : ambiente.getListaEntidades()) {
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                    continue; //Se não for segue para a próxima iteração
+                                }else{
+                                    if (entidade.getNome().equals(nomePacote)){ //Caso o pacote tenha sido derrubado mas não destruído
+                                        System.out.println("Seu pacote foi derrubado no caminho...que decepção... Atualmente o " + nomePacote + " está nas coordenadas: (" + drone.getPosicao()[0] + ", " + drone.getPosicao()[1] + ", " + 0 + ") Tá esperando o que? VAI VER SE ELE TÁ BEM!");
+                                        int verifica = lerInteiro("1 - Estou indo ver ele agora\n2 - Sou mal caráter e vou ignorá-lo", scanner);
+                                        if (verifica == 1){
+                                            System.err.println("É bom mesmo...");
+                                        }else{
+                                            System.out.println("Estou gostando cada vez menos de você");
+                                        }
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }else if (comando == 4){ //Bloco para analisar os sensores
