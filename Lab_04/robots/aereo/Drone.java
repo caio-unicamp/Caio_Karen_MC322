@@ -3,6 +3,7 @@ import interfaces.*;
 import enums.*;
 import excecoes.*;
 import ambiente.*;
+import sensores.*;
 import robots.*;
 import robots.terrestre.Rover;
 
@@ -88,8 +89,16 @@ public class Drone extends RoboAereo implements Comunicavel{
      * @throws RoboDesligadoException 
      * @throws SensorDesligadoException 
      */
-    public boolean entregouPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
+    public void entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
         //inicializar o robo pacote
+        if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Lança o erro do caso do robô estar desligado
+            throw new RoboDesligadoException("O pacote não pode ser entregue pois o " + this.getNome() + " está desligado");
+        }
+        for (Sensor<?> sensor : this.getSensores()){ //Verifica os sensores do drone para checagem de bateria
+            if (sensor.getBateria() == 0){ //Se algum dos sensores estiver com a bateria descarregada impede de prosseguir
+                throw new SensorDesligadoException(sensor, this.getNome());
+            }
+        }
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int posInicialZ = this.getPosicao()[2];
@@ -109,9 +118,8 @@ public class Drone extends RoboAereo implements Comunicavel{
                 }
             }
         }if (numRobosAnalisados == ambiente.getNumRobosAmbiente()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
-            return false;
+            throw new ColisaoException("Infelizmente o " + this.getNome() + " não está mais entre nós, ele e o pacote foram destruídos");
         }
-        
         if (this.getPosicao()[0] == posicaoXdronefinal && this.getPosicao()[1] == posicaoYdronefinal){ //Se o drone já chegou na posição que ele quer, ele desce com o robo
             this.descer(this.getPosicao()[2] - 1, ambiente); //Desce o drone até uma unidade antes do chão para conseguir entregar o pacote
             if (this.getPosicao()[2] == 1){ //Nesse ponto depois da descida o pacote foi entregue com sucesso

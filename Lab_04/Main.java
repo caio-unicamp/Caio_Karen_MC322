@@ -272,7 +272,7 @@ public class Main {
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote\n4 - Analisar sensores\n5 - Enviar uma mensagem", scanner);
-                    if (comando == 1 || comando == 2){ //Subir ou descer o robô
+                    if (comando == 1 || comando == 2){ //Subir ou descer o drone
                         metodosRobosAereos(drone, comando, scanner, ambiente);
                     }else if (comando == 3){ //Entregar um pacote
                         System.out.println("Que nome você quer dar para esse recém nascido que está por chegar?");
@@ -303,15 +303,24 @@ public class Main {
                                     int verifica = lerInteiro("1 - Sim, eu quero que ele vá pra lá\n2 - Não, eu quero que ele vá pra outro lugar", scanner);
                                     if (verifica == 1){
                                         System.out.println("Ok, você quem é o chefe aqui, só não diga que eu não avisei");
-                                        break;
                                     }else if (verifica == 2){
                                         System.out.println("Ótimo, você não é tão mal caráter assim, vamos tentar de novo");
-                                        break;
                                     }else{ //Continua pedindo até ser dada uma opção válida
                                         System.out.println("Cara, é uma coisa tão simples, sério, é literalmente só escolher um dos números que eu mostrei... Eu não sou pago o suficiente pra isso");
+                                        continue;
                                     }
+                                    break;
                                 }
                             }
+                        }
+                        try{
+
+                        }catch (RoboDesligadoException e){
+
+                        }catch (ColisaoException e){
+
+                        }catch (SensorDesligadoException e){
+                            
                         }
                         //se o drone conseguiu entregar o pacote
                         if (drone.entregouPacote(coordenadaX, coordenadaY, nomePacote, ambiente)){
