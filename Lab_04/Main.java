@@ -366,13 +366,20 @@ public class Main {
                         System.out.println("Você quer mover para onde?");
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
-                        passaro.mover(deltaX, deltaY, ambiente);
-                        obstaculoAchado(passaro, ambiente);
-
-                        //pegar a qtd de desvios
-                        int qtdDesvios = passaro.getQtddesvios();
-                        //imprimir a qtd de desvios
-                        System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                        try{
+                            passaro.mover(deltaX, deltaY, ambiente);
+                            //pegar a qtd de desvios
+                            int qtdDesvios = passaro.getQtddesvios();
+                            //imprimir a qtd de desvios
+                            System.out.println("Você fez " + qtdDesvios + " desvios no caminho");
+                        }catch(RoboDesligadoException e){
+                            System.err.println(e.getMessage());
+                        }catch(SensorDesligadoException e){
+                            System.err.println(e.getMessage());
+                        }catch(ColisaoException e){
+                            obstaculoAchado(passaro, ambiente);
+                            System.err.println(e.getMessage());
+                        }
                     }else if(comando == 4){
                         while (true){
                             int numSensorPassaro = 1;
