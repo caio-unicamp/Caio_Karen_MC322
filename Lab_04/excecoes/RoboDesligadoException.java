@@ -5,6 +5,10 @@ package excecoes;
  * não está ligado, como tentar movê-lo.
  */
 public class RoboDesligadoException extends Exception {
+    /**
+     * Passe a mensagem completa do erro do robô desligado
+     * @param message
+     */
     public RoboDesligadoException(String message) {
         super(message);
     }

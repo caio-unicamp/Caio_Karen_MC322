@@ -99,6 +99,7 @@ public class Drone extends RoboAereo implements Comunicavel{
                 throw new SensorDesligadoException(sensor, this.getNome());
             }
         }
+        //Salva as posições iniciais do drone antes de movê-lo
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int posInicialZ = this.getPosicao()[2];
@@ -118,8 +119,9 @@ public class Drone extends RoboAereo implements Comunicavel{
                 }
             }
         }if (numRobosAnalisados == ambiente.getNumRobosAmbiente()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
-            throw new ColisaoException("Infelizmente o " + this.getNome() + " não está mais entre nós, ele e o pacote foram destruídos");
+            throw new ColisaoException("Infelizmente o " + this.getNome() + " não está mais entre nós. Ele e o pacote foram destruídos");
         }
+
         if (this.getPosicao()[0] == posicaoXdronefinal && this.getPosicao()[1] == posicaoYdronefinal){ //Se o drone já chegou na posição que ele quer, ele desce com o robo
             this.descer(this.getPosicao()[2] - 1, ambiente); //Desce o drone até uma unidade antes do chão para conseguir entregar o pacote
             if (this.getPosicao()[2] == 1){ //Nesse ponto depois da descida o pacote foi entregue com sucesso
@@ -133,11 +135,11 @@ public class Drone extends RoboAereo implements Comunicavel{
                             if (obstaculo.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ // No caso do pacote cair em uma mina, ela é destruída
                                 ambiente.removerEntidade(obstaculo);
                             }
-                            return false;
+                            throw new ColisaoException("O pacote foi entregue onde havia um obstáculo e infelizmente foi destruído.");
                         }
                     }
                 }
-                if (jaExisteRobo(ambiente)){ //Caso exista robô onde seria entregue, ele e o pacote serão destruídos
+                if (jaExisteRobo(ambiente)){ //Caso exista robô onde seria feita a entrega, ele e o pacote serão destruídos
                     for (Entidade entidade : ambiente.getListaEntidades()){
                         if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                             continue; //Se não for, pula para a próxima iteração
@@ -148,12 +150,12 @@ public class Drone extends RoboAereo implements Comunicavel{
                             }
                         }
                     }
-                    return false;
-                }else {
+                    throw new ColisaoException("Como eu avisei, já existia um robô onde você queria entregar o pacote e você acabou destruindo ambos");
+                }else { //Entregou o pacote com sucesso
                     adicionaPacote(nomePacote, ambiente);
-                    return true;
+                    return;
                 }
-            }else{
+            }else{ //Se o drone não conseguiu descer tudo ele encontrou um obstáculo na descida
                 for (Entidade entidade : ambiente.getListaEntidades()){
                     if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                         continue; //Se não for, pula para a próxima iteração
@@ -161,12 +163,13 @@ public class Drone extends RoboAereo implements Comunicavel{
                         Robo robo = (Robo) entidade; //Faz o cast para robô
                         if (robo.getPosicao()[0] == this.getPosicao()[0] && robo.getPosicao()[1] == this.getPosicao()[1] && robo.getPosicao()[2] == 0){ //Se já existe um robô no lugar que o pacote seria derrubado, ele será destruído
                             destroiRoboColidido(robo, ambiente);
+                            throw new ColisaoException("Que desastre, além do seu drone ter tido um problema na descida e ter derrubado seu pacote, ja tinha um robô no lugar que o pacote caiu e ambos foram destruídos");
                         }
                     }
                 }
+                throw new ColisaoException("Durante a descida para entregar o pacote o drone encontrou um problema e acabou derrubando seu pacote que infelizmente não poderá ser recuperado");
             }
         }
-        return false; // Caso o robô não tenha conseguido entregar o pacote, retorna false
     }
     /**
      * Verifica se já existe um robô no local que o pacote seria derrubado
