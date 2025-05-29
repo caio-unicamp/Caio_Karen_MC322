@@ -15,7 +15,9 @@ public class Passaro extends RoboAereo{
         this.posicao[1] = y;
         this.posicao[2] = altitude;
     }
-    
+    /**
+     * Mover do pássaro tentando desviar caso ache algum obstáculo.
+     */
     @Override
     public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
         if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Lança o erro se o pássaro estiver desligado
@@ -47,6 +49,9 @@ public class Passaro extends RoboAereo{
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posInicialY, this.getPosicao()[2])){ // Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
                 //Só desvia se a bateria do sensor de proximidade não acabar
+                if (this.getSensorProximidade().getBateria() == 0){ //Nesse caso não seria um erro de sensor desligado pois ele já começou a se mover, mas sim um erro de colisão
+                    throw new ColisaoException("HEHEHEHEHE ELE BATEU!!!!");
+                }
                 int novoDeltaX = deltaX - (posAtualX - posInicialX);
                 int novoDeltaY = deltaY - (posAtualY - posInicialY);
 
@@ -63,6 +68,9 @@ public class Passaro extends RoboAereo{
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posInicialY + passos[1], this.getPosicao()[2])){ // Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
                 //Só desvia se a bateria do sensor de proximidade não acabar    
+                if (this.getSensorProximidade().getBateria() == 0){ //Nesse caso não seria um erro de sensor desligado pois ele já começou a se mover, mas sim um erro de colisão
+                    throw new ColisaoException("HEHEHEHEHE ELE BATEU!!!!");
+                }
                 int novoDeltaX = deltaX - (posAtualX - posInicialX);
                 int novoDeltaY = deltaY - (posAtualY - posInicialY);
                 // Condição de parada: verificar se ainda há movimento restante
@@ -77,7 +85,11 @@ public class Passaro extends RoboAereo{
             }
         }
     }
-
+    /**
+     * Verifica se o pássaro conseguiu desviar no plano XY
+     * @param ambiente
+     * @return true se conseguiu, false caso contrário
+     */
     public boolean desviouXY(Ambiente ambiente){
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -98,7 +110,11 @@ public class Passaro extends RoboAereo{
         }
         return false; // Se não conseguiu desviar no plano X-Y
     }
-
+    /**
+     * Verifica se o pássaro conseguiu desviar em z
+     * @param ambiente
+     * @return true se conseguiu, false caso contrário
+     */
     public boolean desviouZ(Ambiente ambiente){
         // Se não conseguiu desviar no plano X-Y, tenta desviar para cima ou para baixo (Z)
         int[] desviosZ = {1, -1}; // Primeiro tenta subir, depois descer
@@ -115,8 +131,10 @@ public class Passaro extends RoboAereo{
         }
         return false; // Se não encontrou nenhuma rota alternativa
     }
-
-    //método próprio de desviar, se o Pássaro se esbarrar em alguma coisa ele tenta desviar para todas as possibilidades de direção
+    /**
+     * Tenta desviar primeiro em XY e depois em z
+     * @param ambiente
+     */
     private void desviar(Ambiente ambiente){
         if (desviouXY(ambiente)){
             for (int i = -1; i <= 1; i++) {
@@ -151,7 +169,10 @@ public class Passaro extends RoboAereo{
             }
         }
     }            
-
+    /**
+     * Verifica quantos desvios o pássaro já fez 
+     * @return qtd de desvios.
+     */
     public int getQtddesvios(){
         return qtdDesvios;
     }

@@ -5,6 +5,10 @@ package excecoes;
  * e pode ser tratado de maneira específica.
  */
 public class ColisaoException extends Exception {
+    /**
+     * Insira a mensagem descrevendo o motivo do erro da colisão
+     * @param message
+     */
     public ColisaoException(String message) {
         super(message);
     }
