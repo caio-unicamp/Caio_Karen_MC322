@@ -906,10 +906,15 @@ public class Main {
             // Atualizar os valores restantes para deltaX e deltaY
             if (sensorProx.identificarObstaculo(robo.getPosicao()[0] + passos[0], robo.getPosicao()[1] + passos[1], robo.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
                 Obstaculo obstaculoIdentificado = null;
-                for (Obstaculo obstaculo : ambiente.getListaObstaculos()) {
-                    if (obstaculo.getPosX1() <= robo.getPosicao()[0] + passos[0] && obstaculo.getPosX2() >= robo.getPosicao()[0] + passos[0] && obstaculo.getPosY1() <= robo.getPosicao()[1] + passos[1] && obstaculo.getPosY2() >= robo.getPosicao()[1] + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
-                        obstaculoIdentificado = obstaculo;
-                        break;
+                for (Entidade entidade : ambiente.getListaEntidades()) {
+                    if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo                        
+                        continue; //Se não for, segue para a próxima iteração
+                    }else{
+                        Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para entidade
+                        if (obstaculo.getPosX1() <= robo.getPosicao()[0] + passos[0] && obstaculo.getPosX2() >= robo.getPosicao()[0] + passos[0] && obstaculo.getPosY1() <= robo.getPosicao()[1] + passos[1] && obstaculo.getPosY2() >= robo.getPosicao()[1] + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
+                            obstaculoIdentificado = obstaculo;
+                            break;
+                        }
                     }
                 }
                 if (obstaculoIdentificado != null){
