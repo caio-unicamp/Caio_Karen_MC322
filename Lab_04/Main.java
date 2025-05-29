@@ -137,9 +137,10 @@ public class Main {
                     for (Entidade entidade : ambiente.getListaEntidades()) { //Procura pelo robô pelo nome digitado
                         if (entidade.getNome().equals(nomeRoboEscolhido)){
                             roboEscolhido = (Robo) entidade;
+                            break;
                         }
                     }
-                    if ((ambiente.getListaEntidades().contains(roboEscolhido))){
+                    if ((roboEscolhido != null)){ //Se o robô existe na lista quebra o laço
                         break;
                     }else{
                         System.out.println("Não sei como, mas acho que não me fiz claro o suficiente, mas tipo, você tem que escolher um dos robôs dessa lista que eu te mostrei pra depois você escolher o que quer fazer com ele. Vamo lá então, escolha um dos nomes que está do lado direito");
@@ -184,11 +185,12 @@ public class Main {
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
-                        System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai caçar um robô em específico. Qual deles vai ser o azarado da vez");
+                        System.out.println("EXCELSIOR! Nesse modo o aspirador fica insano e vai caçar um robô em específico. Qual deles vai ser o azarado da vez? Digite o nome do robô a ser aspirado");
+                        Robo roboAspirado = null;
                         while (true) {
                             int numRoboMatar = 1;
                             boolean podeMatar = false;
-                            for (Entidade entidade : ambiente.getListaEntidades()){
+                            for (Entidade entidade : ambiente.getListaEntidades()){ //Procura a entidade pelo nome
                                 if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                                     continue; //Se não for segue para a próxima iteração
                                 }else{
@@ -203,27 +205,33 @@ public class Main {
                                 System.out.println("Parece que não tem ninguém pra você eliminar, um triste dia para os amantes de ação, vamos seguir em frente");
                                 break;
                             }
-                            comando = lerInteiro("\0", scanner);
-                            if (comando < 1 || comando > ambiente.getListaRobos().size()){ //Se for escolhido um número inválido volta a pedir o número
-                                System.out.println("Blá blá blá, você sabe o que fez, escolha um dos números mostrados");
+                            String nomeRoboAspirado = scanner.nextLine();
+                            for (Entidade entidade : ambiente.getListaEntidades()){
+                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                                    continue; //Se não for, segue para a próxima iteração
+                                }else if (entidade.getNome().equals(nomeRoboAspirado)){
+                                    roboAspirado = (Robo) entidade;
+                                }
+                            }
+                            if (roboAspirado == null){ //Se for escolhido um robô inválido volta a pedir o número
+                                System.out.println("Blá blá blá, você sabe o que fez, escolha um dos nomes mostrados");
                                 continue;
-                            }else if(ambiente.getListaRobos().get(comando - 1).equals(roboEscolhido)){ //Não deixa aspirar a si próprio
+                            }else if(roboAspirado.equals(aspirador)){ //Não deixa aspirar a si próprio
                                 System.out.println("Como? Só isso mesmo, tipo, como você pretende aspirar a si próprio? Você não tem um espelho? Ou você só quer me fazer de palhaço mesmo?");
                                 continue;
-                            }else if (ambiente.getListaRobos().get(comando - 1) instanceof Aspirador){
+                            }else if (roboAspirado instanceof Aspirador){ //Apenas um print
                                 System.out.println("Uau, você realmente quer eliminar um de seus semelhantes? Sinistro... mas tudo bem, eu não fui programado pra me importar com isso");
                                 break;
-                            }else if (ambiente.getListaRobos().get(comando - 1).getPosicao()[2] == 0){ //Não deixa aspirar um robô que está no chão
+                            }else if (roboAspirado.getPosicao()[2] == 0){ //Não deixa aspirar um robô que não está no chão
                                 System.out.println("De fato eu concordo que seria bem melhor se ele conseguisse eliminar essas pragas aéreas, mas infelizmente ele não tem essa capacidade. Então vamos tentar de novo");
                             }else{
                                 break;
                             }
                         }
                         try{
-                            Robo roboEliminado = ambiente.getListaRobos().get(comando - 1);
-                            ambiente.removerRobo(roboEscolhido);
-                            aspirador.setPosicao(roboEliminado.getPosicao()[0], roboEliminado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
-                            System.out.println("O " + roboEliminado.getNome() + " foi eliminado com sucesso!");
+                            ambiente.removerEntidade(roboAspirado);
+                            aspirador.setPosicao(roboAspirado.getPosicao()[0], roboAspirado.getPosicao()[1], 0); //Seta a posição do aspirador na posição do robô que ele vai eliminar
+                            System.out.println("O " + roboAspirado.getNome() + " foi eliminado com sucesso!");
                             int qtdEliminados = aspirador.getRobosEliminados();
                             System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
                             if (qtdEliminados > 10){
