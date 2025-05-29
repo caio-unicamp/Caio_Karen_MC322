@@ -143,7 +143,7 @@ public class Main {
                 }
                 if (roboEscolhido instanceof Aspirador){ //Mostra os métodos do robô aspirador
                     System.out.println("Vamos fazer uma limpa nesse lugar hehehe");    
-                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!\n3 - Alterar a Velocidade Máxima\n4 - Analisar sensores", scanner);
+                    comando = lerInteiro("Você deseja fazer o quê?\n1 - Andar por aí\n2 - MATAR!\n3 - Alterar a Velocidade Máxima\n4 - Analisar sensores\n5 - Enviar uma mensagem", scanner);
                     Aspirador aspirador = ((Aspirador) roboEscolhido);
                     if (comando == 1){ //Método de mover normal do Aspirador
                         System.out.println("Quanto você deseja mover ele? Lembre-se que destruirá todos os robôs no caminho, faça o que quiser com essa informação...");
@@ -252,11 +252,14 @@ public class Main {
                                 break;
                             }
                         }
+                    }else if (comando == 5){ //Enviar uma mensagem para outro robô
+                        metodosRobosComunicaveis(ambiente, scanner, aspirador);
                     }
+
                 }else if (roboEscolhido instanceof Drone){ //Mostra os métodos do robô drone
                     System.out.println("A única coisa boa com esse daí é entregar novos rastejantes");
                     Drone drone = ((Drone) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote\n4 - Analisar sensores\n5 - Enviar uma mensagem\n6 - Checar mensagens recebidas", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Subir\n2 - Descer\n3 - Entregar um Pacote\n4 - Analisar sensores\n5 - Enviar uma mensagem", scanner);
                     if (comando == 1 || comando == 2){ //Subir ou descer o robô
                         metodosRobosAereos(drone, comando, scanner, ambiente);
                     }else if (comando == 3){ //Entregar um pacote
@@ -333,44 +336,8 @@ public class Main {
                             }
                         }
                     }else if (comando == 5){ //Enviar uma mensagem para outro robô
-                        System.out.println("Para quem você deseja enviar sua mensagem? (Digite o nome ao lado do número)");
-                        while (true) {
-                            int numAnaliseRobosMensagemDrone = 1;
-                            for (Entidade entidade : ambiente.getListaEntidades()){
-                                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
-                                    continue; //Se não for, segue para a próxima iteração
-                                }else{
-                                    System.out.println(numAnaliseRobosMensagemDrone++ + " - " + entidade.getNome());
-                                }
-                            }
-                            String receptorMensagemDrone = scanner.nextLine();
-                            Robo receptorDrone = null;
-                            for (Entidade entidade : ambiente.getListaEntidades()) { //Procura a entidade que receberá a mensagem a partir do nome
-                                if (entidade.getNome().equals(receptorMensagemDrone)){
-                                    receptorDrone = (Robo) entidade;
-                                    break;
-                                }
-                            }
-                            if (receptorDrone == null){ //Se não for digitado um nome de um robô existente na lista ele pede novamente 
-                                System.out.println("Amigos imaginários são divertidos na teoria, mas eu não posso te ajudar a enviar mensagens pra eles, tente escolher um robô que exista na nossa simulação");
-                            }else{
-                                try{ //Tenta enviar a mensagem
-                                    System.out.print("Que mensagem você deseja enviar?");
-                                    String mensagemDrone = scanner.nextLine();
-                                    drone.enviarMensagem(receptorDrone, mensagemDrone);
-                                    System.out.println("[" + drone.getNome() + " para " + receptorMensagemDrone + "]: " + mensagemDrone + " (Mensagem enviada)");
-                                    break;
-                                }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável 
-                                    System.err.println(e.getMessage());
-                                }catch(RoboDesligadoException e){ //Indica que o remetente estava desligado
-                                    System.err.println(e.getMessage());
-                                }
-                            }
-                        }
-                    }else if (comando == 6){ //Verificar lista de mensagens que esse robô recebeu
-                        
+                        metodosRobosComunicaveis(ambiente, scanner, drone);
                     }
-
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro
                     System.out.println("Sinceramente eu nem sei porque os criadores desenvolveram esses daí");
                     Passaro passaro = ((Passaro) roboEscolhido);
@@ -966,5 +933,42 @@ public class Main {
         System.out.println("|");
         System.out.println("|      # isso define x1,y1");
         System.out.println("------------------------------------>x");
+    }
+    public static void metodosRobosComunicaveis(Ambiente ambiente, Scanner scanner, Comunicavel remetente){
+        System.out.println("Para quem você deseja enviar sua mensagem? (Digite o nome ao lado do número)");
+        while (true) {
+            int numAnaliseRobosMensagem = 1;
+            for (Entidade entidade : ambiente.getListaEntidades()){
+                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                    continue; //Se não for, segue para a próxima iteração
+                }else{
+                    System.out.println(numAnaliseRobosMensagem++ + " - " + entidade.getNome());
+                }
+            }
+            String receptorMensagem = scanner.nextLine();
+            Robo receptor = null;
+            for (Entidade entidade : ambiente.getListaEntidades()) { //Procura a entidade que receberá a mensagem a partir do nome
+                if (entidade.getNome().equals(receptorMensagem)){
+                    receptor = (Robo) entidade;
+                    break;
+                }
+            }
+            if (receptor == null){ //Se não for digitado um nome de um robô existente na lista ele pede novamente 
+                System.out.println("Amigos imaginários são divertidos na teoria, mas eu não posso te ajudar a enviar mensagens pra eles, tente escolher um robô que exista na nossa simulação");
+            }else{
+                try{ //Tenta enviar a mensagem
+                    System.out.print("Que mensagem você deseja enviar?");
+                    String mensagem = scanner.nextLine();
+                    remetente.enviarMensagem(receptor, mensagem);
+                    System.out.println("[" + ((Robo) remetente).getNome() + " para " + receptorMensagem + "]: " + mensagem + " (Mensagem enviada)");
+                    break;
+                }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável 
+                    System.err.println(e.getMessage());
+                }catch(RoboDesligadoException e){ //Indica que o remetente estava desligado
+                    System.err.println(e.getMessage());
+                }
+            }
+        }
+        
     }
 }
