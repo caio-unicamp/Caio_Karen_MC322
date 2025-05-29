@@ -554,15 +554,13 @@ public class Main {
                         }
                     }
                 }
-
-            } else if (comando == 5) {  // Bloco para exibir as mensagens do log
+            }else if (comando == 5) {  // Bloco para exibir as mensagens do log
                 System.out.println("Exibindo mensagens do log:");
                 List<String> logs = CentralComunicacao.getInstancia().getMensagensFormatadas(); // Obtém as mensagens formatadas do log na CentralComunicacao
                 exibirMensagensCentral(logs);
                 for (String logEntry : logs) {
                     System.out.println(logEntry); // Exibe cada mensagem formatada
                 }
-
             }else{ //Caso seja digitado um número inválido
                 System.out.println("Foi mal, por enquanto eu só sei contar até 6... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
             }

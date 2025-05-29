@@ -137,16 +137,18 @@ public class Ambiente{
         }
     }
     /**
-     * Printa uma vizualização do mapa no plano XY dado um nível de altura.
+     * Salva os símbolos correspondentes ao x e y em uma altura específica para printar na main
      * @param altura do mapa a ser vizualizado
+     * @return uma matriz referente aos símbolos das entidades em suas respectivas posições no ambiente
      */
-    public void vizualizarMapa(int altura){
+    public char[][] vizualizarMapa(int altura){
+        char [][] vizuMapa = new char[this.tamX - 1][this.tamY - 1];
         for (int j = this.tamY-1; j >= 0; j--){
             for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e printa o símbolo de cada entidade no nível de altura especificado
-                System.out.print(this.mapa[i][j][altura].getSimbolo() + " ");
+                vizuMapa[i][j] = (this.mapa[i][j][altura].getSimbolo());
             }
-            System.out.println();
         }
+        return vizuMapa;
     }
     /**
      * Muda a posição da entidade no mapa do ambiente

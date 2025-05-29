@@ -16,6 +16,7 @@ public class CentralComunicacao {
     }
     /**
      * Implementação do padrão Singleton para garantir uma única instância da central
+     * @return instacia única a ser usada
      */
     public static CentralComunicacao getInstancia() {
         if (instancia == null) {
