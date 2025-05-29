@@ -5,6 +5,10 @@ package excecoes;
  * entre os robôs.
  */
 public class ErroComunicacaoException extends Exception {
+    /**
+     * Passe a mensagem referente ao erro de comunicação
+     * @param message
+     */
     public ErroComunicacaoException(String message) {
         super(message);
     }
