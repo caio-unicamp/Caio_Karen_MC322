@@ -24,6 +24,7 @@ public class Main {
         int y = lerInteiro("Profundidade: ", scanner);
 
         Ambiente ambiente = new Ambiente(nomeAmbiente, x, y, z); //Cria seu novo ambiente
+        ambiente.inicializarMapa(); //Inicializa o mapa
 
         System.out.println("Parabéns, agora você é o prefeito da majestosa " + ambiente.getNomeAmbiente() + ". Infelizmente, como prefeito você também deve me dizer quais são os defeitos da sua cidade, então me diga, quantos obstáculos você quer adicionar? (Lembre-se que o número de obstáculos não pode ocupar todo o ambiente se não será impossível criar robôs)");
 
