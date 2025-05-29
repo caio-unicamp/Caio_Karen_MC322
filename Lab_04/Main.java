@@ -339,6 +339,7 @@ public class Main {
                                     }
                                 }
                             }
+                            System.err.println(e.getMessage());
                         }
                     }else if (comando == 4){ //Bloco para analisar os sensores
                         while (true){
