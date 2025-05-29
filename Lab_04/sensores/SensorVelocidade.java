@@ -29,7 +29,7 @@ public class SensorVelocidade extends Sensor<Double>{
      */
     public double porcentoVelocidade(double velocidade, double velocidadeMax) throws VelocidadeMaximaAtingidaException{
         if (((velocidade * 100)/ velocidadeMax) >= 100){
-            throw new VelocidadeMaximaAtingidaException("");
+            throw new VelocidadeMaximaAtingidaException("Você sabia que estava tentando ir a " + velocidade + "km/h? Infelizmente não poderei permitir, vai ter que tentar mover ele de novo");
         }
         return (double) ((velocidade * 100) / velocidadeMax);
     }

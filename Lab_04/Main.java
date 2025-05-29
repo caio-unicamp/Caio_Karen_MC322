@@ -150,38 +150,33 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
-                            double taxaAspirador = aspirador.getSensorVelocidade(aspirador).porcentoVelocidade(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
-                            String velAspirador = String.format("%.2f", taxaAspirador);
                             try{
+                                double taxaAspirador = aspirador.getSensorVelocidade().porcentoVelocidade(aspirador.getSensorVelocidade().monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
+                                String velAspirador = String.format("%.2f", taxaAspirador);
                                 try{
                                     aspirador.mover(deltaX, deltaY, ambiente);
-                                }catch(SensorDesligadoException e){
-    
-                                }catch(RoboDesligadoException e){
-    
-                                }catch(ColisaoException e){
-                                    
+                                    obstaculoAchado(aspirador, ambiente);
+                                    System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
+                                    if (aspirador.getSensorVelocidade().isMuitoRapido(taxaAspirador)){
+                                        System.out.println("Quase um SpeedRacer! Impressionante!");
+                                    }
+                                    //pegar a qtd de robos eliminados
+                                    int qtdEliminados = aspirador.getRobosEliminados();
+                                    //imprimir a qtd de eliminados
+                                    System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
+                                    if (qtdEliminados > 10){
+                                        System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
+                                    }
+                                    break;    
+                                }catch(SensorDesligadoException e){ //Se ele tentar se mover com um sensor descarregado ele indica que isso não é possível
+                                    System.err.println(e.getMessage());
+                                }catch(RoboDesligadoException e){ //O robô só pode se mover se estiver ligado
+                                    System.err.println(e.getMessage());
+                                }catch(ColisaoException e){ //Se ele se moveu e acabou a bateria do sensor de proximidade no meio da locomoção ele poderá colidir com algum obstáculo
+                                    System.err.println(e.getMessage());
                                 }
-                                obstaculoAchado(aspirador, ambiente);
-                                System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
-                                if (aspirador.getSensorVelocidade(aspirador).isMuitoRapido(taxaAspirador)){
-                                    System.out.println("Quase um SpeedRacer! Impressionante!");
-                                }
-                                //pegar a qtd de robos eliminados
-                                int qtdEliminados = aspirador.getRobosEliminados();
-                                //imprimir a qtd de eliminados
-                                System.out.println("Até agora você destruiu " + qtdEliminados + " robôs na sua vida");
-                                if (qtdEliminados > 10){
-                                    System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
-                                }
-                                break;    
-                            }catch(VelocidadeMaximaAtingidaException e){ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
-                                System.err.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "% da velocidade máxima? Vai ter que tentar mover ele de novo");
-                                
-                            }
-                            if (!aspirador.getSensorVelocidade(aspirador).velMaxAtingida(aspirador.getSensorVelocidade(aspirador).monitorar(deltaX, deltaY, aspirador), (double) aspirador.getVelocidadeMaxima())){
-                            }else{ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande
-                                System.out.println("Só porque ele é um aspirador isso não significa que ele consegue armazenar ar pra usar como propulsão. Você sabia que estava tentando ir a " + velAspirador + "% da velocidade máxima? Vai ter que tentar mover ele de novo");
+                            }catch(VelocidadeMaximaAtingidaException e){ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande e indicará qual foi o erro
+                                System.err.println(e.getMessage());
                             }
                         }
                     }else if (comando == 2){ //Para ir atás de aspirar um robô específico
