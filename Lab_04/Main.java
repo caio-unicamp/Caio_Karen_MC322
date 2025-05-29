@@ -345,25 +345,30 @@ public class Main {
                             }
                             String receptorMensagemDrone = scanner.nextLine();
                             Robo receptorDrone = null;
-                            for (Entidade entidade : ambiente.getListaEntidades()) {
+                            for (Entidade entidade : ambiente.getListaEntidades()) { //Procura a entidade que receberá a mensagem a partir do nome
                                 if (entidade.getNome().equals(receptorMensagemDrone)){
                                     receptorDrone = (Robo) entidade;
+                                    break;
                                 }
                             }
                             if (receptorDrone == null){ //Se não for digitado um nome de um robô existente na lista ele pede novamente 
                                 System.out.println("Amigos imaginários são divertidos na teoria, mas eu não posso te ajudar a enviar mensagens pra eles, tente escolher um robô que exista na nossa simulação");
                             }else{
                                 try{ //Tenta enviar a mensagem
-                                    drone.enviarMensagem(receptorDrone, receptorMensagemDrone);
-                                }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável
+                                    System.out.print("Que mensagem você deseja enviar?");
+                                    String mensagemDrone = scanner.nextLine();
+                                    drone.enviarMensagem(receptorDrone, mensagemDrone);
+                                    System.out.println("[" + drone.getNome() + " para " + receptorMensagemDrone + "]: " + mensagemDrone + " (Mensagem enviada)");
+                                    break;
+                                }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável 
                                     System.err.println(e.getMessage());
                                 }catch(RoboDesligadoException e){ //Indica que o remetente estava desligado
                                     System.err.println(e.getMessage());
                                 }
                             }
                         }
-                    }else if (comando == 6){
-
+                    }else if (comando == 6){ //Verificar lista de mensagens que esse robô recebeu
+                        
                     }
 
                 }else if (roboEscolhido instanceof Passaro){ //Mostra os métodos do robô passaro

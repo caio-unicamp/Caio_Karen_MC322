@@ -1,7 +1,6 @@
 package ambiente;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Gerencia e armazena o histórico de mensagens trocadas entre robôs.
  */
@@ -15,7 +14,6 @@ public class CentralComunicacao {
     private CentralComunicacao() {
         mensagens = new ArrayList<>();
     }
-
     /**
      * Implementação do padrão Singleton para garantir uma única instância da central
      */
@@ -25,7 +23,6 @@ public class CentralComunicacao {
         }
         return instancia;
     }
-
     /**
      * Registra uma mensagem no histórico. 
      * @param remetente O nome do robô que enviou.
@@ -36,9 +33,10 @@ public class CentralComunicacao {
         String log = "[De: " + remetente + " | Para: " + destinatario + "]: " + msg;
         mensagens.add(log);
     }
-    
-    //Retorna o histórico de mensagens formatado.
-    //@return Lista de mensagens formatadas.
+    /**
+     * Verifica o histórico de mensagens formatado.
+     * @return lista das mensagens
+     */
     public List<String> getMensagensFormatadas() {
         List<String> logFormatado = new ArrayList<>();
         logFormatado.add("\n--- Log de Comunicações ---");
