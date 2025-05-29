@@ -916,7 +916,7 @@ public class Main {
 
         if (sensorProx.monitorar(robo.getPosicao()[0] + passos[0], robo.getPosicao()[1] + passos[1], robo.getPosicao()[2], ambiente, robo)) {
             // Atualizar os valores restantes para deltaX e deltaY
-            if (sensorProx.identificarObstaculo(robo.getPosicao()[0] + passos[0], robo.getPosicao()[1] + passos[1], robo.getPosicao()[2], ambiente)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
+            if (sensorProx.getUltimoTipoDetectado().equals(TipoEntidade.OBSTACULO)){ //Se o aspirador identificar um obstáculo em vez de um robô ele age diferente
                 Obstaculo obstaculoIdentificado = null;
                 for (Entidade entidade : ambiente.getListaEntidades()) {
                     if (!(entidade instanceof Obstaculo)){ //Verifica se a entidade é um obstáculo                        

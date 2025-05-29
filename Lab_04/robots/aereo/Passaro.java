@@ -50,6 +50,7 @@ public class Passaro extends RoboAereo{
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
                 //Só desvia se a bateria do sensor de proximidade não acabar
                 if (this.getSensorProximidade().getBateria() == 0){ //Nesse caso não seria um erro de sensor desligado pois ele já começou a se mover, mas sim um erro de colisão
+                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente));
                     throw new ColisaoException("HEHEHEHEHE ELE BATEU!!!!");
                 }
                 int novoDeltaX = deltaX - (posAtualX - posInicialX);
@@ -69,6 +70,7 @@ public class Passaro extends RoboAereo{
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){ //Caso o pássaro identifique um obstáculo ou um robô no caminho ele começa a fazer uma busca para desviar
                 //Só desvia se a bateria do sensor de proximidade não acabar    
                 if (this.getSensorProximidade().getBateria() == 0){ //Nesse caso não seria um erro de sensor desligado pois ele já começou a se mover, mas sim um erro de colisão
+                    this.interacaoRoboObstaculo(ambiente, this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente));
                     throw new ColisaoException("HEHEHEHEHE ELE BATEU!!!!");
                 }
                 int novoDeltaX = deltaX - (posAtualX - posInicialX);
