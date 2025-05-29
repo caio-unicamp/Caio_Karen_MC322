@@ -173,9 +173,9 @@ public class Main {
                                         System.out.println("Um tremendo massacre eu diria, chega a me assustar, o próximo pode ser eu");
                                     }
                                     break;    
-                                }catch(SensorDesligadoException e){ //Se ele tentar se mover com um sensor descarregado ele indica que isso não é possível
-                                    System.err.println(e.getMessage());
                                 }catch(RoboDesligadoException e){ //O robô só pode se mover se estiver ligado
+                                    System.err.println(e.getMessage());
+                                }catch(SensorDesligadoException e){ //Se ele tentar se mover com um sensor descarregado ele indica que isso não é possível
                                     System.err.println(e.getMessage());
                                 }catch(ColisaoException e){ //Se ele se moveu e acabou a bateria do sensor de proximidade no meio da locomoção ele poderá colidir com algum obstáculo
                                     System.err.println(e.getMessage());
@@ -398,21 +398,29 @@ public class Main {
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
                             int deltaY = lerInteiro("Passos em y: ", scanner);
-                            double taxaRover = rover.getSensorVelocidade(rover).porcentoVelocidade(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima());
-                            String velRover = String.format("%.2f", taxaRover);
-                            if (!rover.getSensorVelocidade(rover).velMaxAtingida(rover.getSensorVelocidade(rover).monitorar(deltaX, deltaY, rover), (double) rover.getVelocidadeMaxima())){
-                                rover.mover(deltaX, deltaY, ambiente);
-                                obstaculoAchado(rover, ambiente);
-                                System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
-                                if (rover.getSensorVelocidade(rover).isMuitoRapido(taxaRover)){
-                                    System.out.println("Quase um SpeedRacer! Impressionante!");
+                            try{
+                                double taxaRover = rover.getSensorVelocidade().porcentoVelocidade(rover.getSensorVelocidade().monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima());
+                                String velRover = String.format("%.2f", taxaRover);
+                                try{
+                                    rover.mover(deltaX, deltaY, ambiente);
+                                    obstaculoAchado(rover, ambiente);
+                                    System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
+                                    if (rover.getSensorVelocidade().isMuitoRapido(taxaRover)){
+                                        System.out.println("Quase um SpeedRacer! Impressionante!");
+                                    }
+                                    System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados(ambiente) + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
+                                    break;
+                                }catch(RoboDesligadoException e){ //O robô só pode se mover se estiver ligado
+                                    System.err.println(e.getMessage());
+                                }catch(SensorDesligadoException e){ //Se ele tentar se mover com um sensor descarregado ele indica que isso não é possível
+                                    System.err.println(e.getMessage());
+                                }catch(ColisaoException e){ //Se ele se moveu e acabou a bateria do sensor de proximidade no meio da locomoção ele poderá colidir com algum obstáculo
+                                    System.err.println(e.getMessage());
                                 }
-                                break;
-                            }else{ //Se o limite de velocidade for ultrapassado ele irá pedir novamente o quanto o usuário quer que o robô ande
-                                System.out.println("Calma lá Flash! você tá querendo ir a "+ velRover + "% da velocidade máxima com esse carinha. No estágio atual ele pode acabar quebrando. Você vai ter que tentar mover ele de novo");
+                            }catch(VelocidadeMaximaAtingidaException e){ //Se ele tiver ultrapassado o limite de velocidade ele irá pedir novamente o quanto ele quer que o robô ande e indicará qual foi o erro
+                                System.err.println(e.getMessage());
                             }
                         }
-                        System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados(ambiente) + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
                     }else if (comando == 2){ //Método para empurrar um robô específico
                         System.out.println("Parece que você tem uma richa com alguém, não é mesmo? Me diz quem é e a gente esbarra nele");
                         Robo inimigo;
