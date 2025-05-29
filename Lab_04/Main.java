@@ -572,7 +572,7 @@ public class Main {
     /**
      * Exibe todas as mensagens registradas na central de comunicações dos robôs
      */
-    public static void exibirMensagens() { //CONFERIR E CONSERTAR
+    public static void exibirMensagensCentral() { //CONFERIR E CONSERTAR
         System.out.println("\n--- Log de Comunicações ---");
         if (mensagens.isEmpty()) {
             System.out.println("Nenhuma mensagem trocada.");
