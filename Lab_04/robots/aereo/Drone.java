@@ -18,23 +18,26 @@ public class Drone extends RoboAereo implements Comunicavel{
      * Envia uma mensagem para outro robô
      */
     @Override
-    public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+    public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o drone está ligado
             throw new RoboDesligadoException(this.getNome());
         }
 
-        if (destinatario == null) {
+        if (destinatario == null) { //Verifica se o destinatário existe
             throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
+        }else if (!(destinatario instanceof Comunicavel)){ //Verifica se o destinatário é comunicável
+            throw new ErroComunicacaoException("Você está tentando mandar uma mensagem para alguém que não quer falar com você... que situação hein");
         }
 
         if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem está ligado
             CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
             throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
         }
-        //Faz o destinatário receber a mensagem (caso ele não esteja desligado)
-        destinatario.receberMensagem(this.getNome(), mensagem); 
+        Comunicavel receptor = (Comunicavel) destinatario; //Faz o cast para comunicável
+        //Faz o destinatário receber a mensagem (caso ele esteja ligado)
+        receptor.receberMensagem(this.getNome(), mensagem); 
         // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
-        String nomeDestinatario = (destinatario instanceof Robo) ? ((Robo) destinatario).getNome() : "Desconhecido"; 
+        String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido"; 
         // Registra que a mensagem foi enviada.
         CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
         //COLOCAR PRINT NA MAIN DEPOIS DE REGISTRAR A MENSAGEM

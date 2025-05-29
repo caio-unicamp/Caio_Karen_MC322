@@ -11,8 +11,7 @@ public interface Comunicavel {
      * @throws RoboDesligadoException se o remetente estiver desligado.
      * @throws ErroComunicacaoException se o destinatário não for comunicável.
      */
-    void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException;
-
+    void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException;
     /**
      * Recebe uma mensagem.
      * @param remetente O nome do robô que enviou a mensagem.
