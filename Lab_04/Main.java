@@ -882,8 +882,8 @@ public class Main {
     public static void metodosSensores(Scanner scanner, Robo robo, Sensor<?> sensor){
         int comando;
         while (true){
-            comando = lerInteiro("O que deseja fazer?\n1 - Checar Bateria\n2 - Recarregar Bateria", scanner);
-            if (comando < 1 || comando > 2){ //Se for escolhido um número inválido volta a pedir o número
+            comando = lerInteiro("O que deseja fazer?\n1 - Checar Bateria\n2 - Recarregar Bateria\n3 - Checar o raio", scanner);
+            if (comando < 1 || comando > 3){ //Se for escolhido um número inválido volta a pedir o número
                 System.out.println("Qual a dificuldade de fazer o que eu mando às vezes? Escolha um dos números que eu mostrei");
                 continue;
             }
@@ -895,6 +895,8 @@ public class Main {
                 robo.getSensores().get(comando - 1).recarregarBateria(carga);
                 System.out.println("A bateria do "+ sensor.getNomeSensor() +" agora está em " + sensor.getBateria() + "%");
                 break;
+            }else if (comando == 3){
+                System.out.println("O " + sensor.getNomeSensor() + " possui raio de funcionamento de " + sensor.getRaio());
             }
         }
     }
