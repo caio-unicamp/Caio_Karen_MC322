@@ -255,12 +255,8 @@ public class Main {
                             if (comando < 1 || comando > aspirador.getSensores().size()){ //Nao deixa selecionar um número inválido
                                 System.out.println("Qual a dificuldade de fazer o que eu mando às vezes? Escolha um dos números que eu mostrei");
                                 continue;
-                            }
-                            if (comando == 1){ //Checar atributos do sensor 1
-                                metodosSensores(scanner, aspirador);
-                                break;
-                            }else if (comando == 2){ //Checar atributos do sensor 2
-                                metodosSensores(scanner, aspirador);
+                            }else if (comando == 1 || comando == 2){ //Checar atributos do sensor escolhido
+                                metodosSensores(scanner, aspirador, aspirador.getSensores().get(comando));
                                 break;
                             }
                         }
@@ -351,12 +347,8 @@ public class Main {
                             if (comando < 1 || comando > drone.getSensores().size()){ //Nao deixa selecionar um número inválido
                                 System.out.println("Existem poucos idiomas que já foram extintos, mas portugês não foi um deles... E MUITO MENOS NÚMEROS");
                                 continue;
-                            }
-                            if (comando == 1){ //Checar atributos do sensor 1
-                                metodosSensores(scanner, drone);
-                                break;
-                            }else if (comando == 2){ //Checar atributos do sensor 2
-                                metodosSensores(scanner, drone);
+                            }else if (comando == 1 || comando == 2){ //Checar atributos do sensor escolhido
+                                metodosSensores(scanner, drone, drone.getSensores().get(comando - 1));
                                 break;
                             }
                         }
@@ -391,12 +383,8 @@ public class Main {
                             if (comando < 1 || comando > passaro.getSensores().size()){ //Nao deixa selecionar um número inválido
                                 System.out.println("Primeiro você me faz ter que olhar pra essa coisa horrorosa e ainda fica brincando com meus comandos. Faz logo o que eu pedi");
                                 continue;
-                            }
-                            if (comando == 1){ //Checar atributos do sensor 1
-                                metodosSensores(scanner, passaro);
-                                break;
-                            }else if (comando == 2){ //Checar atributos do sensor 2
-                                metodosSensores(scanner, passaro);
+                            }else if (comando == 1 || comando == 2){ //Checar atributos do sensor escolhido
+                                metodosSensores(scanner, passaro, passaro.getSensores().get(comando - 1));
                                 break;
                             }
                         }
@@ -524,12 +512,8 @@ public class Main {
                             if (comando < 1 || comando > rover.getSensores().size()){ //Nao deixa selecionar um número inválido
                                 System.out.println("Vamo lá, aprende comigo, primeiro vem o 1, depois vem o 2. E acaba aqui, não é tão difícil concorda?");
                                 continue;
-                            }
-                            if (comando == 1){ //Checar atributos do sensor 1
-                                metodosSensores(scanner, rover);
-                                break;
-                            }else if (comando == 2){ //Checar atributos do sensor 2
-                                metodosSensores(scanner, rover);
+                            }else if (comando == 1 || comando == 2){ //Checar atributos do sensor escolhido
+                                metodosSensores(scanner, rover, rover.getSensores().get(comando - 1));
                                 break;
                             }
                         }
@@ -887,7 +871,7 @@ public class Main {
     /**
      * Métodos dos sensores básicos (Checagem de baterias)
      */
-    public static void metodosSensores(Scanner scanner, Robo robo){
+    public static void metodosSensores(Scanner scanner, Robo robo, Sensor<?> sensor){
         int comando;
         while (true){
             comando = lerInteiro("O que deseja fazer?\n1 - Checar Bateria\n2 - Recarregar Bateria", scanner);
@@ -896,12 +880,12 @@ public class Main {
                 continue;
             }
             if (comando == 1){
-                System.out.println("A bateria do "+ robo.getSensores().get(comando - 1).getClass().getSimpleName() +" está em " + robo.getSensores().get(comando - 1).getBateria() + "%");
+                System.out.println("A bateria do "+ sensor.getNomeSensor() +" está em " + robo.getSensores().get(comando - 1).getBateria() + "%");
                 break;
             }else if (comando == 2){
                 int carga = lerInteiro("Qual a quantidade de carga que você deseja colocar?", scanner);
                 robo.getSensores().get(comando - 1).recarregarBateria(carga);
-                System.out.println("A bateria do "+ robo.getSensores().get(comando - 1).getClass().getSimpleName() +" agora está em " + robo.getSensores().get(comando - 1).getBateria() + "%");
+                System.out.println("A bateria do "+ sensor.getNomeSensor() +" agora está em " + sensor.getBateria() + "%");
                 break;
             }
         }
