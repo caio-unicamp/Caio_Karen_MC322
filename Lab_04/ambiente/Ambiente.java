@@ -90,8 +90,17 @@ public class Ambiente{
     public void adicionarEntidade(Entidade entidade){ 
         if (entidade.getTipoEntidade().equals(TipoEntidade.ROBO)){ //Se for um robô, aumenta o número de robôs que existem no ambiente
             this.numRobosAmbiente++;
+            this.mapa[entidade.getX()][entidade.getY()][entidade.getZ()] = TipoEntidade.ROBO;
         }else if (entidade.getTipoEntidade().equals(TipoEntidade.OBSTACULO)){ //Se for um obstáculo, aumenta o número de obstáculos que existem no ambiente
             this.numObstaculosAmbiente++;
+            Obstaculo obstaculoRemovido = (Obstaculo) entidade;
+            for (int i = obstaculoRemovido.getX(); i <= obstaculoRemovido.getPosX2(); i++){
+                for (int j = obstaculoRemovido.getY(); j <= obstaculoRemovido.getPosY2(); j++){
+                    for (int k = 0; k <= obstaculoRemovido.getZ(); k++){
+                        this.mapa[i][j][k] = TipoEntidade.OBSTACULO;
+                    }
+                }
+            }
         }
         listaEntidades.add(entidade);
     }
@@ -102,8 +111,17 @@ public class Ambiente{
     public void removerEntidade(Entidade entidade){ 
         if (entidade.getTipoEntidade().equals(TipoEntidade.ROBO)){ //Se for um robô diminui o número de robôs que existem no ambiente
             this.numRobosAmbiente--;
+            this.mapa[entidade.getX()][entidade.getY()][entidade.getZ()] = TipoEntidade.VAZIO;
         }else if (entidade.getTipoEntidade().equals(TipoEntidade.OBSTACULO)){ //Se for um obstáculo diminui o número de obstáculos que existem no ambiente
             this.numObstaculosAmbiente--;
+            Obstaculo obstaculoRemovido = (Obstaculo) entidade;
+            for (int i = obstaculoRemovido.getX(); i <= obstaculoRemovido.getPosX2(); i++){
+                for (int j = obstaculoRemovido.getY(); j <= obstaculoRemovido.getPosY2(); j++){
+                    for (int k = 0; k <= obstaculoRemovido.getZ(); k++){
+                        this.mapa[i][j][k] = TipoEntidade.VAZIO;
+                    }
+                }
+            }
         }
         listaEntidades.remove(entidade);
     }

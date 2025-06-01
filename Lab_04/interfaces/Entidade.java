@@ -20,5 +20,5 @@ public interface Entidade {
 
     public char getSimbolo(); //Retorna o símbolo de representação da entidade
 
-    public String getNome();
+    public String getNome(); //Retorna o nome da entidade
 }
