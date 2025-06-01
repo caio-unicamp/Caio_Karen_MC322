@@ -1,6 +1,7 @@
 package ambiente;
 import java.util.ArrayList;
 import interfaces.*;
+import robots.Robo;
 import enums.TipoEntidade;
 import excecoes.*;
 /**
@@ -134,8 +135,21 @@ public class Ambiente{
      */
     public boolean estaOcupado(int x, int y, int z){
         for (Entidade entidade : this.listaEntidades) {
-            if (entidade.getX() == x && entidade.getY() == y && entidade.getZ() == z){
-                return true;
+            if (entidade instanceof Robo){
+                if (entidade.getX() == x && entidade.getY() == y && entidade.getZ() == z){
+                    return true;
+                }
+            }else if (entidade instanceof Obstaculo){
+                Obstaculo obstaculoAnalise = (Obstaculo) entidade;
+                for (int i = obstaculoAnalise.getX(); i <= obstaculoAnalise.getPosX2(); i++){
+                    for (int j = obstaculoAnalise.getY(); j <= obstaculoAnalise.getPosY2(); j++){
+                        for (int k = 0; k <= obstaculoAnalise.getZ(); k++){
+                            if (i == x && j == y && k == z){
+                                return true;
+                            }           
+                        }
+                    }
+                }
             }
         }
         return false;
