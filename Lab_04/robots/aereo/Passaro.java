@@ -91,8 +91,9 @@ public class Passaro extends RoboAereo{
      * Verifica se o pássaro conseguiu desviar no plano XY
      * @param ambiente
      * @return true se conseguiu, false caso contrário
+     * @throws ColisionException
      */
-    public boolean desviouXY(Ambiente ambiente){
+    public boolean desviouXY(Ambiente ambiente)throws ColisaoException{
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0){ // A posição original não deve ser testada
@@ -116,8 +117,9 @@ public class Passaro extends RoboAereo{
      * Verifica se o pássaro conseguiu desviar em z
      * @param ambiente
      * @return true se conseguiu, false caso contrário
+     * @throws ColisionException
      */
-    public boolean desviouZ(Ambiente ambiente){
+    public boolean desviouZ(Ambiente ambiente) throws ColisaoException{
         // Se não conseguiu desviar no plano X-Y, tenta desviar para cima ou para baixo (Z)
         int[] desviosZ = {1, -1}; // Primeiro tenta subir, depois descer
         for (int dz : desviosZ) {
