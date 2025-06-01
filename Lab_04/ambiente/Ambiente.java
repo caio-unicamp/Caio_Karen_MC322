@@ -25,7 +25,7 @@ public class Ambiente{
         this.tamZ = tamZ;
         this.numRobosAmbiente = 0; // Inicia com 0 robôs no ambiente
         this.numObstaculosAmbiente = 0; // Inicia com 0 obstáculos no ambiente
-        this.mapa = new TipoEntidade[this.tamX - 1][this.tamY - 1][this.tamZ - 1];
+        this.mapa = new TipoEntidade[this.tamX][this.tamY][this.tamZ];
         listaEntidades = new ArrayList<>();
     }
     /**
@@ -194,7 +194,7 @@ public class Ambiente{
      * @return uma matriz referente aos símbolos das entidades em suas respectivas posições no ambiente
      */
     public char[][] vizualizarMapa(int altura){
-        char [][] vizuMapa = new char[this.tamX - 1][this.tamY - 1];
+        char [][] vizuMapa = new char[this.tamX][this.tamY];
         for (int j = this.tamY-1; j >= 0; j--){
             for (int i = 0; i < this.tamX; i++){ //Segue a lista do mapa e adciona o símbolo de cada entidade no nível de altura especificado
                 vizuMapa[i][j] = (this.mapa[i][j][altura].getSimbolo());

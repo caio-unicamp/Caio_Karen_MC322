@@ -37,34 +37,50 @@ public class Main {
                 int tipoObstaculo = lerInteiro("1 - Mina Terrestre\n2 - Buraco\n3 - Árvore\n4 - Portão", scanner);
                 if (tipoObstaculo == 1){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a mina");
-                    int x1Mina = lerInteiro("Coordenada em X1: ", scanner);
-                    int y1Mina = lerInteiro("Coordenada em Y1: ", scanner);
-                    int x2Mina = lerInteiro("Coordenada em X2: ", scanner);
-                    int y2Mina = lerInteiro("Coordenada em Y2: ", scanner);
+                    System.out.println("Para (x1,y1)");
+                    int [] mina1 = lerCoordenadas(scanner, false, ambiente);
+                    int x1Mina = mina1[0];
+                    int y1Mina = mina1[1];
+                    System.out.println("Para (x2,y2)");
+                    int [] mina2 = lerCoordenadas(scanner, false, ambiente);
+                    int x2Mina = mina2[0];
+                    int y2Mina = mina2[1];
                     ambiente.adicionarEntidade(new Obstaculo(x1Mina, y1Mina, x2Mina, y2Mina, TipoObstaculo.MINA_TERRESTRE, ambiente));
                     break;
                 }else if (tipoObstaculo == 2){
                     System.out.println("Ótimo, agora me diga onde você quer colocar o buraco");
-                    int x1Buraco = lerInteiro("Coordenada em X1: ", scanner);
-                    int y1Buraco = lerInteiro("Coordenada em Y1: ", scanner);
-                    int x2Buraco = lerInteiro("Coordenada em X2: ", scanner);
-                    int y2Buraco = lerInteiro("Coordenada em Y2: ", scanner);
+                    System.out.println("Para (x1,y1)");
+                    int [] buraco1 = lerCoordenadas(scanner, false, ambiente);
+                    int x1Buraco = buraco1[0];
+                    int y1Buraco = buraco1[1];
+                    System.out.println("Para (x2,y2)");
+                    int [] buraco2 = lerCoordenadas(scanner, false, ambiente);
+                    int x2Buraco = buraco2[0];
+                    int y2Buraco = buraco2[1];
                     ambiente.adicionarEntidade(new Obstaculo(x1Buraco, y1Buraco, x2Buraco, y2Buraco, TipoObstaculo.BURACO_SEM_FUNDO, ambiente));
                     break;
                 }else if (tipoObstaculo == 3){
                     System.out.println("Ótimo, agora me diga onde você quer colocar a Árvore");
-                    int x1Arvore = lerInteiro("Coordenada em X1: ", scanner);
-                    int y1Arvore = lerInteiro("Coordenada em Y1: ", scanner);
-                    int x2Arvore = lerInteiro("Coordenada em X2: ", scanner);
-                    int y2Arvore = lerInteiro("Coordenada em Y2: ", scanner);
+                    System.out.println("Para (x1,y1)");
+                    int [] arvore1 = lerCoordenadas(scanner, false, ambiente);
+                    int x1Arvore = arvore1[0];
+                    int y1Arvore = arvore1[1];
+                    System.out.println("Para (x2,y2)");
+                    int [] arvore2 = lerCoordenadas(scanner, false, ambiente);
+                    int x2Arvore = arvore2[0];
+                    int y2Arvore = arvore2[1];
                     ambiente.adicionarEntidade(new Obstaculo(x1Arvore, y1Arvore, x2Arvore, y2Arvore, TipoObstaculo.ARVORE, ambiente));
                     break;
                 }else if (tipoObstaculo == 4){
-                    System.out.println("Ótimo, agora me diga onde você quer colocar o teto");
-                    int x1Portao = lerInteiro("Coordenada em X1: ", scanner);
-                    int y1Portao = lerInteiro("Coordenada em Y1: ", scanner);
-                    int x2Portao = lerInteiro("Coordenada em X2: ", scanner);
-                    int y2Portao = lerInteiro("Coordenada em Y2: ", scanner);
+                    System.out.println("Ótimo, agora me diga onde você quer colocar o Portão");
+                    System.out.println("Para (x1,y1)");
+                    int [] portao1 = lerCoordenadas(scanner, false, ambiente);
+                    int x1Portao = portao1[0];
+                    int y1Portao = portao1[1];
+                    System.out.println("Para (x2,y2)");
+                    int [] portao = lerCoordenadas(scanner, false, ambiente);
+                    int x2Portao = portao[0];
+                    int y2Portao = portao[1];
                     ambiente.adicionarEntidade(new Obstaculo(x1Portao, y1Portao, x2Portao, y2Portao, TipoObstaculo.PORTAO, ambiente));
                     break;
                 }else{
@@ -619,16 +635,16 @@ public class Main {
                 
             }else if (comando == 4){ //Bloco para mostrar a lista de robôs
                 if (ambiente.getNumRobosAmbiente() == 0){
-                    System.out.println("Oops, parece que você ainda não criou nenhum robô");
+                    System.out.println("Oops, parece que você ainda não criou nenhum robô.");
                 }else{
-                    System.out.println("Vamos dar uma olhada em quem você já criou até agora");
+                    System.out.println("Vamos dar uma olhada em quem você já criou até agora!");
                     int contadorRobo = 1;
                     for (Entidade entidade : ambiente.getListaEntidades()) {
                         if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                             continue; //Se não for segue para a próxima iteração
                         }else{
                             Robo robo = (Robo) entidade;
-                            System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2]);
+                            System.out.println(contadorRobo++ + " - " + robo.getNome() + " - " + robo.getClass().getSimpleName() +  " - Posição: " + robo.getPosicao()[0] + ", " + robo.getPosicao()[1] + ", " + robo.getPosicao()[2] + " - " + robo.getEstadoRobo());
                         }
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra visualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
@@ -683,7 +699,7 @@ public class Main {
                     System.out.println("Entidade desconhecida, não é possível acessar uma descrição.");
                 }
             }else{ //Caso seja digitado um número inválido
-                System.out.println("Foi mal, por enquanto eu só sei contar até 6... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
+                System.out.println("Foi mal, por enquanto eu só sei contar até 9... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
             }
         }
         System.out.println("Obrigado por usar o sistema de simulação, não esqueça de avaliar nossos serviços, espero que tenha gostado! Se não gostou: Eu não ligo! Eu sou só um robô. Até mais!");
