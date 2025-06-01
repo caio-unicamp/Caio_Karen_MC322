@@ -12,7 +12,7 @@ import robots.terrestre.*;
 import sensores.*;
 
 public class Main {
-    public static void main(String[] args) throws ColisaoException{
+    public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException{
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = -1;
@@ -847,8 +847,9 @@ public class Main {
     /**
      * Métodos dos robôs aéreos básicos (Subir ou descer)
      * @throws ColisaoException
+     * @throws AlturaMaximaAtingidaException
      */
-    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException{ 
+    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException, AlturaMaximaAtingidaException{ 
         if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
             System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{

@@ -1,4 +1,7 @@
 package sensores;
+
+import excecoes.AlturaMaximaAtingidaException;
+
 public class SensorAltitude extends Sensor<Integer>{
 
     public SensorAltitude(double raio, String nomeSensor){
@@ -19,8 +22,12 @@ public class SensorAltitude extends Sensor<Integer>{
      * @param altura
      * @param alturaMax
      * @return porcentagem da altura do robô em relação à altura máxima do ambiente
+     * @throws AlturaMaximaAtingidaExcecption
      */
-    public double porcentoAltura(int altura, int alturaMax){
+    public double porcentoAltura(int altura, int alturaMax) throws AlturaMaximaAtingidaException{
+        if ((double) ((altura * 100) / alturaMax) > 100){
+            throw new AlturaMaximaAtingidaException("Já não basta querer voar pra encher o saco ainda fica querendo passar dos limites");
+        }
         return (double) ((altura * 100) / alturaMax); 
     }
     /**
