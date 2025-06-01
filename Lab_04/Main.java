@@ -555,7 +555,7 @@ public class Main {
                             continue; //Se não for, segue para a próxima iteração
                         }else{
                             Obstaculo obstaculo = (Obstaculo) entidade;
-                            System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getPosX1() + "," + obstaculo.getPosY1() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
+                            System.out.println(contadorObstaculo++ + " - " + obstaculo.getTipoObstaculo() + " - Posição (X1,Y1): (" + obstaculo.getX() + "," + obstaculo.getY() + "), " + "Posição (X2,Y2): (" + obstaculo.getPosX2() + "," + obstaculo.getPosY2() + ")");
                         }
                     }
                 }
@@ -730,17 +730,8 @@ public class Main {
             if (roboVoador){ //Se o robô for voador inclui o eixo z
                 posicaoZ = lerInteiro("Posição Z: ", scanner);
             }
-            int qtdAnalisesPosicoes = 0;
-            for (Entidade entidade : ambiente.getListaEntidades()) { //Analisa todas as entidades verificando se existe alguma na posição indicada
-                qtdAnalisesPosicoes++;
-                if (posicaoX == entidade.getX() && posicaoY == entidade.getY() && posicaoZ == entidade.getZ()){
-                    lugarOcupado = true;
-                    qtdAnalisesPosicoes = -1;
-                    break;
-                }
-            }
-            if (qtdAnalisesPosicoes == ambiente.getListaEntidades().size()){ // Se foi analisado todos os robôs e obstáculos e nenhum deles ocupava a posição escolhida, o lugar não está ocupado
-                lugarOcupado = false;
+            if (ambiente.estaOcupado(posicaoX, posicaoY, posicaoZ)){ //Verifica se já existe alguma entidade ocupando o local pedido
+                lugarOcupado = true;
             }else{
                 System.out.println("Há muito tempo atrás Sir Isaac Newton provou que dois corpos não podem ocupar o mesmo lugar no espaço. Parece que você matou essa aula na escola ein. O lugar que você escolheu já está ocupado, colega. então vamos tentar colocar o novo robô em outro canto");
             }
@@ -933,7 +924,7 @@ public class Main {
                         continue; //Se não for, segue para a próxima iteração
                     }else{
                         Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para entidade
-                        if (obstaculo.getPosX1() <= robo.getPosicao()[0] + passos[0] && obstaculo.getPosX2() >= robo.getPosicao()[0] + passos[0] && obstaculo.getPosY1() <= robo.getPosicao()[1] + passos[1] && obstaculo.getPosY2() >= robo.getPosicao()[1] + passos[1] && obstaculo.getAltura() == robo.getPosicao()[2]) {
+                        if (obstaculo.getX() <= robo.getPosicao()[0] + passos[0] && obstaculo.getPosX2() >= robo.getPosicao()[0] + passos[0] && obstaculo.getY() <= robo.getPosicao()[1] + passos[1] && obstaculo.getPosY2() >= robo.getPosicao()[1] + passos[1] && obstaculo.getZ() == robo.getPosicao()[2]) {
                             obstaculoIdentificado = obstaculo;
                             break;
                         }

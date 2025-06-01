@@ -233,7 +233,7 @@ public class Robo implements Entidade, Sensoreavel{
                     continue; //Se não for, pula para a próxima iteração
                 }else{
                     Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para Obstaculo
-                    if (obstaculo.getPosX1() <= x && obstaculo.getPosX2() >= x && obstaculo.getPosY1() <= y && obstaculo.getPosY2() >= y && obstaculo.getAltura() >= this.getPosicao()[2]) {
+                    if (obstaculo.getX() <= x && obstaculo.getPosX2() >= x && obstaculo.getY() <= y && obstaculo.getPosY2() >= y && obstaculo.getZ() >= this.getPosicao()[2]) {
                         obstaculoIdentificado = obstaculo;
                         break;
                     }

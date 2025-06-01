@@ -73,7 +73,7 @@ public class SensorProximidade extends Sensor<Boolean>{
                 continue; //Se não for, pula para a próxima interação
             }else{
                 Obstaculo obstaculo = (Obstaculo) entidade;
-                if (obstaculo.getPosX1() >= x && obstaculo.getPosX2() <= x && obstaculo.getPosY1() >= y && obstaculo.getPosY2() <= y && obstaculo.getAltura() == z){ //Se a posição já estiver ocupada por um obstáculo, ele retorna true
+                if (obstaculo.getX() >= x && obstaculo.getPosX2() <= x && obstaculo.getY() >= y && obstaculo.getPosY2() <= y && obstaculo.getZ() == z){ //Se a posição já estiver ocupada por um obstáculo, ele retorna true
                     return true;
                 }
             }

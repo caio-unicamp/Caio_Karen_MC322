@@ -62,9 +62,14 @@ public class Ambiente{
      * @param y Posição y
      * @param altura Altura
      * @return Um booleano sendo true caso as coordenadas estejam dentro do ambiente e false caso contrário 
+     * @throws ColisaoException
      */
-    public boolean dentroDosLimites(int x, int y, int altura){ 
-        return (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.tamZ);
+    public boolean dentroDosLimites(int x, int y, int altura) throws ColisaoException{ 
+        if (x >= 0 && x <= this.tamX && y >= 0 && y <= this.tamY && altura >= 0 && altura <= this.tamZ){
+            return true;
+        }else{
+            throw new ColisaoException("Posição fora dos limites do ambiente");
+        }
     }
     /**
      * Método para inicializar o mapa 3D do ambiente com todas as posições vazias
@@ -129,12 +134,14 @@ public class Ambiente{
      * @param entidade a ser verificada
      * @param passoX
      * @param passoY
+     * @return true se houve colisão com o ambiente e false caso contrário
      * @throws ColisaoException
      */
-    public void verificarColisoes(Entidade entidade, int passoX, int passoY) throws ColisaoException{
-        if (!dentroDosLimites(entidade.getX() + passoX, entidade.getY() + passoY, entidade.getZ())){ //Verifica se a entidade está dentro dos limites do ambiente
-            throw new ColisaoException("Houve uma colisão com os limites do ambiente ao tentar ");
+    public boolean verificarColisoes(Entidade entidade, int passoX, int passoY) throws ColisaoException{
+        if (dentroDosLimites(entidade.getX() + passoX, entidade.getY() + passoY, entidade.getZ())){ //Verifica se a entidade está dentro dos limites do ambiente
+            return false;
         }
+        return true;
     }
     /**
      * Salva os símbolos correspondentes ao x e y em uma altura específica para printar na main

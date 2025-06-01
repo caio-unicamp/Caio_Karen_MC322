@@ -131,7 +131,7 @@ public class Drone extends RoboAereo implements Comunicavel{
                         continue; //Se não for, segue para a próxima iteração
                     }else{
                         Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para obstáculo
-                        if (obstaculo.getPosX1() <= this.getPosicao()[0] && obstaculo.getPosX2() >= this.getPosicao()[0] && obstaculo.getPosY1() <= this.getPosicao()[1] && obstaculo.getPosY2() >= this.getPosicao()[1] && obstaculo.getAltura() >= this.getPosicao()[2]){ //Se já existe um obstáculo no lugar que o pacote seria derrubado, ele será destruído
+                        if (obstaculo.getX() <= this.getPosicao()[0] && obstaculo.getPosX2() >= this.getPosicao()[0] && obstaculo.getY() <= this.getPosicao()[1] && obstaculo.getPosY2() >= this.getPosicao()[1] && obstaculo.getZ() >= this.getPosicao()[2]){ //Se já existe um obstáculo no lugar que o pacote seria derrubado, ele será destruído
                             if (obstaculo.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ // No caso do pacote cair em uma mina, ela é destruída
                                 ambiente.removerEntidade(obstaculo);
                             }
