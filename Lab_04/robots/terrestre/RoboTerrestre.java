@@ -1,10 +1,11 @@
 package robots.terrestre;
 import ambiente.*;
 import excecoes.*;
+import interfaces.Veloz;
 import sensores.*;
 import robots.Robo;
 
-public class RoboTerrestre extends Robo{
+public class RoboTerrestre extends Robo implements Veloz{
     private int velocidadeMaxima; //Velocidade máxima permitida para o robô
     private int tempoLocomocaoTerrestre; //Tempo que o robô demora em uma locomoção
     
