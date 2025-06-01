@@ -170,8 +170,21 @@ public class Ambiente{
      * @throws ColisaoException
      */
     public boolean verificarColisoes(Entidade entidade, int passoX, int passoY) throws ColisaoException{
-        if (dentroDosLimites(entidade.getX() + passoX, entidade.getY() + passoY, entidade.getZ())){ //Verifica se a entidade está dentro dos limites do ambiente
-            return false;
+        if (entidade instanceof Robo){
+            if (dentroDosLimites(entidade.getX() + passoX, entidade.getY() + passoY, entidade.getZ())){ //Verifica se a entidade está dentro dos limites do ambiente
+                return false;
+            }
+        }else if (entidade instanceof Obstaculo){
+            Obstaculo obstaculoVerificandoColisoes = (Obstaculo) entidade;
+                for (int i = obstaculoVerificandoColisoes.getX(); i <= obstaculoVerificandoColisoes.getPosX2(); i++){
+                    for (int j = obstaculoVerificandoColisoes.getY(); j <= obstaculoVerificandoColisoes.getPosY2(); j++){
+                        for (int k = 0; k <= obstaculoVerificandoColisoes.getZ(); k++){
+                            if (dentroDosLimites(i + passoX, j + passoY, k)){
+                                return false;
+                            }           
+                        }
+                    }
+                }
         }
         return true;
     }
