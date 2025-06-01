@@ -5,7 +5,7 @@ import excecoes.*;
 import ambiente.*;
 import robots.Robo;
 
-public class Aspirador extends RoboTerrestre implements Comunicavel {
+public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador {
     //atributo numero de robos que eliminou
     private int robosEliminados;
     
@@ -31,7 +31,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         }else if (((String) argumentos[0]).equalsIgnoreCase("enviar mensagem")){
            this.enviarMensagem((Entidade) argumentos[1],(String) argumentos[2]); 
         }else if (((String) argumentos[0]).equalsIgnoreCase("aspirar")){
-            this.aspirarRobo((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
+            this.eliminar((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
         }
     }
     /**
@@ -81,7 +81,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
      * @param passosY
      * @param ambiente
      */
-    private void aspirarRobo(int passosX, int passosY, Ambiente ambiente){
+    public void eliminar(int passosX, int passosY, Ambiente ambiente){
         for (Entidade entidade : ambiente.getListaEntidades()) {
             if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                 continue; //Se não for, pula para a próxima iteração

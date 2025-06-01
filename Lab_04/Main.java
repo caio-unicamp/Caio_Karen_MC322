@@ -12,7 +12,7 @@ import robots.terrestre.*;
 import sensores.*;
 
 public class Main {
-    public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, ErroComunicacaoException{
+    public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, ErroComunicacaoException, RoboDesligadoException{
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = -1;
@@ -913,18 +913,21 @@ public class Main {
      * Métodos dos robôs aéreos básicos (Subir ou descer)
      * @throws ColisaoException
      * @throws AlturaMaximaAtingidaException
+     * @throws ErroComunicacaoException 
+     * @throws RoboDesligadoException 
+     * @throws SensorDesligadoException 
      */
-    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException, AlturaMaximaAtingidaException{ 
+    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, RoboDesligadoException, ErroComunicacaoException{ 
         if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
             System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{
             int deltaZ;
             if (subirOuDescer == 1){
                 deltaZ = lerInteiro("Quantos metros você deseja subir? ", scanner);
-                roboAereo.subir(deltaZ, ambiente);
+                roboAereo.executarTarefa("subir", deltaZ, ambiente);
             }else{
                 deltaZ = lerInteiro("Quantos metros você deseja descer? ", scanner);
-                roboAereo.descer(deltaZ, ambiente);
+                roboAereo.executarTarefa("descer", deltaZ, ambiente);
             }
         }
         if (roboAereo.getSensorAltitude(roboAereo).isBateriaBaixa()){
