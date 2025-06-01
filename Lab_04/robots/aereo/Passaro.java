@@ -136,8 +136,9 @@ public class Passaro extends RoboAereo{
     /**
      * Tenta desviar primeiro em XY e depois em z
      * @param ambiente
+     * @throws ColisaoException
      */
-    private void desviar(Ambiente ambiente){
+    private void desviar(Ambiente ambiente)throws ColisaoException{
         if (desviouXY(ambiente)){
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
