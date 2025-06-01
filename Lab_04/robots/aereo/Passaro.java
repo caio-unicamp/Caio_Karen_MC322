@@ -16,10 +16,28 @@ public class Passaro extends RoboAereo{
         this.posicao[2] = altitude;
     }
     /**
-     * Mover do pássaro tentando desviar caso ache algum obstáculo.
+     * Executa a tarefa de mover e de desviar para o pássaro
+     * @throws ErroComunicacaoException 
+     * @throws ColisaoException 
+     * @throws RoboDesligadoException 
+     * @throws SensorDesligadoException 
+     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
+     * @implNote Para desviar: argumentos = {"desviar", ambiente}
      */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
+        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
+            this.mover((int) argumentos[1],(int) argumentos[2],(Ambiente) argumentos[3]);
+        }else if(((String) argumentos[0]).equalsIgnoreCase("desviar")){
+            this.desviar((Ambiente) argumentos[1]);
+        }
+    }
+    /**
+     * Mover do pássaro tentando desviar caso ache algum obstáculo.
+     * @throws ErroComunicacaoException 
+     */
+    @Override
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
         if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Lança o erro se o pássaro estiver desligado
             throw new RoboDesligadoException("Esse desgraçadinho graças à Hyperion não está ligado");
         }
@@ -38,7 +56,7 @@ public class Passaro extends RoboAereo{
         if (deltaX == 0 && deltaY == 0) { 
             return; 
         }
-
+        
         super.mover(deltaX, deltaY, ambiente);
         int posAtualX = this.getPosicao()[0];
         int posAtualY = this.getPosicao()[1];
@@ -59,7 +77,7 @@ public class Passaro extends RoboAereo{
                 // Condição de parada: verificar se ainda há movimento restante
                 if (novoDeltaX != 0 || novoDeltaY != 0) {
                     if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
-                        this.desviar(ambiente); // Aplica o desvio
+                        this.executarTarefa("desviar", ambiente); // Aplica o desvio
                         this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
                         qtdDesvios++;
                     }
@@ -78,7 +96,7 @@ public class Passaro extends RoboAereo{
                 // Condição de parada: verificar se ainda há movimento restante
                 if (novoDeltaX != 0 || novoDeltaY != 0) {
                     if (desviouXY(ambiente)  || desviouZ(ambiente)){ // Verifica se ele conseguiu desviar ou no plano X-Y ou no plano Z
-                        this.desviar(ambiente); // Aplica o desvio
+                        this.executarTarefa("desviar", ambiente); // Aplica o desvio
                         this.mover(novoDeltaX - (this.posicao[0] - posAtualX), novoDeltaY - (this.posicao[1] - posAtualY), ambiente); //Chama recursivamente a função mover para continuar o movimento após o desvio
                         qtdDesvios++;
                     }

@@ -15,9 +15,23 @@ public class Drone extends RoboAereo implements Comunicavel{
         super(nome, direcao, x, y, altitude, altitudeMaxima);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
-
-    public void executarTarefa(Object... argumentos){
-        
+    /**
+     * Executa as tarefas de mover, enviar mensagem e entregar pacote
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     * @throws ColisaoException
+     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
+     * @implNote Para enviar mensagens: argumentos = {"enviar mensagem", (Entidade) destinatario, (String) mensagem}
+     * @implNote Para entregar um pacote: argumentos = {"entregar pacote", (int) pos X final do drone, (int) pos Y final do drone, (String) nome do pacote, ambiente}
+     */
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
+        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
+            this.mover((int) argumentos[1],(int) argumentos[2],(Ambiente) argumentos[3]);
+        }else if(((String) argumentos[0]).equalsIgnoreCase("enviar mensagem")){
+            this.enviarMensagem((Entidade) argumentos[1],(String) argumentos[2]);
+        }else if(((String) argumentos[0]).equalsIgnoreCase("entregar pacote")){
+            this.entregarPacote((int) argumentos[1], (int) argumentos[2], (String) argumentos[3], (Ambiente) argumentos[4]);
+        }
     }
     /**
      * Envia uma mensagem para outro robô

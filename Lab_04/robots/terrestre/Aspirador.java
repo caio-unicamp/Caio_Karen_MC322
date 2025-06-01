@@ -20,8 +20,9 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
      * @throws RoboDesligadoException
      * @throws ColisaoException
      * @throws ErroComunicacaoException 
-     * @implNote Para enviar uma mensagem: atributos = {"enviar mensagem", (Entidade) destinatário, (String) mensagem}
-     * @implNote Para aspirar um robô: atributos = {"aspirar", (int) passosX, (int) passosY, ambiente}
+     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
+     * @implNote Para enviar uma mensagem: argumentos = {"enviar mensagem", (Entidade) destinatário, (String) mensagem}
+     * @implNote Para aspirar um robô: argumentos = {"aspirar", (int) passosX, (int) passosY, ambiente}
      */
     @Override
     public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
@@ -118,7 +119,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         }
     
         // Move o robô de acordo com a função mover da classe mãe
-        this.executarTarefa("mover", deltaX, deltaY, ambiente);
+        super.mover(deltaX, deltaY, ambiente);
         int posAtualX = this.getPosicao()[0];
         int posAtualY = this.getPosicao()[1];
         if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
@@ -138,7 +139,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
                         if (!ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])) {
                             return;
                         }
-                        this.executarTarefa("mover", novoDeltaX, novoDeltaY, ambiente);
+                        this.mover(novoDeltaX, novoDeltaY, ambiente);
                     }
                 }
             }
@@ -155,7 +156,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
                         if (!ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])) {
                             return;
                         }
-                        this.executarTarefa("mover", novoDeltaX, novoDeltaY, ambiente);
+                        this.mover(novoDeltaX, novoDeltaY, ambiente);
                     }
                 }
             }

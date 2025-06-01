@@ -160,7 +160,7 @@ public class Main {
                                 double taxaAspirador = aspirador.getSensorVelocidade().porcentoVelocidade(aspirador.getSensorVelocidade().monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
                                 String velAspirador = String.format("%.2f", taxaAspirador);
                                 try{
-                                    aspirador.mover(deltaX, deltaY, ambiente);
+                                    aspirador.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(aspirador, ambiente);
                                     System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
                                     if (aspirador.getSensorVelocidade().isMuitoRapido(taxaAspirador)){
@@ -311,7 +311,7 @@ public class Main {
                             }
                         }
                         try{
-                            drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente);
+                            drone.executarTarefa("entregar pacote", coordenadaX, coordenadaY, nomePacote, ambiente);
                             //Indica se o drone conseguiu entregar o pacote
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                         }catch (RoboDesligadoException e){ //Indica que drone está desligado
@@ -368,7 +368,7 @@ public class Main {
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
                         try{
-                            passaro.mover(deltaX, deltaY, ambiente);
+                            passaro.executarTarefa("mover", deltaX, deltaY, ambiente);
                             //pegar a qtd de desvios
                             int qtdDesvios = passaro.getQtddesvios();
                             //imprimir a qtd de desvios
@@ -411,7 +411,7 @@ public class Main {
                                 double taxaRover = rover.getSensorVelocidade().porcentoVelocidade(rover.getSensorVelocidade().monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima());
                                 String velRover = String.format("%.2f", taxaRover);
                                 try{
-                                    rover.mover(deltaX, deltaY, ambiente);
+                                    rover.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(rover, ambiente);
                                     System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
                                     if (rover.getSensorVelocidade().isMuitoRapido(taxaRover)){
@@ -479,7 +479,7 @@ public class Main {
                         // Empurrar algum robô
                         try{
                             int[] posInicialInimigo = {inimigo.getPosicao()[0], inimigo.getPosicao()[1]};
-                            rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente); 
+                            rover.executarTarefa("mover", inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente);
                             obstaculoAchado(rover, ambiente);
                             if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles
                                 int numAnaliseRobosEmpurrados = 0;
