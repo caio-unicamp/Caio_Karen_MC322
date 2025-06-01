@@ -3,10 +3,11 @@ import interfaces.Entidade;
 import enums.*;
 import ambiente.Obstaculo;
 public class Obstaculo implements Entidade{
-    private final int posX1;
-    private final int posY1;
-    private final int posX2;
-    private final int posY2;
+    private int posX1;
+    private int posY1;
+    private int posX2;
+    private int posY2;
+    private int altura;
     private final TipoEntidade tipoEntidade; //Tipo da entidade, que nesse caso é um Obstáculo
     private final TipoObstaculo tipoObstaculo; //Tipo do obstáculo de acordo com o enum referente a ele
     /**
@@ -39,6 +40,7 @@ public class Obstaculo implements Entidade{
         this.posY2 = posY2;
         this.tipoObstaculo = tipoObstaculo;
         this.tipoEntidade = TipoEntidade.OBSTACULO;
+        this.altura = tipoObstaculo.getAltura();
     }
     /**
      * Método para saber o nome do Obstáculo de acordo com o Enum dos tipos de obstáculos
@@ -51,22 +53,22 @@ public class Obstaculo implements Entidade{
      * Método para saber a posição X1 do obstáculo.
      * @return posX1
      */
-    public int getPosX1() { 
+    public int getX() { 
         return posX1;
     }
     /**
      * Método para saber a posição Y1 do obstáculo.
      * @return posY1
      */
-    public int getPosY1() { 
+    public int getY() { 
         return posY1;
     }
     /**
      * Método para saber a altura do obstáculo de acordo com o método do enum de TipoObstaculo.
      * @return altura do obstáculo.
      */
-    public int getAltura() { 
-        return this.getTipoObstaculo().getAltura();
+    public int getZ() { 
+        return this.altura;
     }
     /**
      * Método para saber a posição X2 do obstáculo.
@@ -81,6 +83,14 @@ public class Obstaculo implements Entidade{
      */
     public int getPosY2() { 
         return posY2;
+    }
+    /**
+     * Função para setar a posição do obstáculo
+     */
+    public void setPosicao(int x, int y, int z){
+        this.posX1 = x;
+        this.posY1 = y;
+        this.altura = z;
     }
     /**
      * Método para saber o tipo do obstáculo.
