@@ -1,8 +1,9 @@
 package sensores;
 
 import excecoes.AlturaMaximaAtingidaException;
+import interfaces.Fiscalizador;
 
-public class SensorAltitude extends Sensor<Integer>{
+public class SensorAltitude extends Sensor<Integer> implements Fiscalizador{
 
     public SensorAltitude(double raio, String nomeSensor){
         super(raio, nomeSensor);
@@ -35,7 +36,7 @@ public class SensorAltitude extends Sensor<Integer>{
      * @param taxaAltura
      * @return true se estiver pelo menos a 90% da altura máxima e false caso contrário
      */
-    public boolean isMuitoAlto(double taxaAltura){
+    public boolean isMuito(double taxaAltura){
         return taxaAltura >= 90? true : false;
     }
 }

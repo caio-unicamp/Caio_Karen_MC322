@@ -1,7 +1,8 @@
 package sensores;
 import excecoes.VelocidadeMaximaAtingidaException;
+import interfaces.Fiscalizador;
 import robots.terrestre.RoboTerrestre;
-public class SensorVelocidade extends Sensor<Double>{
+public class SensorVelocidade extends Sensor<Double> implements Fiscalizador{
 
     public SensorVelocidade(double raio, String nomeSensor){
         super(raio, nomeSensor);
@@ -34,7 +35,7 @@ public class SensorVelocidade extends Sensor<Double>{
         return (double) ((velocidade * 100) / velocidadeMax);
     }
 
-    public boolean isMuitoRapido(double taxaVelocidade){
+    public boolean isMuito(double taxaVelocidade){
         if (taxaVelocidade >= 90){
             return true;
         }else{

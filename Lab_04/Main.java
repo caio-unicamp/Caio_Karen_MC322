@@ -163,7 +163,7 @@ public class Main {
                                     aspirador.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(aspirador, ambiente);
                                     System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
-                                    if (aspirador.getSensorVelocidade().isMuitoRapido(taxaAspirador)){
+                                    if (aspirador.getSensorVelocidade().isMuito(taxaAspirador)){
                                         System.out.println("Quase um SpeedRacer! Impressionante!");
                                     }
                                     //pegar a qtd de robos eliminados
@@ -414,7 +414,7 @@ public class Main {
                                     rover.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(rover, ambiente);
                                     System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
-                                    if (rover.getSensorVelocidade().isMuitoRapido(taxaRover)){
+                                    if (rover.getSensorVelocidade().isMuito(taxaRover)){
                                         System.out.println("Quase um SpeedRacer! Impressionante!");
                                     }
                                     System.out.println("Você empurrou "+ rover.getQtdRobosEmpurrados(ambiente) + " robôs e derrubou " + rover.getRobosDerrubados() + "robôs durante sua caminhada tranquila em " + ambiente.getNomeAmbiente());
@@ -936,7 +936,7 @@ public class Main {
         obstaculoAchado(roboAereo, ambiente);
         try{ //Trata AlturaMaximaAtingidaException
             System.out.println("Você está atualmente a " + roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + "% da altura máxima do seu ambiente");
-            if (roboAereo.getSensorAltitude(roboAereo).isMuitoAlto(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
+            if (roboAereo.getSensorAltitude(roboAereo).isMuito(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
                 System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
             }
         }catch(AlturaMaximaAtingidaException e){
