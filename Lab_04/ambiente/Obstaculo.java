@@ -118,6 +118,6 @@ public class Obstaculo implements Entidade{
      * @return Uma descrição da entidade obstáculo.
      */
     public String getDescricao(){
-        return "Por conta da baixa qualidade da vida fora dessa simulação, os criadores fizeram com que houvessem empecilhos para treinar como os nossos robôs iriam interagir com esses obstáculos na vida real. Dentre os obstáculos que podem existir na nossa simulação estão:\nÁrvores\nBuracos sem fundo\nMinas terrestres\nPortões\nCada um deles tem uma interação diferente com os robôs e só tem como descobrir quais são testando.";
+        return "Por conta da baixa qualidade da vida fora dessa simulação, os criadores fizeram com que houvessem empecilhos para treinar como os nossos robôs iriam interagir com esses obstáculos na vida real. Dentre os obstáculos que podem existir na nossa simulação estão:\nÁrvores - " + TipoObstaculo.ARVORE.getNome() + "\nBuracos sem fundo - " + TipoObstaculo.BURACO_SEM_FUNDO.getNome() +"\nMinas Terrestres - " + TipoObstaculo.MINA_TERRESTRE.getNome() +"\nPortões - " + TipoObstaculo.PORTAO.getNome()+ "\nCada um deles tem uma interação diferente com os robôs e só tem como descobrir quais são testando-os.";
     }
 }

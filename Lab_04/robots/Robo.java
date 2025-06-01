@@ -7,7 +7,7 @@ import excecoes.*;
 
 import java.util.ArrayList;
 
-public class Robo implements Entidade, Sensoreavel{
+public abstract class Robo implements Entidade, Sensoreavel{
     private String idRobo;    //id do robô que será o nome durante sua criação
     private String direcao;   //direção do robô
     private EstadoRobo estado; //Estado do robô, que pode ser LIGADO ou DESLIGADO 
@@ -26,6 +26,10 @@ public class Robo implements Entidade, Sensoreavel{
         this.listaSensores = new ArrayList<>();
         this.estado = EstadoRobo.LIGADO; //Por padrão o robô está ligado
         this.tipoEntidade = TipoEntidade.ROBO; //Define o tipo da entidade como robô
+    }
+    
+    public abstract String executarTarefa(Object... argumentos){
+        
     }
     /**
      * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.

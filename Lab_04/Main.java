@@ -80,7 +80,7 @@ public class Main {
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
-            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Ligar ou Desligar um Robô\n4 - Verificar lista de Robôs\n5 - Verificar lista de Obstáculos\n6 - Verificar Central de Comunicação\n7 - Vizualisar o ambiente", scanner);
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Ligar ou Desligar um Robô\n4 - Verificar lista de Robôs\n5 - Verificar lista de Obstáculos\n6 - Verificar Central de Comunicação\n7 - Vizualisar o ambiente\n8 - Ver descrição das Entidades", scanner);
             
             if (comando == 0){ //Encerra o programa
                 break;
@@ -635,6 +635,17 @@ public class Main {
                     for (int i = 0; i < ambiente.getLimites()[0]; i++){
                         System.out.println(ambiente.vizualizarMapa(alturaVizualizacao)[i][j]);
                     }
+                }
+            }else if (comando == 8){ //Ver descrição de entidade
+                int escolheEntidadeDescricao = lerInteiro("É sempre bom conhecer um pouco mais sobre suas entidades antes de fazer algo com elas. De qual entidade você quer saber?\n1 - Robô\n2 - Obstáculo", scanner);
+                if (escolheEntidadeDescricao == 1){
+                    Robo exemploRobo = new Aspirador("teste", "sul", 0, 0, 10, 100); 
+                    System.out.println(exemploRobo.getDescricao());
+                }else if(escolheEntidadeDescricao == 2){
+                    Obstaculo exemploObstaculo = new Obstaculo(0, 0, 0, 0, TipoObstaculo.PORTAO, ambiente);
+                    System.out.println(exemploObstaculo.getDescricao());
+                }else{
+                    System.out.println("Entidade desconhecida, não é possível acessar uma descrição.");
                 }
             }else{ //Caso seja digitado um número inválido
                 System.out.println("Foi mal, por enquanto eu só sei contar até 6... entendeu? entendeu? porque é 0-indexado hahahahaha... Aff que usuário chato");
