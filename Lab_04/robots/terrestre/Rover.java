@@ -67,9 +67,10 @@ public class Rover extends RoboTerrestre{
      * @param deltaX
      * @param deltaY
      * @param ambiente
+     * @throws ColisaoException
      * @implNote Caso existam vários robôs na linha que o rover tenta se mover, cada robô consegue empurrar o próximo na fila
      */
-    public void empurrarRobo(Robo empurrado, int deltaX, int deltaY, Ambiente ambiente){
+    public void empurrarRobo(Robo empurrado, int deltaX, int deltaY, Ambiente ambiente) throws ColisaoException{
         int[] novaPosicao = getPosicaoFinalRoboEmpurrado(deltaX, deltaY, empurrado, ambiente);
         if (this.getSensorProximidade().monitorar(novaPosicao[0], novaPosicao[1], 0, ambiente)){ //Caso encontre um robô enquanto está se mexendo, também irá empurrar este
             Robo novoRoboEmpurrado = getRoboNaPosicao(novaPosicao[0], novaPosicao[1], ambiente);
@@ -87,8 +88,9 @@ public class Rover extends RoboTerrestre{
      * @param empurrado
      * @param ambiente
      * @return uma lista de tamanho 2 representando as posições finais do robô após ser empurrado, sendo o índice 0 a posição x e o índice 1 a posição y.
+     * @throws ColisionException
      */
-    public int[] getPosicaoFinalRoboEmpurrado(int deltaX, int deltaY, Robo empurrado, Ambiente ambiente){ 
+    public int[] getPosicaoFinalRoboEmpurrado(int deltaX, int deltaY, Robo empurrado, Ambiente ambiente) throws ColisaoException{ 
         int posicaoX = empurrado.getPosicao()[0] + deltaX;
         int posicaoY = empurrado.getPosicao()[1] + deltaY;
         
