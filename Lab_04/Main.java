@@ -160,6 +160,14 @@ public class Main {
                                 double taxaAspirador = aspirador.getSensorVelocidade().porcentoVelocidade(aspirador.getSensorVelocidade().monitorar(deltaX, deltaY, aspirador), aspirador.getVelocidadeMaxima());
                                 String velAspirador = String.format("%.2f", taxaAspirador);
                                 try{
+                                    //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
+                                    try{
+                                        aspirador.acionarSensores();
+                                    }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
+                                        System.err.println(e.getMessage());
+                                    }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
+                                        System.err.println(e.getMessage());
+                                    }
                                     aspirador.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(aspirador, ambiente);
                                     System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
@@ -364,10 +372,18 @@ public class Main {
                         metodosRobosAereos(passaro, comando, scanner, ambiente);
                     }else if (comando == 3){
                         //mover o pássaro
-                        System.out.println("Você quer mover para onde?");
+                        System.out.println("Quanto você quer mover ele?");
                         int deltaX = lerInteiro("Passos em x: ", scanner); 
                         int deltaY = lerInteiro("Passos em y: ", scanner);
                         try{
+                            //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
+                            try{
+                                passaro.acionarSensores();
+                            }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
+                                System.err.println(e.getMessage());
+                            }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
+                                System.err.println(e.getMessage());
+                            }
                             passaro.executarTarefa("mover", deltaX, deltaY, ambiente);
                             //pegar a qtd de desvios
                             int qtdDesvios = passaro.getQtddesvios();
@@ -402,7 +418,6 @@ public class Main {
                     Rover rover = ((Rover) roboEscolhido);
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Andar por aí\n2 - Empurrar\n3 - Alterar a Velocidade Máxima\n4 - Analisar sensores", scanner);
                     if (comando == 1){ //Método normal de mover o  Rover
-                        //mover o Rover
                         System.out.println("Você quer mover para onde?");
                         while (true){
                             int deltaX = lerInteiro("Passos em x: ", scanner); 
@@ -411,6 +426,16 @@ public class Main {
                                 double taxaRover = rover.getSensorVelocidade().porcentoVelocidade(rover.getSensorVelocidade().monitorar(deltaX, deltaY, rover), rover.getVelocidadeMaxima());
                                 String velRover = String.format("%.2f", taxaRover);
                                 try{
+                                    //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
+                                    try{
+                                        rover.acionarSensores();
+                                    }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
+                                        System.err.println(e.getMessage());
+                                        return; 
+                                    }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
+                                        System.err.println(e.getMessage());
+                                        return; 
+                                    }
                                     rover.executarTarefa("mover", deltaX, deltaY, ambiente);
                                     obstaculoAchado(rover, ambiente);
                                     System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
@@ -479,6 +504,16 @@ public class Main {
                         // Empurrar algum robô
                         try{
                             int[] posInicialInimigo = {inimigo.getPosicao()[0], inimigo.getPosicao()[1]};
+                            //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
+                            try{
+                                rover.acionarSensores();
+                            }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
+                                System.err.println(e.getMessage());
+                                return; 
+                            }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
+                                System.err.println(e.getMessage());
+                                return; 
+                            }
                             rover.executarTarefa("mover", inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente);
                             obstaculoAchado(rover, ambiente);
                             if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles

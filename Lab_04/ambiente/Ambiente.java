@@ -208,6 +208,7 @@ public class Ambiente{
      * @param novoX
      * @param novoY
      * @param novoZ
+     * @implNote Como o obstáculo não é móvel e ele é a unica entidade com dimensões não desprezíveis não é necessário fazer a conferência de todo o espaço de X e Y
      */
     public void moverEntidade(Entidade entidade, int novoX, int novoY, int novoZ){
         this.mapa[entidade.getX()][entidade.getY()][entidade.getZ()] = TipoEntidade.VAZIO;
