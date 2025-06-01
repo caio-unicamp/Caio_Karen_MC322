@@ -12,7 +12,7 @@ import robots.terrestre.*;
 import sensores.*;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws ColisaoException{
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = -1;
@@ -648,8 +648,9 @@ public class Main {
      * @param mensagensNomeJaExistente
      * @param ambiente
      * @param tipoRobo
+     * @throws ColisaoException
      */
-    public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){ 
+    public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo) throws ColisaoException{ 
         String nomeRoboAereo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
@@ -684,8 +685,9 @@ public class Main {
      * @param mensagensNomeJaExistente
      * @param ambiente
      * @param tipoRobo
+     * @throws ColisaoException
      */
-    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo){
+    public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo) throws ColisaoException{
         String nomeRoboTerrestre = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
         System.out.println("Direção: ");
         String direcao = leDirecao(scanner);
@@ -719,9 +721,10 @@ public class Main {
      * @param scanner
      * @param roboVoador
      * @param ambiente
-     * @return
+     * @return Um array de tamanho 3 com as coordenadas X, Y e Z respectivamente
+     * @throws ColisaoException
      */
-    public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador, Ambiente ambiente){ //Função para ler as coordenadas para não precisar repetir esse trecho do código várias vezes
+    public static int[] lerCoordenadas(Scanner scanner, boolean roboVoador, Ambiente ambiente) throws ColisaoException{ 
         boolean lugarOcupado = false;
         while (true){
             int posicaoX = lerInteiro("Posição X: ", scanner);
@@ -843,8 +846,9 @@ public class Main {
     }
     /**
      * Métodos dos robôs aéreos básicos (Subir ou descer)
+     * @throws ColisaoException
      */
-    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente){ 
+    public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException{ 
         if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
             System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{
