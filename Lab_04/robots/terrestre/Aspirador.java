@@ -60,8 +60,6 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
         String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido";
         //Registra que a mensagem foi enviada
         CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
-        //COLOCAR O PRINT NA MAIN DEPOIS DE TERMINAR
-        System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
@@ -72,8 +70,6 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
             //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
             throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
         }
-        //BOTAR O PRINT NA MAIN DEPOIS
-        System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
     }
     /**
      * Aspira os robôs encontrados no caminho quando ele se move

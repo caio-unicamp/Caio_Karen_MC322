@@ -59,8 +59,6 @@ public class Drone extends RoboAereo implements Comunicavel{
         String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido"; 
         // Registra que a mensagem foi enviada.
         CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
-        //COLOCAR PRINT NA MAIN DEPOIS DE REGISTRAR A MENSAGEM
-        System.out.println("[" + this.getNome() + " para " + nomeDestinatario + "]: " + mensagem + " (Mensagem enviada)");
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
@@ -71,8 +69,6 @@ public class Drone extends RoboAereo implements Comunicavel{
             //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
             throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
         }
-        //BOTAR O PRINT NA MAIN
-        System.out.println("[" + this.getNome() + " recebeu de " + remetente + "]: \"" + mensagem + "\"");
     }
     /**
      *  Método para mover o drone sem entregar nenhum pacote
