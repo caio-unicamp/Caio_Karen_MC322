@@ -18,19 +18,21 @@ public class RoboTerrestre extends Robo{
      * @throws SensorDesligadoException
      * @throws RoboDesligadoException
      * @throws ColisaoException
-     * @implNote Para mover a lista de objetos será atributos = {"mover", deltaX, deltaY, ambiente} 
+     * @throws ErroComunicacaoException 
+     * @implNote Para mover a lista de objetos será atributos = {"mover", (int) deltaX, (int) deltaY, ambiente} 
      */
     @Override
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
-        if (((String) argumentos[0]).equals("mover")){
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
+        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
             this.mover((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
         }
     }
     /**
      * Movimentação dos robôs terrestres
+     * @throws ErroComunicacaoException 
      */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException {
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException {
         super.mover(deltaX, deltaY, ambiente); 
         //Essa função será chamada junto da velMaxAtingida na main para que ele só se mova no caso de não ter sido atingido o limite de velocidade
     }

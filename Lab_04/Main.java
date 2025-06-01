@@ -12,7 +12,7 @@ import robots.terrestre.*;
 import sensores.*;
 
 public class Main {
-    public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException{
+    public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, ErroComunicacaoException{
         Scanner scanner = new Scanner(System.in);
         String sistemaOperacional = System.getProperty("os.name").toLowerCase();
         int comando = -1;
@@ -1050,12 +1050,21 @@ public class Main {
         System.out.println("|      # isso define x1,y1");
         System.out.println("------------------------------------>x");
     }
-    public static void metodosRobosComunicaveis(Ambiente ambiente, Scanner scanner, Comunicavel remetente){
+    /**
+     * Mostra o que os robôs comunicáveis podem fazer
+     * @param ambiente
+     * @param scanner
+     * @param remetente
+     * @throws SensorDesligadoException
+     * @throws ColisaoException
+     */
+    public static void metodosRobosComunicaveis(Ambiente ambiente, Scanner scanner, Comunicavel remetente) throws SensorDesligadoException, ColisaoException{
         //Faz o cast para qual dos robôs comunicáveis o remetente é
+        Robo remetente1;
         if (remetente instanceof Drone){ 
-            remetente = (Drone) remetente;
+            remetente1 = (Drone) remetente;
         }else{
-            remetente = (Aspirador) remetente;
+            remetente1 = (Aspirador) remetente;
         }
         System.out.println("Para quem você deseja enviar sua mensagem? (Digite o nome ao lado do número)");
         while (true) {
@@ -1081,7 +1090,7 @@ public class Main {
                 try{ //Tenta enviar a mensagem
                     System.out.print("Que mensagem você deseja enviar?");
                     String mensagem = scanner.nextLine();
-                    remetente.enviarMensagem(receptor, mensagem);
+                    remetente1.executarTarefa("enviar mensagem", receptor, mensagem);
                     System.out.println("[" + ((Robo) remetente).getNome() + " para " + receptorMensagem + "]: " + mensagem + " (Mensagem enviada)");
                     break;
                 }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável 

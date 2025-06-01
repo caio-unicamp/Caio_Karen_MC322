@@ -15,6 +15,25 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         this.robosEliminados = 0;   //inicializar o atritubo próprio
     }
     /**
+     * Executa a tarefa de enviar mensagens ou de aspirar um robô
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     * @throws ColisaoException
+     * @throws ErroComunicacaoException 
+     * @implNote Para enviar uma mensagem: atributos = {"enviar mensagem", (Entidade) destinatário, (String) mensagem}
+     * @implNote Para aspirar um robô: atributos = {"aspirar", (int) passosX, (int) passosY, ambiente}
+     */
+    @Override
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
+        if (((String)argumentos[0]).equalsIgnoreCase("mover")){
+            super.executarTarefa(argumentos);
+        }else if (((String) argumentos[0]).equalsIgnoreCase("enviar mensagem")){
+           this.enviarMensagem((Entidade) argumentos[1],(String) argumentos[2]); 
+        }else if (((String) argumentos[0]).equalsIgnoreCase("aspirar")){
+            this.aspirarRobo((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
+        }
+    }
+    /**
      * Envia uma mensagem para outro robô
      */
     @Override
@@ -61,7 +80,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
      * @param passosY
      * @param ambiente
      */
-    public void aspirarRobo(int passosX, int passosY, Ambiente ambiente){
+    private void aspirarRobo(int passosX, int passosY, Ambiente ambiente){
         for (Entidade entidade : ambiente.getListaEntidades()) {
             if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
                 continue; //Se não for, pula para a próxima iteração
@@ -84,9 +103,10 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
     }
     /**
      * Move o aspirador aspirando os robôs encontrados no seu caminho
+     * @throws ErroComunicacaoException 
      */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException { //Função para mover o aspirador e eliminar os robôs
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException { //Função para mover o aspirador e eliminar os robôs
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
@@ -98,7 +118,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
         }
     
         // Move o robô de acordo com a função mover da classe mãe
-        super.mover(deltaX, deltaY, ambiente);
+        this.executarTarefa("mover", deltaX, deltaY, ambiente);
         int posAtualX = this.getPosicao()[0];
         int posAtualY = this.getPosicao()[1];
         if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
@@ -107,37 +127,35 @@ public class Aspirador extends RoboTerrestre implements Comunicavel {
 
         if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])){ //Movimento em X
             if (this.getSensorProximidade().monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
-                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Aspirador identificar um robô
+                if (this.getSensorProximidade().getUltimoTipoDetectado().equals(TipoEntidade.ROBO)){ // O código abaixo é executado se o Aspirador identificar um robô
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    aspirarRobo(passos[0], 0,ambiente); // Chama a função para eliminar o robô identificado
-        
+                    executarTarefa("aspirar", passos[0], 0, ambiente); // Chama a função para eliminar o robô identificado        
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
                         if (!ambiente.dentroDosLimites(posAtualX + passos[0], posAtualY, this.getPosicao()[2])) {
                             return;
                         }
-                        this.mover(novoDeltaX, novoDeltaY, ambiente);
+                        this.executarTarefa("mover", novoDeltaX, novoDeltaY, ambiente);
                     }
                 }
             }
         }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])){ //Movimento em Y
             if (this.getSensorProximidade().monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)) { //Faz as verificações de proximidade caso ainda haja bateria no robô
-                if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Aspirador identificar um robô
+                if (this.getSensorProximidade().getUltimoTipoDetectado().equals(TipoEntidade.ROBO)){ // O código abaixo é executado se o Aspirador identificar um robô
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    aspirarRobo(0, passos[1],ambiente); // Chama a função para eliminar o robô identificado
-        
+                    executarTarefa("aspirar", 0, passos[1], ambiente); // Chama a função para eliminar o robô identificado        
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
                         if (!ambiente.dentroDosLimites(posAtualX, posAtualY + passos[1], this.getPosicao()[2])) {
                             return;
                         }
-                        this.mover(novoDeltaX, novoDeltaY, ambiente);
+                        this.executarTarefa("mover", novoDeltaX, novoDeltaY, ambiente);
                     }
                 }
             }
