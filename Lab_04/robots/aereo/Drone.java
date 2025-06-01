@@ -15,6 +15,10 @@ public class Drone extends RoboAereo implements Comunicavel{
         super(nome, direcao, x, y, altitude, altitudeMaxima);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
+
+    public void executarTarefa(Object... argumentos){
+        
+    }
     /**
      * Envia uma mensagem para outro robô
      */
@@ -58,9 +62,10 @@ public class Drone extends RoboAereo implements Comunicavel{
     }
     /**
      *  Método para mover o drone sem entregar nenhum pacote
+     * @throws ErroComunicacaoException 
      */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{ // Função para mover o drone sem entregar nenhum pacote
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{ // Função para mover o drone sem entregar nenhum pacote
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);
@@ -88,8 +93,9 @@ public class Drone extends RoboAereo implements Comunicavel{
      * @throws ColisaoException 
      * @throws RoboDesligadoException 
      * @throws SensorDesligadoException 
+     * @throws ErroComunicacaoException 
      */
-    public void entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
+    public void entregarPacote(int posicaoXdronefinal, int posicaoYdronefinal, String nomePacote, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
         //inicializar o robo pacote
         if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Lança o erro do caso do robô estar desligado
             throw new RoboDesligadoException("O pacote não pode ser entregue pois o " + this.getNome() + " está desligado");

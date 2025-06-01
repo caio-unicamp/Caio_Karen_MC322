@@ -1,6 +1,9 @@
 package robots.aereo;
 import ambiente.*;
 import excecoes.ColisaoException;
+import excecoes.ErroComunicacaoException;
+import excecoes.RoboDesligadoException;
+import excecoes.SensorDesligadoException;
 import sensores.*;
 import robots.Robo;
 public class RoboAereo extends Robo{
@@ -12,17 +15,35 @@ public class RoboAereo extends Robo{
         this.altitude = altitude;
         this.altitudeMaxima = altitudeMaxima; //A altitude máxima é o limite do ambiente
     }
+    /**
+     * Executa a tarefa de mover o robô inclusive subir e descer
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     * @throws ColisaoException
+     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
+     * @implNote Para subir: argumentos = {"subir", (int) deltaZ, ambiente}
+     * @implNote Para descer: argumentos = {"descer", (int) deltaZ, ambiente}
+     */
     @Override
-    public String executarTarefa(Object... argumentos){
-        return "";
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
+        if (((String)argumentos[0]).equalsIgnoreCase("mover")){
+            this.mover((int) argumentos[1],(int) argumentos[1], (Ambiente) argumentos[2]);
+        }else if (((String)argumentos[0]).equalsIgnoreCase("subir")){
+            this.subir((int) argumentos[1], (Ambiente) argumentos[2]);
+        }else if (((String)argumentos[0]).equalsIgnoreCase("descer")){
+            this.descer((int) argumentos[1], (Ambiente) argumentos[2]);
+        }
     }
     /**
      * Sobe recursivamente o robô
      * @param deltaZ
      * @param ambiente
      * @throws ColisaoException
+     * @throws ErroComunicacaoException 
+     * @throws RoboDesligadoException 
+     * @throws SensorDesligadoException 
      */
-    public void subir(int deltaZ, Ambiente ambiente) throws ColisaoException{ 
+    public void subir(int deltaZ, Ambiente ambiente) throws ColisaoException, SensorDesligadoException, RoboDesligadoException, ErroComunicacaoException{ 
         if (deltaZ == 0){ //Nesse ponto subiu tudo o que precisava
             return; 
         }
@@ -30,7 +51,7 @@ public class RoboAereo extends Robo{
         if (ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1) && (this.altitude + 1) <= altitudeMaxima && !this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1, ambiente, this)){ //O robô sobe recursivamente
             this.altitude++;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1],this.altitude);
-            subir(deltaZ - 1, ambiente); //Chamada recursiva
+            this.executarTarefa("subir", deltaZ - 1, ambiente);
             return; 
         }
     }
@@ -39,15 +60,18 @@ public class RoboAereo extends Robo{
      * @param deltaZ
      * @param ambiente
      * @throws ColisaoException
+     * @throws ErroComunicacaoException 
+     * @throws RoboDesligadoException 
+     * @throws SensorDesligadoException 
      */
-    public void descer(int deltaZ, Ambiente ambiente) throws ColisaoException{
+    public void descer(int deltaZ, Ambiente ambiente) throws ColisaoException, SensorDesligadoException, RoboDesligadoException, ErroComunicacaoException{
         if (deltaZ == 0){ //Nesse ponto desceu tudo o que precisava
             return; 
         }
         if (ambiente.dentroDosLimites(this.getPosicao()[0],this.getPosicao()[1], this.altitude - 1) && !this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, ambiente, this)){ //O robô desce recursivamente
             this.altitude--;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], this.altitude);
-            descer(deltaZ - 1, ambiente); //Chamada recursiva
+            this.executarTarefa("descer", deltaZ - 1, ambiente);
             return; //Retorna no caso dele poder descer
         }else{
             return; //Retorna no caso dele não poder descer
