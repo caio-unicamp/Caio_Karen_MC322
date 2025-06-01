@@ -14,6 +14,19 @@ public class RoboTerrestre extends Robo{
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre; 
     }
     /**
+     * Executa a tarefa de mover o robô
+     * @throws SensorDesligadoException
+     * @throws RoboDesligadoException
+     * @throws ColisaoException
+     * @implNote Para mover a lista de objetos será atributos = {"mover", deltaX, deltaY, ambiente} 
+     */
+    @Override
+    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException{
+        if (((String) argumentos[0]).equals("mover")){
+            this.mover((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
+        }
+    }
+    /**
      * Movimentação dos robôs terrestres
      */
     @Override

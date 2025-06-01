@@ -27,10 +27,14 @@ public abstract class Robo implements Entidade, Sensoreavel{
         this.estado = EstadoRobo.LIGADO; //Por padrão o robô está ligado
         this.tipoEntidade = TipoEntidade.ROBO; //Define o tipo da entidade como robô
     }
-    
-    public abstract String executarTarefa(Object... argumentos){
-        
-    }
+    /**
+     * Método abstrato para ações específicas
+     * @param argumentos como uma lista de objetos quaisquer
+     * @throws SensorDesligadoException 
+     * @throws ColisaoException 
+     * @throws RoboDesligadoException 
+     */
+    public abstract void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException;
     /**
      * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.
      * @param deltaX

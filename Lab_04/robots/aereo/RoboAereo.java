@@ -12,6 +12,10 @@ public class RoboAereo extends Robo{
         this.altitude = altitude;
         this.altitudeMaxima = altitudeMaxima; //A altitude máxima é o limite do ambiente
     }
+    @Override
+    public String executarTarefa(Object... argumentos){
+        return "";
+    }
     /**
      * Sobe recursivamente o robô
      * @param deltaZ
