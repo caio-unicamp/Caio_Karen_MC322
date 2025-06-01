@@ -80,7 +80,7 @@ public class Main {
             scanner.nextLine(); //Espera o usuário digitar enter antes de apagar o terminal
             limparTela(sistemaOperacional); //Chama a função que limpa o terminal
 
-            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Verificar lista de Robôs\n4 - Verificar lista de Obstáculos\n5 - Verificar Central de Comunicação\n6 - Vizualisar o ambiente", scanner);
+            comando = lerInteiro("Digite um comando: \n0 - Encerrar\n1 - Criar um Robô\n2 - Controlar um Robô\n3 - Ligar ou Desligar um Robô\n4 - Verificar lista de Robôs\n5 - Verificar lista de Obstáculos\n6 - Verificar Central de Comunicação\n7 - Vizualisar o ambiente", scanner);
             
             if (comando == 0){ //Encerra o programa
                 break;
@@ -528,7 +528,61 @@ public class Main {
                     }
                 }
 
-            }else if (comando == 3){ //Bloco para mostrar a lista de robôs
+            }else if(comando == 3){ //Ligar ou desligar um robô
+                System.out.println("Qual robô você deseja ligar ou desligar? Digite o nome do robô escolhido");
+                String nomeRoboMudaEstado;
+                Robo roboMudaEstado = null;
+                while (true) { //Pede o nome até ser digitado um nome de robô existente no ambiente
+                    int contadorRoboEstado = 1;
+                    for (Entidade entidade : ambiente.getListaEntidades()) {
+                        if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                            continue; //Se não for, segue para a próxima iteração
+                        }else{
+                            System.out.println(contadorRoboEstado++ + " - " + entidade.getNome());
+                        }
+                    }
+                    nomeRoboMudaEstado = scanner.nextLine();
+                    for (Entidade entidade : ambiente.getListaEntidades()) {
+                        if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
+                            continue; //Se não for, segue para a próxima iteração
+                        }else{
+                            if (entidade.getNome().equals(nomeRoboMudaEstado)){
+                                roboMudaEstado = (Robo) entidade; //Faz o cast para robô
+                            }
+                        }
+                    }
+                    if (roboMudaEstado == null){
+                        System.out.println("Não sou capaz de mudar o estado de robôs que não estão no ambiente. Digite um nome de robô válido");
+                    }else{
+                        break;
+                    }  
+                }
+                int escolhaEstado = lerInteiro("Perfeito, o que deseja fazer com o "+ nomeRoboMudaEstado + "?\n1 - Ligar\n2 - Desligar" , scanner);
+                if (escolhaEstado == 1){
+                    if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.LIGADO)){
+                        System.out.println("O "+ nomeRoboMudaEstado + " já se encontra ligado.");
+                    }else if(roboMudaEstado.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
+                        roboMudaEstado.desligar(); //Desliga o robô
+                        System.out.println("O " + nomeRoboMudaEstado + " foi desligado com sucesso!");
+                        if (roboMudaEstado instanceof RoboAereo){
+                            System.out.println("Que bom, não aguentava mais ele");
+                        }
+                    }
+                }else if (escolhaEstado == 2){
+                    if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
+                        System.out.println("O "+ nomeRoboMudaEstado + " já se encontra desligado.");
+                    }else if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.LIGADO)){
+                        roboMudaEstado.ligar(); //Liga o robô
+                        System.out.println("O " + nomeRoboMudaEstado + " foi ligado com sucesso!");
+                        if (roboMudaEstado instanceof RoboAereo){
+                            System.out.println("Que droga... digo, yay.");
+                        }
+                    }
+                }else{ //Caso seja digitado um número inválido
+                    System.out.println("Comando inválido, recomece o processo.");
+                }
+                
+            }else if (comando == 4){ //Bloco para mostrar a lista de robôs
                 if (ambiente.getNumRobosAmbiente() == 0){
                     System.out.println("Oops, parece que você ainda não criou nenhum robô");
                 }else{
@@ -544,7 +598,7 @@ public class Main {
                     }
                     System.out.println("Mas calma lá marujo isso daqui é so pra visualização, se quiser fazer algo com eles você vai precisar ver as ações possíveis com cada um deles na simulação");
                 }
-            }else if(comando == 4){ // Bloco para mostrar a lista de obstáculos
+            }else if(comando == 5){ // Bloco para mostrar a lista de obstáculos
                 if (ambiente.getNumObstaculosAmbiente() == 0){
                     System.out.println("Oops, parece que " + ambiente.getNomeAmbiente() + " não possui nenhum defeito, impressionante! Mesmo que irrealistíco");
                 }else{
@@ -559,14 +613,14 @@ public class Main {
                         }
                     }
                 }
-            }else if (comando == 5) {  // Bloco para exibir as mensagens do log
+            }else if (comando == 6) {  // Bloco para exibir as mensagens do log
                 System.out.println("Exibindo mensagens do log:");
                 List<String> logs = CentralComunicacao.getInstancia().getMensagensFormatadas(); // Obtém as mensagens formatadas do log na CentralComunicacao
                 exibirMensagensCentral(logs);
                 for (String logEntry : logs) {
                     System.out.println(logEntry); // Exibe cada mensagem formatada
                 }
-            }else if(comando == 6){
+            }else if(comando == 7){
                 int alturaVizualizacao = lerInteiro("Perfeito! Infelizmente no momento não posso te dar uma vizualização completa do ambiente por limitações gráficas, então preciso que você me diga uma altura que esteja dentro dos limites do ambiente para eu te mostrar um corte no plano XY nessa altura", scanner);
                 while (true) {
                     if (alturaVizualizacao < 0){ //Se a altura pedida for menor que 0
@@ -866,10 +920,13 @@ public class Main {
             System.out.println("A bateria do seu sensor de altitude está baixa, se você não recarregá-lo ele pode parar de funcionar e você pode acabar caindo");
         }
         obstaculoAchado(roboAereo, ambiente);
-
-        System.out.println("Você está atualmente a " + roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + "% da altura máxima do seu ambiente");
-        if (roboAereo.getSensorAltitude(roboAereo).isMuitoAlto(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
-            System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
+        try{ //Trata AlturaMaximaAtingidaException
+            System.out.println("Você está atualmente a " + roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + "% da altura máxima do seu ambiente");
+            if (roboAereo.getSensorAltitude(roboAereo).isMuitoAlto(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
+                System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
+            }
+        }catch(AlturaMaximaAtingidaException e){
+            System.err.println(e.getMessage());
         }
     }
     /**
