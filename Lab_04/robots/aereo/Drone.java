@@ -122,19 +122,7 @@ public class Drone extends RoboAereo implements Comunicavel{
         
         this.mover(posicaoXdronefinal - posInicialX, posicaoYdronefinal - posInicialY, ambiente);
         
-        int numRobosAnalisados = 0;
-        for (Entidade entidade : ambiente.getListaEntidades()){
-            if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
-                continue; //Caso não seja, passa para a próxima interação
-            }else{
-                Robo robo = (Robo) entidade; //Faz o cast para robô
-                if (!robo.equals(this)){
-                    numRobosAnalisados++;
-                }else{
-                    break;
-                }
-            }
-        }if (numRobosAnalisados == ambiente.getNumRobosAmbiente()){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
+        if (!ambiente.getListaEntidades().contains(this)){ //Caso o próprio drone não esteja na lista de robôs ativos é porque ou ele explodiu ou ele caiu num buraco enquanto se movia, então não adiciona o pacote que ele carregava 
             throw new ColisaoException("Infelizmente o " + this.getNome() + " não está mais entre nós. Ele e o pacote foram destruídos");
         }
 
@@ -148,9 +136,7 @@ public class Drone extends RoboAereo implements Comunicavel{
                     }else{
                         Obstaculo obstaculo = (Obstaculo) entidade; //Faz o cast para obstáculo
                         if (obstaculo.getX() <= this.getPosicao()[0] && obstaculo.getPosX2() >= this.getPosicao()[0] && obstaculo.getY() <= this.getPosicao()[1] && obstaculo.getPosY2() >= this.getPosicao()[1] && obstaculo.getZ() >= this.getPosicao()[2]){ //Se já existe um obstáculo no lugar que o pacote seria derrubado, ele será destruído
-                            if (obstaculo.getTipoObstaculo().equals(TipoObstaculo.MINA_TERRESTRE)){ // No caso do pacote cair em uma mina, ela é destruída
-                                ambiente.removerEntidade(obstaculo);
-                            }
+                            this.interacaoRoboObstaculo(ambiente, obstaculo);
                             throw new ColisaoException("O pacote foi entregue onde havia um obstáculo e infelizmente foi destruído.");
                         }
                     }
