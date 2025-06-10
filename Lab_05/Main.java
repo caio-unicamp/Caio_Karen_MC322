@@ -561,6 +561,7 @@ public class Main {
                             System.out.println(contadorRoboEstado++ + " - " + entidade.getNome());
                         }
                     }
+                    scanner.nextLine(); //Limpa o buffer do scanner
                     nomeRoboMudaEstado = scanner.nextLine();
                     for (Entidade entidade : ambiente.getListaEntidades()) {
                         if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
@@ -582,8 +583,8 @@ public class Main {
                     if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.LIGADO)){
                         System.out.println("O "+ nomeRoboMudaEstado + " já se encontra ligado.");
                     }else if(roboMudaEstado.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
-                        roboMudaEstado.desligar(); //Desliga o robô
-                        System.out.println("O " + nomeRoboMudaEstado + " foi desligado com sucesso!");
+                        roboMudaEstado.ligar(); //liga o robô
+                        System.out.println("O " + nomeRoboMudaEstado + " foi ligado com sucesso!");
                         if (roboMudaEstado instanceof RoboAereo){
                             System.out.println("Que bom, não aguentava mais ele");
                         }
@@ -592,8 +593,8 @@ public class Main {
                     if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
                         System.out.println("O "+ nomeRoboMudaEstado + " já se encontra desligado.");
                     }else if (roboMudaEstado.getEstadoRobo().equals(EstadoRobo.LIGADO)){
-                        roboMudaEstado.ligar(); //Liga o robô
-                        System.out.println("O " + nomeRoboMudaEstado + " foi ligado com sucesso!");
+                        roboMudaEstado.desligar(); //Liga o robô
+                        System.out.println("O " + nomeRoboMudaEstado + " foi desligado com sucesso!");
                         if (roboMudaEstado instanceof RoboAereo){
                             System.out.println("Que droga... digo, yay.");
                         }
