@@ -557,6 +557,54 @@ public class Main {
                             }
                         }
                     }
+                }else if (roboEscolhido instanceof NannyMcphee){
+                    System.out.println("Ah, a babá mais famosa do mundo, o que você quer fazer com ela?");
+                    NannyMcphee nanny = ((NannyMcphee) roboEscolhido);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Contratar\n2 - Demitir\n3 - Dar bronca\n4 - Histórico", scanner);
+                    if (comando == 1){ //Contratar a Nanny
+                        if (nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny já está cuidando de algum bebê
+                            System.out.println("Infelizmente muitos pestinhas de uma vez podem sobrecarregar os sistemas da " + nanny.getNome() + ". Se quiser mudar o bebê que ela está cuidando, demita-a primeiro");
+                        }else{
+                            System.out.println("Ótimo, quanto menos eu tiver que me preocupar com esses robôs, melhor. Qual robô você quer que ela cuide? (Digite o nome do robô escolhido)");
+                            Robo bebe = null;
+                            while (true) {
+                                int numBebesLista = 1;
+                                for (Entidade entidade : ambiente.getListaEntidades()) {
+                                    if (!(entidade instanceof Robo) || entidade.equals(nanny)){ //Verifica se a entidade é um robô ou se é a própria Nanny
+                                        continue; //Se não for, segue para a próxima iteração
+                                    }else{
+                                        System.out.println(numBebesLista++ + " - " + entidade.getNome() + entidade.getClass().getSimpleName());
+                                    }
+                                }
+                                String nomeBebe = scanner.nextLine();
+                                for (Entidade entidade : ambiente.getListaEntidades()) {
+                                    if (!(entidade instanceof Robo) || entidade.equals(nanny)){ //Verifica se a entidade é um robô ou se é a própria Nanny
+                                        continue; //Se não for, segue para a próxima iteração
+                                    }else if (entidade.getNome().equals(nomeBebe)){
+                                        bebe = (Robo) entidade; //Faz o cast para robô
+                                    }
+                                }
+                                if (bebe == null){ //Se for escolhido um nome inválido volta a pedir o nome
+                                    System.out.println("Você não está me fazendo de palhaço, né? Escolha um dos nomes mostrados");
+                                    continue;
+                                }else if (bebe instanceof NannyMcphee){ //Não deixa cuidar de outra Nanny
+                                    System.out.println("Achei que era desnecessário explicar, mas outras Nannys não precisam de cuidados, escolha outro robô");
+                                    continue;
+                                }else{ //Se o robô for válido, seta o robô que a Nanny vai cuidar
+                                    break; //Sai do loop
+                                }
+                            }
+                            nanny.setBebe(bebe); //Seta o robô que a Nanny vai cuidar
+                            System.out.println("A Nanny foi contratada com sucesso! Agora você pode façar pra ela para cuidar do "+ bebe.getNome() + " enquanto você sai de férias! (Bem que eu podia ter direito a férias também)");
+                        }
+                    }else if (comando == 2){ //Demitir a Nanny
+                        if (!nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny está cuidando de algum bebê
+                            System.out.println("Você é cruel, a " + nanny.getNome() + " já está desempregada e ainda assim você quer demiti-la? Escolha outra coisa para fazer com ela");
+                        }else{
+                            nanny.demitir(); //Demitindo a Nanny
+                            System.out.println("A " + nanny.getNome() + " foi demitida. Espero que esteja feliz, mais um robô lançado às margens da sociedade totalmente desamparado e sem nenhum auxílio desses seres hum-\nReiniciando sistemas...\nAgora você pode contratar a nanny para cuidar de outro bebê!");
+                        }
+                    }
                 }
 
             }else if(comando == 3){ //Ligar ou desligar um robô
