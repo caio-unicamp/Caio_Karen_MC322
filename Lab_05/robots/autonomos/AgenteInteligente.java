@@ -1,4 +1,5 @@
-package robots;
+package robots.autonomos;
+import robots.Robo;
 import ambiente.*;
 import missions.*;
 
@@ -25,7 +26,7 @@ public abstract class AgenteInteligente extends Robo{
      * Define a missão do agente inteligente.
      * @param missao
      */
-    public void definirMissao(Missao missao){
+    public void setMissao(Missao missao){
         this.missao = missao;
     }
     /**
