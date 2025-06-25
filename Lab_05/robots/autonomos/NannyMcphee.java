@@ -3,6 +3,7 @@ import ambiente.*;
 import robots.*;
 import excecoes.*;
 import sensores.*;
+import enums.*;
 
 public class NannyMcphee extends Autonomo {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou

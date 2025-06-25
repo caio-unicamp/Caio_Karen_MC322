@@ -104,13 +104,15 @@ public class Main {
                     }else if (comando == 3){
                         comando = lerInteiro("Se tudo der certo esse vai ser o último tipo de robô que eu tenho que criar, sinceramente não aguento mais... enfim que tipo de autônomo você quer?\n1 - Nanny McPhee\n2 - ", scanner);
                         if (comando == 1){
-
+                            System.out.println("Ah, a Nanny McPhee, uma das minhas favoritas! Ela é tão útil para cuidar dos bebês... ou pelo menos é o que dizem. Bom, vamos lá, escolha os atributos da sua Nanny\nNome: ");
+                            criaRoboAutonomo(scanner, mensagensNomeJaExistente, ambiente, 0);
                         }else if (comando == 2){
-
+                            System.out.println("Eu não sei qual é esse robô ainda, espero descobrir em breve");
+                            criaRoboAutonomo(scanner, mensagensNomeJaExistente, ambiente, 1);
                         }
                         break;
                     }else{
-                        System.out.println("Estamos experienciando cortes de gastos aqui na empresa, então eu só posso deixar você escolher entre os dois tipos de robôs que eu mostrei. Então, por favor, escolha um deles");
+                        System.out.println("Estamos experienciando cortes de gastos aqui na empresa, então eu só posso deixar você escolher entre os tipos de robôs que eu mostrei. Então, por favor, escolha um deles");
                     }
                 }
             }else if (comando == 2){ //Bloco para Testar os métodos dos robôs
@@ -744,6 +746,7 @@ public class Main {
      * @param mensagensNomeJaExistente
      * @param ambiente
      * @param tipoRobo
+     * @implNote O tipoRobo é 0 para Drones e 1 para Pássaros
      * @throws ColisaoException
      */
     public static void criaRoboAereo(Scanner scanner,ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo) throws ColisaoException{ 
@@ -781,6 +784,7 @@ public class Main {
      * @param mensagensNomeJaExistente
      * @param ambiente
      * @param tipoRobo
+     * @implNote O tipoRobo é 0 para Aspiradores e 1 para Rovers
      * @throws ColisaoException
      */
     public static void criaRoboTerrestre(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo) throws ColisaoException{
