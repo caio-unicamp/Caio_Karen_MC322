@@ -563,7 +563,7 @@ public class Main {
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Contratar\n2 - Demitir\n3 - Dar bronca\n4 - Histórico", scanner);
                     if (comando == 1){ //Contratar a Nanny
                         if (nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny já está cuidando de algum bebê
-                            System.out.println("Infelizmente muitos pestinhas de uma vez podem sobrecarregar os sistemas da " + nanny.getNome() + ". Se quiser mudar o bebê que ela está cuidando, demita-a primeiro");
+                            System.out.println("Infelizmente " + nanny.getNome() + " já está cuidando do " + nanny.getBebe() + " e muitos pestinhas de uma vez podem sobrecarregar os sistemas dela. Se quiser mudar o bebê que ela está cuidando, demita-a primeiro.");
                         }else{
                             System.out.println("Ótimo, quanto menos eu tiver que me preocupar com esses robôs, melhor. Qual robô você quer que ela cuide? (Digite o nome do robô escolhido)");
                             Robo bebe = null;
