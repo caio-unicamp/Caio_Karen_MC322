@@ -1,10 +1,12 @@
 package robots.autonomos;
 import ambiente.*;
-import excecoes.SensorDesligadoException;
+import robots.*;
+import excecoes.*;
 import sensores.*;
 
 public class NannyMcphee extends AgenteInteligente {
-    private int numeroDeBebesCuidados;
+    private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
+    private Robo bebe; // Representa o bebê que está sendo cuidado pela Nanny
 
     /**
      * Construtor da classe Babysitter.
@@ -16,7 +18,35 @@ public class NannyMcphee extends AgenteInteligente {
      */
     public NannyMcphee(String nome, String direcao, int x, int y, int z) {
         super(nome, direcao, x, y, z);
+        this.bebe = null; // Inicializa o bebê como nulo, pois ainda não foi atribuído
         this.numeroDeBebesCuidados = 0; // Inicializa o número de bebês que foram cuidados
+    }
+    /**
+     * Define o bebê que a Nanny está cuidando.
+     * @param bebe o robô bebê que está sendo cuidado
+     */
+    public void setBebe(Robo bebe) {
+        this.bebe = bebe;
+    }
+    /**
+     * Retorna o bebê que a Nanny está cuidando.
+     * @return o robô bebê que está sendo cuidado
+     */
+    public Robo getBebe() {
+        return this.bebe;
+    }
+    /**
+     * Verifica se a Nanny está cuidando de um bebê.
+     * @return true se está cuidando de um bebê, false caso contrário
+     */
+    public boolean estaCuidandoDeBebe() {
+        return this.bebe != null;
+    }
+    /**
+     * Faz com que a Nanny não precise mais cuidar do bebê.
+     */
+    public void demitir() {
+        this.bebe = null; // Define o bebê como nulo, indicando que não está mais cuidando de nenhum
     }
     /**
      * Executa a tarefa de cuidar de outros robôs no ambiente.
@@ -30,12 +60,8 @@ public class NannyMcphee extends AgenteInteligente {
                 throw new SensorDesligadoException(sensor, this.getNome());
             }
         }
-        // Lógica para cuidar de bebês no ambiente
-        // Aqui você pode implementar a lógica específica para cuidar de bebês,
-        // como verificar se há bebês no ambiente, interagir com eles, etc.
-        // Por exemplo, incrementar o número de bebês cuidados:
+        missao.executar(bebe, ambiente);
         this.numeroDeBebesCuidados++;
-        System.out.println(this.getNome() + " cuidou de um bebê. Total de bebês cuidados: " + this.numeroDeBebesCuidados);
     }
     /**
      * Verifica o número de bebês que foram cuidados pelo babysitter.
