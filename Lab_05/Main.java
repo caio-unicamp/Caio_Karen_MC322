@@ -8,6 +8,7 @@ import excecoes.*;
 import interfaces.*;
 import robots.*;
 import robots.aereo.*;
+import robots.autonomos.NannyMcphee;
 import robots.terrestre.*;
 import sensores.*;
 
@@ -79,7 +80,7 @@ public class Main {
                 mensagensNomeJaExistente.add("naspu' duj ra'pu'bogh  eita, foi mal, escolhe outro nome aí... de preferência bem rápido");
                 
                 while (true){
-                    comando = lerInteiro("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre", scanner);
+                    comando = lerInteiro("Maravilha! Que tipo de Robô você quer criar?\n1 - Áereo\n2 - Terrestre\n3 - Autônomo", scanner);
                     if (comando == 1){
                         comando = lerInteiro("Bleh, odeio essas pestes infernizando nossos áres... tá, como você quer que ele seja?\n1 - Drone\n2 - Pássaro", scanner);
                         if (comando == 1){
@@ -98,6 +99,14 @@ public class Main {
                         }else if (comando == 2){
                             System.out.println("Interessante... um amante de Rovers é raro hoje em dia. Bom, escolha como você quer que a gente crie ele\nNome: ");
                             criaRoboTerrestre(scanner, mensagensNomeJaExistente, ambiente, 1);
+                        }
+                        break;
+                    }else if (comando == 3){
+                        comando = lerInteiro("Se tudo der certo esse vai ser o último tipo de robô que eu tenho que criar, sinceramente não aguento mais... enfim que tipo de autônomo você quer?\n1 - Nanny McPhee\n2 - ", scanner);
+                        if (comando == 1){
+
+                        }else if (comando == 2){
+
                         }
                         break;
                     }else{
@@ -804,7 +813,38 @@ public class Main {
         }
     }
     /**
+     * Cria os robôs autônomos no ambiente
+     * @param scanner
+     * @param mensagensNomeJaExistente
+     * @param ambiente
+     * @param tipoRobo
+     * @implNote O tipoRobo é 0 para Nannys e 1 para 
+     * @throws ColisaoException
+     */
+    public static void criaRoboAutonomo(Scanner scanner, ArrayList<String> mensagensNomeJaExistente, Ambiente ambiente, int tipoRobo) throws ColisaoException{
+        String nomeRoboAutonomo = exibirMensagemAleatoria(scanner, mensagensNomeJaExistente, ambiente); //Analisa se o nome escolhido já existe
+        System.out.println("Direção: ");
+        String direcao = leDirecao(scanner);
+        int[] coordenadas = lerCoordenadas(scanner, true, ambiente, false);
+        if (tipoRobo == 0){
+            NannyMcphee nanny = new NannyMcphee(nomeRoboAutonomo, direcao, coordenadas[0], coordenadas[1], coordenadas[2]);
+            ambiente.adicionarEntidade(nanny);
+
+            SensorVelocidade sensorVelocidade = new SensorVelocidade(ambiente.getLimites()[0] + ambiente.getLimites()[1], "Sensor de Velocidade");
+            SensorProximidade sensorProximidade = new SensorProximidade(1, "Sensor de Proximidade");
+            SensorAltitude sensorAltitude = new SensorAltitude(ambiente.getLimites()[2], "Sensor de Altitude");
+            // Adiciona os sensores à nanny, que por ter que proteger todos os tipos de robô precisa de todos os tipos de sensores
+            nanny.adicionarSensores(sensorVelocidade);
+            nanny.adicionarSensores(sensorProximidade);
+            nanny.adicionarSensores(sensorAltitude);
+            System.out.println("Planando magicamente dos céus, cantarolando uma música alegre e segurando seu guarda-chuva metálico, vem aí a Nanny: " + nanny.getNome() + ". Espero que ela cuide bem de você, porque eu não vou fazer isso");
+        }else if (tipoRobo == 1){
+            
+        }
+    }
+    /**
      * Lê coordenadas identificando erros de inserção de não inteiros e se já existe alguma entidade já existente nelas
+     * 
      * @param scanner
      * @param roboVoador
      * @param ambiente

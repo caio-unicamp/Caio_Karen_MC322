@@ -1,13 +1,13 @@
 package robots.autonomos;
 import robots.Robo;
 import ambiente.*;
-import excecoes.SensorDesligadoException;
+import excecoes.*;
 import missions.*;
 
-public abstract class AgenteInteligente extends Robo{
-    protected Missao missao;
+public abstract class Autonomo extends Robo{
+    protected Missao missao; //Cada agente inteligente tem uma missão associada
     /**
-     * Construtor da classe AgenteInteligente.
+     * Construtor da classe Autonomo.
      * Este construtor inicializa o agente inteligente com um ID, direção e coordenadas no ambiente.
      * @param idRobo representando seu nome
      * @param direcaoRobo 
@@ -15,7 +15,7 @@ public abstract class AgenteInteligente extends Robo{
      * @param y
      * @param z
      */
-    public AgenteInteligente(String idRobo, String direcaoRobo, int x, int y, int z){
+    public Autonomo(String idRobo, String direcaoRobo, int x, int y, int z){
         super(idRobo, direcaoRobo, x, y, z);
     }
     /**

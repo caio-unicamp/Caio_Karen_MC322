@@ -16,23 +16,6 @@ public class Rover extends RoboTerrestre{
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre;
     }
     /**
-     * Executa as tarefas de mover e de empurrar robôs
-     * @throws SensorDesligadoException
-     * @throws RoboDesligadoException
-     * @throws ColisaoException
-     * @throws ErroComunicacaoException
-     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
-     * @implNote Para empurrar: argumentos = {"empurrar", (Robo) robo que será empurrado, (int) deltaX, int deltaY, ambiente}
-     */
-    @Override
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
-        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
-            this.mover((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
-        }else if(((String) argumentos[0]).equalsIgnoreCase("empurrar")){
-            this.empurrarRobo((Robo) argumentos[1], (int) argumentos[2], (int) argumentos[3], (Ambiente) argumentos[4]);
-        }
-    }
-    /**
      * Move recursivamente o rover empurrando quem estiver no caminho dele
      * @throws ErroComunicacaoException 
      */

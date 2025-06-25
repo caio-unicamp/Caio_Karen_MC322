@@ -4,7 +4,7 @@ import robots.*;
 import excecoes.*;
 import sensores.*;
 
-public class NannyMcphee extends AgenteInteligente {
+public class NannyMcphee extends Autonomo {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
     private Robo bebe; // Representa o bebê que está sendo cuidado pela Nanny
     /**
