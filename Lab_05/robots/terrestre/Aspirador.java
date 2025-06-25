@@ -125,7 +125,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    this.eliminar(passos[1], 0, ambiente); // Chama a função para eliminar o robô identificado
+                    this.eliminar(0, passos[1], ambiente); // Chama a função para eliminar o robô identificado
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual

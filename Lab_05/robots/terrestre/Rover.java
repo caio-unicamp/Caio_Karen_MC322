@@ -60,7 +60,7 @@ public class Rover extends RoboTerrestre{
                 if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Rover identificar um robô
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX + passos[0], this.getPosicao()[1], ambiente);
                     if (roboEmpurrado != null){
-                        this.executarTarefa("empurrar", roboEmpurrado, passos[0], 0, ambiente);
+                        this.empurrarRobo(roboEmpurrado, passos[0], 0, ambiente);
                     }
                     this.setPosicao(posAtualX + passos[0], posAtualY, this.getPosicao()[2]);
                     this.mover(deltaX - passos[0], 0, ambiente); //Continua o caminho em X decrementando o tanto que já foi andado
@@ -71,7 +71,7 @@ public class Rover extends RoboTerrestre{
                 if (this.getSensorProximidade().getUltimoTipoDetectado() == TipoEntidade.ROBO){ // O código abaixo é executado se o Rover identificar um robô
                     Robo roboEmpurrado = getRoboNaPosicao(posAtualX, posAtualY + passos[1], ambiente);
                     if (roboEmpurrado != null){
-                        this.executarTarefa("empurrar", roboEmpurrado, 0, passos[1], ambiente);
+                        this.empurrarRobo(roboEmpurrado, 0, passos[1], ambiente);
                     }
                     this.setPosicao(posAtualX, posAtualY + passos[1], this.getPosicao()[2]);
                     this.mover(0, deltaY - passos[1], ambiente); //Continua o caminho em Y decrementando o tanto que já foi andado
