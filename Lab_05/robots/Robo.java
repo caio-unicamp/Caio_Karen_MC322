@@ -35,7 +35,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
      * @throws RoboDesligadoException 
      * @throws ErroComunicacaoException 
      */
-    public abstract void executarMissao(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException;
+    public abstract void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException;
     /**
      * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.
      * @param deltaX
