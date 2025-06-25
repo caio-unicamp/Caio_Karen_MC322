@@ -15,20 +15,6 @@ public class RoboTerrestre extends Robo implements Veloz{
         this.tempoLocomocaoTerrestre = tempoLocomocaoTerrestre; 
     }
     /**
-     * Executa a tarefa de mover o robô
-     * @throws SensorDesligadoException
-     * @throws RoboDesligadoException
-     * @throws ColisaoException
-     * @throws ErroComunicacaoException 
-     * @implNote Para mover a lista de objetos será atributos = {"mover", (int) deltaX, (int) deltaY, ambiente} 
-     */
-    @Override
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
-        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
-            this.mover((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
-        }
-    }
-    /**
      * Movimentação dos robôs terrestres
      * @throws ErroComunicacaoException 
      */
