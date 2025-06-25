@@ -22,7 +22,7 @@ public abstract class Autonomo extends Robo{
      * Executa a missão do agente inteligente no ambiente.
      * @param ambiente 
      */
-    public abstract void executarMissao(Ambiente ambiente)throws SensorDesligadoException;
+    public abstract void executarMissao(Ambiente ambiente)throws SensorDesligadoException, RoboDesligadoException;
     /**
      * Define a missão do agente inteligente.
      * @param missao

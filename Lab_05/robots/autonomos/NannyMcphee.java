@@ -53,7 +53,10 @@ public class NannyMcphee extends Autonomo {
      * @throws SensorDesligadoException se o sensor estiver desligado
      */
     @Override
-    public void executarMissao(Ambiente ambiente) throws SensorDesligadoException {
+    public void executarMissao(Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
+            throw new RoboDesligadoException(this.getNome());
+        }
         for (Sensor<?> sensor :  this.getSensores()) {
             if (sensor.getBateria() == 0) {
                 throw new SensorDesligadoException(sensor, this.getNome());
