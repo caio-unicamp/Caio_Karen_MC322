@@ -4,8 +4,10 @@ import robots.*;
 import excecoes.*;
 import sensores.*;
 import enums.*;
+import missions.*;
+import interfaces.Comunicavel;
 
-public class NannyMcphee extends Autonomo {
+public class NannyMcphee extends Autonomo implements Comunicavel {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
     private Robo bebe; // Representa o bebê que está sendo cuidado pela Nanny
     /**

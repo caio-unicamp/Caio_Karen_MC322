@@ -163,7 +163,7 @@ public class Main {
                                     }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
                                         System.err.println(e.getMessage());
                                     }
-                                    aspirador.executarTarefa("mover", deltaX, deltaY, ambiente);
+                                    aspirador.mover(deltaX, deltaY, ambiente);
                                     obstaculoAchado(aspirador, ambiente);
                                     System.out.println("Você andou a "+ velAspirador + "% da velocidade máxima");
                                     if (aspirador.getSensorVelocidade().isMuito(taxaAspirador)){
@@ -315,7 +315,7 @@ public class Main {
                             }
                         }
                         try{
-                            drone.executarTarefa("entregar pacote", coordenadaX, coordenadaY, nomePacote, ambiente);
+                            drone.entregarPacote(coordenadaX, coordenadaY, nomePacote, ambiente);
                             //Indica se o drone conseguiu entregar o pacote
                             System.out.println("O " + nomePacote +" foi entregue com sucesso!");
                         }catch (RoboDesligadoException e){ //Indica que drone está desligado
@@ -380,7 +380,7 @@ public class Main {
                             }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
                                 System.err.println(e.getMessage());
                             }
-                            passaro.executarTarefa("mover", deltaX, deltaY, ambiente);
+                            passaro.mover(deltaX, deltaY, ambiente);
                             //pegar a qtd de desvios
                             int qtdDesvios = passaro.getQtddesvios();
                             //imprimir a qtd de desvios
@@ -432,7 +432,7 @@ public class Main {
                                         System.err.println(e.getMessage());
                                         return; 
                                     }
-                                    rover.executarTarefa("mover", deltaX, deltaY, ambiente);
+                                    rover.mover( deltaX, deltaY, ambiente);
                                     obstaculoAchado(rover, ambiente);
                                     System.out.println("Você andou a "+ velRover + "% da velocidade máxima");
                                     if (rover.getSensorVelocidade().isMuito(taxaRover)){
@@ -510,7 +510,7 @@ public class Main {
                                 System.err.println(e.getMessage());
                                 return; 
                             }
-                            rover.executarTarefa("mover", inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente);
+                            rover.mover(inimigo.getPosicao()[0] - rover.getPosicao()[0], inimigo.getPosicao()[1] - rover.getPosicao()[1], ambiente);
                             obstaculoAchado(rover, ambiente);
                             if (rover.getPosicao()[0] == posInicialInimigo[0]){ // Só consegue empurrar no caso de ter conseguido andar até a posição que ele estava antes, ou seja, se não houvesse nenhum obstáculo entre eles
                                 int numAnaliseRobosEmpurrados = 0;
@@ -995,10 +995,10 @@ public class Main {
             int deltaZ;
             if (subirOuDescer == 1){
                 deltaZ = lerInteiro("Quantos metros você deseja subir? ", scanner);
-                roboAereo.executarTarefa("subir", deltaZ, ambiente);
+                roboAereo.subir( deltaZ, ambiente);
             }else{
                 deltaZ = lerInteiro("Quantos metros você deseja descer? ", scanner);
-                roboAereo.executarTarefa("descer", deltaZ, ambiente);
+                roboAereo.descer(deltaZ, ambiente);
             }
         }
         if (roboAereo.getSensorAltitude(roboAereo).isBateriaBaixa()){
@@ -1128,19 +1128,12 @@ public class Main {
      * @throws ColisaoException
      */
     public static void metodosRobosComunicaveis(Ambiente ambiente, Scanner scanner, Comunicavel remetente) throws SensorDesligadoException, ColisaoException{
-        //Faz o cast para qual dos robôs comunicáveis o remetente é
-        Robo remetente1;
-        if (remetente instanceof Drone){ 
-            remetente1 = (Drone) remetente;
-        }else{
-            remetente1 = (Aspirador) remetente;
-        }
         System.out.println("Para quem você deseja enviar sua mensagem? (Digite o nome ao lado do número)");
         while (true) {
             int numAnaliseRobosMensagem = 1;
             for (Entidade entidade : ambiente.getListaEntidades()){
-                if (!(entidade instanceof Robo)){ //Verifica se a entidade é um robô
-                    continue; //Se não for, segue para a próxima iteração
+                if (!(entidade instanceof Robo) || entidade.equals((Entidade) remetente)){ //Verifica se a entidade é um robô ou se é o próprio remetente
+                    continue; //Segue para a próxima iteração se não for um robô ou se for o próprio remetente
                 }else{
                     System.out.println(numAnaliseRobosMensagem++ + " - " + entidade.getNome());
                 }
@@ -1148,7 +1141,7 @@ public class Main {
             String receptorMensagem = scanner.nextLine();
             Robo receptor = null;
             for (Entidade entidade : ambiente.getListaEntidades()) { //Procura a entidade que receberá a mensagem a partir do nome
-                if (entidade.getNome().equals(receptorMensagem)){
+                if (entidade.getNome().equals(receptorMensagem) && entidade instanceof Robo && !entidade.equals((Entidade) remetente)) { //Verifica se o nome digitado é de um robô e se não é o próprio remetente
                     receptor = (Robo) entidade;
                     break;
                 }
@@ -1159,7 +1152,7 @@ public class Main {
                 try{ //Tenta enviar a mensagem
                     System.out.print("Que mensagem você deseja enviar?");
                     String mensagem = scanner.nextLine();
-                    remetente1.executarTarefa("enviar mensagem", receptor, mensagem);
+                    remetente.enviarMensagem(receptor, mensagem);
                     System.out.println("[" + ((Robo) remetente).getNome() + " para " + receptorMensagem + "]: " + mensagem + " (Mensagem enviada)");
                     break;
                 }catch(ErroComunicacaoException e){ //Indica que o remetente não é comunicável 
