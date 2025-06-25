@@ -17,25 +17,6 @@ public class RoboAereo extends Robo implements Manobravel{
         this.altitudeMaxima = altitudeMaxima; //A altitude máxima é o limite do ambiente
     }
     /**
-     * Executa a tarefa de mover o robô inclusive subir e descer
-     * @throws SensorDesligadoException
-     * @throws RoboDesligadoException
-     * @throws ColisaoException
-     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
-     * @implNote Para subir: argumentos = {"subir", (int) deltaZ, ambiente}
-     * @implNote Para descer: argumentos = {"descer", (int) deltaZ, ambiente}
-     */
-    @Override
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
-        if (((String)argumentos[0]).equalsIgnoreCase("mover")){
-            this.mover((int) argumentos[1],(int) argumentos[1], (Ambiente) argumentos[2]);
-        }else if (((String)argumentos[0]).equalsIgnoreCase("subir")){
-            this.subir((int) argumentos[1], (Ambiente) argumentos[2]);
-        }else if (((String)argumentos[0]).equalsIgnoreCase("descer")){
-            this.descer((int) argumentos[1], (Ambiente) argumentos[2]);
-        }
-    }
-    /**
      * Sobe recursivamente o robô
      * @param deltaZ
      * @param ambiente
@@ -52,7 +33,7 @@ public class RoboAereo extends Robo implements Manobravel{
         if (ambiente.dentroDosLimites(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1) && (this.altitude + 1) <= altitudeMaxima && !this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] + 1, ambiente, this)){ //O robô sobe recursivamente
             this.altitude++;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1],this.altitude);
-            this.executarTarefa("subir", deltaZ - 1, ambiente);
+            this.subir(deltaZ - 1, ambiente);
             return; 
         }
     }
@@ -72,7 +53,7 @@ public class RoboAereo extends Robo implements Manobravel{
         if (ambiente.dentroDosLimites(this.getPosicao()[0],this.getPosicao()[1], this.altitude - 1) && !this.getSensorProximidade().monitorar(this.getPosicao()[0], this.getPosicao()[1], this.getPosicao()[2] - 1, ambiente, this)){ //O robô desce recursivamente
             this.altitude--;
             this.setPosicao(this.getPosicao()[0], this.getPosicao()[1], this.altitude);
-            this.executarTarefa("descer", deltaZ - 1, ambiente);
+            this.descer(deltaZ - 1, ambiente);
             return; //Retorna no caso dele poder descer
         }else{
             return; //Retorna no caso dele não poder descer

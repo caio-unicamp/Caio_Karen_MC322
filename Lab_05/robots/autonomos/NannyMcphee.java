@@ -7,7 +7,6 @@ import sensores.*;
 public class NannyMcphee extends AgenteInteligente {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
     private Robo bebe; // Representa o bebê que está sendo cuidado pela Nanny
-
     /**
      * Construtor da classe Babysitter.
      * Inicializa o babysitter com um nome, direção, coordenadas e número de bebês que está cuidando.
