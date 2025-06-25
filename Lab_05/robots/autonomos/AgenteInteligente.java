@@ -1,6 +1,7 @@
 package robots.autonomos;
 import robots.Robo;
 import ambiente.*;
+import excecoes.SensorDesligadoException;
 import missions.*;
 
 public abstract class AgenteInteligente extends Robo{
@@ -14,14 +15,14 @@ public abstract class AgenteInteligente extends Robo{
      * @param y
      * @param z
      */
-    public AgenteInteligente(String idRobo, String direcaoRobo, int x, int y, int z) {
+    public AgenteInteligente(String idRobo, String direcaoRobo, int x, int y, int z){
         super(idRobo, direcaoRobo, x, y, z);
     }
     /**
      * Executa a missão do agente inteligente no ambiente.
      * @param ambiente 
      */
-    public abstract void executarMissao(Ambiente ambiente);
+    public abstract void executarMissao(Ambiente ambiente)throws SensorDesligadoException;
     /**
      * Define a missão do agente inteligente.
      * @param missao
