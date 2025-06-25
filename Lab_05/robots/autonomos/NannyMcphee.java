@@ -4,8 +4,8 @@ import robots.*;
 import excecoes.*;
 import sensores.*;
 import enums.*;
-import missions.*;
 import interfaces.Comunicavel;
+import interfaces.Entidade;
 
 public class NannyMcphee extends Autonomo implements Comunicavel {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
@@ -22,6 +22,50 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
         super(nome, direcao, x, y, z);
         this.bebe = null; // Inicializa o bebê como nulo, pois ainda não foi atribuído
         this.numeroDeBebesCuidados = 0; // Inicializa o número de bebês que foram cuidados
+    }
+    /**
+     * Envia uma mensagem para outro robô
+     * @param destinatario o robô que receberá a mensagem
+     * @param mensagem a mensagem a ser enviada
+     * @throws RoboDesligadoException se o robô estiver desligado
+     * @throws ErroComunicacaoException se houver um erro na comunicação, como destinatário nulo ou não comunicável
+     */
+    @Override
+    public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se a nanny está ligada
+            throw new RoboDesligadoException(this.getNome());
+        }
+
+        if (destinatario == null) { //Verifica se o destinatário existe
+            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
+        }else if (!(destinatario instanceof Comunicavel)){ //Verifica se o destinatário é comunicável
+            throw new ErroComunicacaoException("É muito difícil falar com crianças que não querem ouvir... não queria estar na sua situação"); //Se não for comunicável, lança uma exceção
+        }
+
+        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem está ligado
+            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
+            throw new ErroComunicacaoException("O bebê " + ((Robo) destinatario).getNome() + " está dormindo no momento, melhor não acordar ele se não pode ficar de mal-humor.");
+        }
+        Comunicavel receptor = (Comunicavel) destinatario; //Faz o cast para comunicável
+        // Faz o destinatário receber a mensagem (caso ele esteja ligado)
+        receptor.receberMensagem(this.getNome(), mensagem); 
+        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
+        String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido"; 
+        // Registra que a mensagem foi enviada.
+        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
+    }
+    /**
+     * Recebe mensagens enviadas por outros robôs comunicáveis
+     * @param remetente o nome do robô que enviou a mensagem
+     * @param mensagem a mensagem recebida
+     * @throws RoboDesligadoException se o robô estiver desligado
+     */
+    @Override
+    public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
+        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { 
+            //Mesmo que após a conferência de envio tiver passado, se o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
+            throw new RoboDesligadoException("Nannys também ficam de saco cheio, é melhor dar um tempo para a " + this.getNome() + " descansar antes de voltar ao serviço.");
+        }
     }
     /**
      * Define o bebê que a Nanny está cuidando.

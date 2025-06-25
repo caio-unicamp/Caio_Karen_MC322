@@ -16,25 +16,11 @@ public class Drone extends RoboAereo implements Comunicavel{
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
     }
     /**
-     * Executa as tarefas de mover, enviar mensagem e entregar pacote
-     * @throws SensorDesligadoException
-     * @throws RoboDesligadoException
-     * @throws ColisaoException
-     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
-     * @implNote Para enviar mensagens: argumentos = {"enviar mensagem", (Entidade) destinatario, (String) mensagem}
-     * @implNote Para entregar um pacote: argumentos = {"entregar pacote", (int) pos X final do drone, (int) pos Y final do drone, (String) nome do pacote, ambiente}
-     */
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
-        if (((String) argumentos[0]).equalsIgnoreCase("mover")){
-            this.mover((int) argumentos[1],(int) argumentos[2],(Ambiente) argumentos[3]);
-        }else if(((String) argumentos[0]).equalsIgnoreCase("enviar mensagem")){
-            this.enviarMensagem((Entidade) argumentos[1],(String) argumentos[2]);
-        }else if(((String) argumentos[0]).equalsIgnoreCase("entregar pacote")){
-            this.entregarPacote((int) argumentos[1], (int) argumentos[2], (String) argumentos[3], (Ambiente) argumentos[4]);
-        }
-    }
-    /**
      * Envia uma mensagem para outro robô
+     * @param destinatario o robô que receberá a mensagem
+     * @param mensagem a mensagem a ser enviada
+     * @throws RoboDesligadoException se o robô estiver desligado
+     * @throws ErroComunicacaoException se houver um erro na comunicação, como destinatário nulo ou não comunicável
      */
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
@@ -62,6 +48,9 @@ public class Drone extends RoboAereo implements Comunicavel{
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
+     * @param remetente o nome do robô que enviou a mensagem
+     * @param mensagem a mensagem recebida
+     * @throws RoboDesligadoException se o robô estiver desligado
      */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {

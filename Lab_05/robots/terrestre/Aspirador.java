@@ -16,6 +16,10 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
     }
     /**
      * Envia uma mensagem para outro robô
+     * @param destinatario o robô que receberá a mensagem
+     * @param mensagem a mensagem a ser enviada
+     * @throws RoboDesligadoException se o robô estiver desligado
+     * @throws ErroComunicacaoException se houver um erro na comunicação, como destinatário nulo ou não comunicável
      */
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
@@ -43,6 +47,9 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
+     * @param remetente o nome do robô que enviou a mensagem
+     * @param mensagem a mensagem recebida
+     * @throws RoboDesligadoException se o robô estiver desligado
      */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
