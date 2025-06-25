@@ -15,26 +15,6 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
         this.robosEliminados = 0;   //inicializar o atritubo próprio
     }
     /**
-     * Executa a tarefa de enviar mensagens ou de aspirar um robô
-     * @throws SensorDesligadoException
-     * @throws RoboDesligadoException
-     * @throws ColisaoException
-     * @throws ErroComunicacaoException 
-     * @implNote Para mover: argumentos = {"mover", (int) deltaX, (int) deltaY, ambiente}
-     * @implNote Para enviar uma mensagem: argumentos = {"enviar mensagem", (Entidade) destinatário, (String) mensagem}
-     * @implNote Para aspirar um robô: argumentos = {"aspirar", (int) passosX, (int) passosY, ambiente}
-     */
-    @Override
-    public void executarTarefa(Object... argumentos) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
-        if (((String)argumentos[0]).equalsIgnoreCase("mover")){
-            super.executarTarefa(argumentos);
-        }else if (((String) argumentos[0]).equalsIgnoreCase("enviar mensagem")){
-           this.enviarMensagem((Entidade) argumentos[1],(String) argumentos[2]); 
-        }else if (((String) argumentos[0]).equalsIgnoreCase("aspirar")){
-            this.eliminar((int) argumentos[1], (int) argumentos[2], (Ambiente) argumentos[3]);
-        }
-    }
-    /**
      * Envia uma mensagem para outro robô
      */
     @Override
@@ -128,7 +108,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    executarTarefa("aspirar", passos[0], 0, ambiente); // Chama a função para eliminar o robô identificado        
+                    this.eliminar(passos[0], 0, ambiente); // Chama a função para eliminar o robô identificado
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
@@ -145,7 +125,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
                     // Atualizar os valores restantes para deltaX e deltaY
                     int novoDeltaX = deltaX - (posAtualX - posInicialX);
                     int novoDeltaY = deltaY - (posAtualY - posInicialY);
-                    executarTarefa("aspirar", 0, passos[1], ambiente); // Chama a função para eliminar o robô identificado        
+                    this.eliminar(passos[1], 0, ambiente); // Chama a função para eliminar o robô identificado
                     // Condição de parada: verificar se ainda há movimento restante
                     if (novoDeltaX != 0 || novoDeltaY != 0) {
                         // Evitar loop infinito: verificar se a nova posição é válida e diferente da atual
