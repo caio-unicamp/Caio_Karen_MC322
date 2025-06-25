@@ -560,7 +560,7 @@ public class Main {
                 }else if (roboEscolhido instanceof NannyMcphee){
                     System.out.println("Ah, a babá mais famosa do mundo, o que você quer fazer com ela?");
                     NannyMcphee nanny = ((NannyMcphee) roboEscolhido);
-                    comando = lerInteiro("Você deseja fazer o que?\n1 - Contratar\n2 - Demitir\n3 - Dar bronca\n4 - Histórico", scanner);
+                    comando = lerInteiro("Você deseja fazer o que?\n1 - Contratar\n2 - Demitir\n3 - Dar bronca\n4 - LinkedIn", scanner);
                     if (comando == 1){ //Contratar a Nanny
                         if (nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny já está cuidando de algum bebê
                             System.out.println("Infelizmente " + nanny.getNome() + " já está cuidando do " + nanny.getBebe() + " e muitos pestinhas de uma vez podem sobrecarregar os sistemas dela. Se quiser mudar o bebê que ela está cuidando, demita-a primeiro.");
@@ -604,6 +604,23 @@ public class Main {
                             nanny.demitir(); //Demitindo a Nanny
                             System.out.println("A " + nanny.getNome() + " foi demitida. Espero que esteja feliz, mais um robô lançado às margens da sociedade totalmente desamparado e sem nenhum auxílio desses seres hum-\nReiniciando sistemas...\nAgora você pode contratar a nanny para cuidar de outro bebê!");
                         }
+                    }else if (comando == 3) { // Enviar uma mensagem
+                        metodosRobosComunicaveis(ambiente, scanner, nanny);
+                    }else if (comando == 4){  // Analisa quantos bebês a Nanny já cuidou e quem ela está cuidando atualmente
+                        if(nanny.getNumeroDeBebesCuidados() == 0){
+                            System.out.println("Ela ainda não cuidou de nenhum bebê, tadinha");
+                        }else{
+                            System.out.println("A " + nanny.getNome() + " já cuidou de " + nanny.getNumeroDeBebesCuidados() + " bebês até agora");
+                            if (nanny.estaCuidandoDeBebe()){
+                                System.out.println("Atualmente ela está cuidando do " + nanny.getBebe().getNome() + " - " + nanny.getBebe().getClass().getSimpleName() + " - Posição: " + nanny.getBebe().getPosicao()[0] + ", " + nanny.getBebe().getPosicao()[1] + ", " + nanny.getBebe().getPosicao()[2]);
+                                if (nanny.getBebe().getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
+                                    System.out.println("Mas ele tá dormindo, vamos falar baixinho por que não queremos acordá-lo.");
+                                }
+                            }else{
+                                System.out.println("Atualmente ela não está cuidando de nenhum bebê, você pode contratá-la para cuidar de algum robô de " + ambiente.getNomeAmbiente());
+                            }
+                        }
+                        
                     }
                 }
 
