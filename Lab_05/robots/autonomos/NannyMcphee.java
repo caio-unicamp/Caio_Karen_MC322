@@ -89,7 +89,7 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
         this.missao = null; // Remove a missão associada, se houver
     }
     /**
-     * Executa a tarefa de cuidar de outros robôs no ambiente.
+     * Executa a missão de cuidar de outros robôs no ambiente.
      * @param ambiente
      * @throws SensorDesligadoException se o sensor estiver desligado
      */
@@ -103,8 +103,9 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
                 throw new SensorDesligadoException(sensor, this.getNome());
             }
         }
-        missao.executar(bebe, ambiente);
-        this.numeroDeBebesCuidados++;
+        if (temMissao()) {
+            missao.executar(this, ambiente); // Executa a missão passando o próprio robô (a Nanny)
+        }
     }
     /**
      * Verifica o número de bebês que foram cuidados pelo babysitter.
