@@ -82,17 +82,11 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
         return this.bebe;
     }
     /**
-     * Verifica se a Nanny está cuidando de um bebê.
-     * @return true se está cuidando de um bebê, false caso contrário
-     */
-    public boolean estaCuidandoDeBebe() {
-        return this.bebe != null;
-    }
-    /**
      * Faz com que a Nanny não precise mais cuidar do bebê.
      */
     public void demitir() {
         this.bebe = null; // Define o bebê como nulo, indicando que não está mais cuidando de nenhum
+        this.missao = null; // Remove a missão associada, se houver
     }
     /**
      * Executa a tarefa de cuidar de outros robôs no ambiente.

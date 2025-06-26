@@ -102,7 +102,7 @@ public class Main {
                         }
                         break;
                     }else if (comando == 3){
-                        comando = lerInteiro("Se tudo der certo esse vai ser o último tipo de robô que eu tenho que criar, sinceramente não aguento mais... enfim que tipo de autônomo você quer?\n1 - Nanny McPhee\n2 - ", scanner);
+                        comando = lerInteiro("Se tudo der certo esse vai ser o último tipo de robô que eu tenho que criar, sinceramente não aguento mais... enfim que tipo de autônomo você quer?\n1 - Nanny McPhee\n2 - Em desenvolvimento", scanner);
                         if (comando == 1){
                             System.out.println("Ah, a Nanny McPhee, uma das minhas favoritas! Ela é tão útil para cuidar dos bebês... ou pelo menos é o que dizem. Bom, vamos lá, escolha os atributos da sua Nanny\nNome: ");
                             criaRoboAutonomo(scanner, mensagensNomeJaExistente, ambiente, 0);
@@ -562,7 +562,7 @@ public class Main {
                     NannyMcphee nanny = ((NannyMcphee) roboEscolhido);
                     comando = lerInteiro("Você deseja fazer o que?\n1 - Contratar\n2 - Demitir\n3 - Dar bronca\n4 - LinkedIn", scanner);
                     if (comando == 1){ //Contratar a Nanny
-                        if (nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny já está cuidando de algum bebê
+                        if (nanny.temMissao()){ //Verifica se a Nanny já está cuidando de algum bebê
                             System.out.println("Infelizmente " + nanny.getNome() + " já está cuidando do " + nanny.getBebe() + " e muitos pestinhas de uma vez podem sobrecarregar os sistemas dela. Se quiser mudar o bebê que ela está cuidando, demita-a primeiro.");
                         }else{
                             System.out.println("Ótimo, quanto menos eu tiver que me preocupar com esses robôs, melhor. Qual robô você quer que ela cuide? (Digite o nome do robô escolhido)");
@@ -598,7 +598,7 @@ public class Main {
                             System.out.println("A Nanny foi contratada com sucesso! Agora você pode façar pra ela para cuidar do "+ bebe.getNome() + " enquanto você sai de férias! (Bem que eu podia ter direito a férias também)");
                         }
                     }else if (comando == 2){ //Demitir a Nanny
-                        if (!nanny.estaCuidandoDeBebe()){ //Verifica se a Nanny está cuidando de algum bebê
+                        if (!nanny.temMissao()){ //Verifica se a Nanny está cuidando de algum bebê
                             System.out.println("Você é cruel, a " + nanny.getNome() + " já está desempregada e ainda assim você quer demiti-la? Escolha outra coisa para fazer com ela");
                         }else{
                             nanny.demitir(); //Demitindo a Nanny
@@ -611,7 +611,7 @@ public class Main {
                             System.out.println("Ela ainda não cuidou de nenhum bebê, tadinha");
                         }else{
                             System.out.println("A " + nanny.getNome() + " já cuidou de " + nanny.getNumeroDeBebesCuidados() + " bebês até agora");
-                            if (nanny.estaCuidandoDeBebe()){
+                            if (nanny.temMissao()){
                                 System.out.println("Atualmente ela está cuidando do " + nanny.getBebe().getNome() + " - " + nanny.getBebe().getClass().getSimpleName() + " - Posição: " + nanny.getBebe().getPosicao()[0] + ", " + nanny.getBebe().getPosicao()[1] + ", " + nanny.getBebe().getPosicao()[2]);
                                 if (nanny.getBebe().getEstadoRobo().equals(EstadoRobo.DESLIGADO)){
                                     System.out.println("Mas ele tá dormindo, vamos falar baixinho por que não queremos acordá-lo.");
@@ -717,7 +717,7 @@ public class Main {
                 for (String logEntry : logs) {
                     System.out.println(logEntry); // Exibe cada mensagem formatada
                 }
-            }else if(comando == 7){
+            }else if(comando == 7){ // Vizualizar mapa do ambiente
                 int alturaVizualizacao = lerInteiro("Perfeito! Infelizmente no momento não posso te dar uma vizualização completa do ambiente por limitações gráficas, então preciso que você me diga uma altura que esteja dentro dos limites do ambiente para eu te mostrar um corte no plano XY nessa altura", scanner);
                 while (true) {
                     if (alturaVizualizacao < 0){ //Se a altura pedida for menor que 0
@@ -737,7 +737,8 @@ public class Main {
             }else if (comando == 8){ //Ver descrição de entidade
                 int escolheEntidadeDescricao = lerInteiro("É sempre bom conhecer um pouco mais sobre suas entidades antes de fazer algo com elas. De qual entidade você quer saber?\n1 - Robô\n2 - Obstáculo", scanner);
                 if (escolheEntidadeDescricao == 1){
-                    Robo exemploRobo = new Aspirador("teste", "sul", 0, 0, 10, 100); 
+                    // Exemplo usando uma subclasse concreta de Robo, como Aspirador
+                    Robo exemploRobo = new Aspirador("Exemplo", "Norte", 0, 0, 10, 1);
                     System.out.println(exemploRobo.getDescricao());
                 }else if(escolheEntidadeDescricao == 2){
                     Obstaculo exemploObstaculo = new Obstaculo(0, 0, 0, 0, TipoObstaculo.PORTAO, ambiente);
@@ -908,7 +909,7 @@ public class Main {
             nanny.adicionarSensores(sensorAltitude);
             System.out.println("Planando magicamente dos céus, cantarolando uma música alegre e segurando seu guarda-chuva metálico, vem aí a Nanny: " + nanny.getNome() + ". Espero que ela cuide bem de você, porque eu não vou fazer isso");
         }else if (tipoRobo == 1){
-            
+            //Em desenvolvimento
         }
     }
     /**
