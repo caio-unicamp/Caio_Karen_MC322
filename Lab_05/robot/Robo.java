@@ -1,4 +1,5 @@
-package robots;
+package robot;
+
 import interfaces.*;
 import sensores.*;
 import enums.*;

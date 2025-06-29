@@ -1,7 +1,7 @@
 package ambiente;
 import java.util.ArrayList;
 import interfaces.*;
-import robots.Robo;
+import robot.Robo;
 import enums.TipoEntidade;
 import excecoes.*;
 /**

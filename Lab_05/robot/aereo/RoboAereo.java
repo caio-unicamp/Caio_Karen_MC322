@@ -1,4 +1,4 @@
-package robots.aereo;
+package robot.aereo;
 import ambiente.*;
 import excecoes.ColisaoException;
 import excecoes.ErroComunicacaoException;
@@ -6,7 +6,7 @@ import excecoes.RoboDesligadoException;
 import excecoes.SensorDesligadoException;
 import interfaces.Manobravel;
 import sensores.*;
-import robots.Robo;
+import robot.Robo;
 public class RoboAereo extends Robo implements Manobravel{
     private int altitudeMaxima; //Altitude máxima que o robô aéreo pode alcançar
     private int altitude; //Altitude atual do Robô

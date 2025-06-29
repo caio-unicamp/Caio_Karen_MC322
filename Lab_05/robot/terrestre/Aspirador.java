@@ -1,18 +1,21 @@
-package robots.terrestre;
+package robot.terrestre;
+
 import interfaces.*;
 import enums.*;
 import excecoes.*;
 import ambiente.*;
-import robots.Robo;
+import robot.Robo;
+import robot.subsistemas.*;;
 
 public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador {
     //atributo numero de robos que eliminou
     private int robosEliminados;
-    
+    private ModuloComunicacao moduloComunicacao; // Módulo de comunicação do aspirador
     //Construtor para inicializar os atributos
     public Aspirador(String nome, String direcao, int x, int y, int velocidadeMaxima, int tempoLocomocaoTerrestre){
         super(nome, direcao, x, y, velocidadeMaxima, tempoLocomocaoTerrestre); //Herança da classe robô
         this.robosEliminados = 0;   //inicializar o atritubo próprio
+        this.moduloComunicacao = new ModuloComunicacao(this); //Inicializa o módulo de comunicação do aspirador
     }
     /**
      * Envia uma mensagem para outro robô
@@ -23,27 +26,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
      */
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o aspirador está ligado
-            throw new RoboDesligadoException(this.getNome()); //Se não estiver lança o respectivo erro
-        }
-
-        if (destinatario == null) { //Verifica se o destinatário existe
-            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
-        }else if (!(destinatario instanceof Comunicavel)){ //Verifica se o destinatário é comunicável
-            throw new ErroComunicacaoException("Você está tentando mandar uma mensagem para alguém que não quer falar com você... que situação hein");
-        }
-
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem não está desligado
-            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem);
-            throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
-        }
-        Comunicavel receptor = (Comunicavel) destinatario; //Faz o cast para comunicável
-        //Faz o destinatário receber a mensagem (caso ele não esteja desligado)
-        receptor.receberMensagem(this.getNome(), mensagem);
-        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
-        String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido";
-        //Registra que a mensagem foi enviada
-        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem);
+        moduloComunicacao.enviarMensagem(destinatario, mensagem); //Delegar a responsabilidade de enviar a mensagem para o módulo de comunicação
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
@@ -53,10 +36,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
      */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Confere se o Aspirador está ligado
-            //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
-            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
-        }
+        moduloComunicacao.receberMensagem(remetente, mensagem); //Delegar a responsabilidade de receber a mensagem para o módulo de comunicação
     }
     /**
      * Aspira os robôs encontrados no caminho quando ele se move

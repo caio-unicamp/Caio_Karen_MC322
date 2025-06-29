@@ -4,8 +4,8 @@ import enums.EstadoRobo;
 import excecoes.ColisaoException;
 import excecoes.RoboDesligadoException;
 import excecoes.SensorDesligadoException;
-import robots.Robo;
-import robots.autonomos.NannyMcphee;
+import robot.Robo;
+import robot.autonomos.NannyMcphee;
 import ambiente.Obstaculo;
 
 public class MissaoProteger implements Missao {

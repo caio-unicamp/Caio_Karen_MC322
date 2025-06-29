@@ -1,9 +1,9 @@
-package robots.terrestre;
+package robot.terrestre;
 import interfaces.*;
 import excecoes.*;
 import ambiente.*;
 import enums.TipoEntidade;
-import robots.Robo;
+import robot.Robo;
 
 public class Rover extends RoboTerrestre{
     //atributo próprio

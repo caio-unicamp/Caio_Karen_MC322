@@ -1,6 +1,6 @@
-package robots.autonomos;
+package robot.autonomos;
 import ambiente.*;
-import robots.*;
+import robot.*;
 import excecoes.*;
 import sensores.*;
 import enums.*;

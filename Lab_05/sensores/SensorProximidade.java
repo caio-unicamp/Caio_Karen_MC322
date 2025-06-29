@@ -1,5 +1,5 @@
 package sensores;
-import robots.*;
+import robot.*;
 import ambiente.*;
 import interfaces.Entidade;
 import enums.TipoEntidade;

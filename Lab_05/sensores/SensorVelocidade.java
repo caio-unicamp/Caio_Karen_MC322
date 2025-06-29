@@ -1,7 +1,7 @@
 package sensores;
 import excecoes.VelocidadeMaximaAtingidaException;
 import interfaces.Fiscalizador;
-import robots.terrestre.RoboTerrestre;
+import robot.terrestre.RoboTerrestre;
 public class SensorVelocidade extends Sensor<Double> implements Fiscalizador{
 
     public SensorVelocidade(double raio, String nomeSensor){

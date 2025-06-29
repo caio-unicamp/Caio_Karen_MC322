@@ -1,9 +1,9 @@
-package robots.terrestre;
+package robot.terrestre;
 import ambiente.*;
 import excecoes.*;
 import interfaces.Veloz;
 import sensores.*;
-import robots.Robo;
+import robot.Robo;
 
 public class RoboTerrestre extends Robo implements Veloz{
     private int velocidadeMaxima; //Velocidade máxima permitida para o robô

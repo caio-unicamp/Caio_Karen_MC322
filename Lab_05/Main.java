@@ -6,10 +6,10 @@ import ambiente.*;
 import enums.*;
 import excecoes.*;
 import interfaces.*;
-import robots.*;
-import robots.aereo.*;
-import robots.autonomos.NannyMcphee;
-import robots.terrestre.*;
+import robot.*;
+import robot.aereo.*;
+import robot.autonomos.NannyMcphee;
+import robot.terrestre.*;
 import sensores.*;
 
 public class Main {

@@ -1,5 +1,5 @@
-package robots.autonomos;
-import robots.Robo;
+package robot.autonomos;
+import robot.Robo;
 import ambiente.*;
 import excecoes.*;
 import missions.*;

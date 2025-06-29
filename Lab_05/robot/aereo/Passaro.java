@@ -1,4 +1,4 @@
-package robots.aereo;
+package robot.aereo;
 import excecoes.*;
 import ambiente.*;
 import sensores.*;

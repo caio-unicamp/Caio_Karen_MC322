@@ -1,19 +1,22 @@
-package robots.aereo;
+package robot.aereo;
 import interfaces.*;
 import enums.*;
 import excecoes.*;
 import ambiente.*;
 import sensores.*;
-import robots.*;
-import robots.terrestre.Rover;
+import robot.subsistemas.ModuloComunicacao;
+import robot.*;
+import robot.terrestre.Rover;
 
 public class Drone extends RoboAereo implements Comunicavel{
-    Rover pacote; //Atributo próprio é um robô que será entregue pelo drone
-    int tempoLocomocaoPacote;
+    private Rover pacote; //Atributo próprio é um robô que será entregue pelo drone
+    private int tempoLocomocaoPacote;
+    private ModuloComunicacao moduloComunicacao; //Atributo que representa o módulo de comunicação do drone
     
     public Drone(String nome, String direcao, int x, int y, int altitude, int tempoLocomocaoTerrestre, int altitudeMaxima){ //Construtor para inicializar os atributos
         super(nome, direcao, x, y, altitude, altitudeMaxima);
         this.tempoLocomocaoPacote = tempoLocomocaoTerrestre;
+        this.moduloComunicacao = new ModuloComunicacao(this); //Inicializa o módulo de comunicação do drone
     }
     /**
      * Envia uma mensagem para outro robô
@@ -24,27 +27,7 @@ public class Drone extends RoboAereo implements Comunicavel{
      */
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o drone está ligado
-            throw new RoboDesligadoException(this.getNome());
-        }
-
-        if (destinatario == null) { //Verifica se o destinatário existe
-            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
-        }else if (!(destinatario instanceof Comunicavel)){ //Verifica se o destinatário é comunicável
-            throw new ErroComunicacaoException("Você está tentando mandar uma mensagem para alguém que não quer falar com você... que situação hein");
-        }
-
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem está ligado
-            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
-            throw new ErroComunicacaoException("O robô destinatário " + ((Robo) destinatario).getNome() + " está desligado.");
-        }
-        Comunicavel receptor = (Comunicavel) destinatario; //Faz o cast para comunicável
-        //Faz o destinatário receber a mensagem (caso ele esteja ligado)
-        receptor.receberMensagem(this.getNome(), mensagem); 
-        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
-        String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido"; 
-        // Registra que a mensagem foi enviada.
-        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
+        moduloComunicacao.enviarMensagem(destinatario, mensagem); 
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
@@ -54,10 +37,7 @@ public class Drone extends RoboAereo implements Comunicavel{
      */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { 
-            //Mesmo que após a conferência de envio tiver passado, o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
-            throw new RoboDesligadoException("O robô " + this.getNome() + " está desligado e não pode receber mensagens.");
-        }
+        moduloComunicacao.receberMensagem(remetente, mensagem); 
     }
     /**
      *  Método para mover o drone sem entregar nenhum pacote
