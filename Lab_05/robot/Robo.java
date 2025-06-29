@@ -1,6 +1,7 @@
 package robot;
 
 import interfaces.*;
+import robot.subsistemas.GerenciadorSensores;
 import sensores.*;
 import enums.*;
 import ambiente.*;
@@ -17,6 +18,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
     private int posicaoY;   //coordenada Y no Ambiente
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
     private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
+    protected GerenciadorSensores gerenciadorSensores; //Gerenciador de sensores do robô
     
     public Robo (String idRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
         this.idRobo = idRobo;
@@ -27,6 +29,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
         this.listaSensores = new ArrayList<>();
         this.estado = EstadoRobo.LIGADO; //Por padrão o robô está ligado
         this.tipoEntidade = TipoEntidade.ROBO; //Define o tipo da entidade como robô
+        gerenciadorSensores = new GerenciadorSensores(this); //Inicializa o gerenciador de sensores do robô
     }
     /**
      * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.
@@ -110,16 +113,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
      * @throws RoboDesligadoException
      */
     public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException {
-        if (this.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Confere se o robô está desligado
-            throw new RoboDesligadoException(this.getNome());
-        }
-        for (Sensor<?> sensor : this.listaSensores) { //Percorre a lista de sensores do robô
-            if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
-                throw new SensorDesligadoException(sensor, this.getNome());
-            }else{
-                continue;
-            }
-        }
+        gerenciadorSensores.acionarSensores();
     }
     /**
      * Método para saber o nome do robô, o qual nesse caso irá funcionar como um id por ser único para cada robô no ambiente.
@@ -201,11 +195,11 @@ public abstract class Robo implements Entidade, Sensoreavel{
     }
 
     public void adicionarSensores(Sensor<?> sensor){ //Adiciona um sensor na lista de sensores do robô
-        listaSensores.add(sensor);
+        gerenciadorSensores.adicionarSensor(sensor);
     }
 
     public void removerSensor(Sensor<?> sensor){ //Remove um sensor na lista de sensores do robô
-        listaSensores.remove(sensor);
+        gerenciadorSensores.removerSensores(sensor);
     }
 
     public ArrayList<Sensor<?>> getSensores(){ //Acessa quais são os sensores que esse robô tem
@@ -213,13 +207,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
     }
     
     public SensorProximidade getSensorProximidade(){ //Função para retornar o sensor de proximidade do robô
-        SensorProximidade sensorProx = null;
-        for (Sensor<?> sensor : this.getSensores()) { //Procura na lista de sensores do robo pelo sensor de proximidade
-            if (sensor instanceof SensorProximidade){ //Verifica se o sensor é do tipo SensorProximidade
-                sensorProx = (SensorProximidade) sensor;
-            }
-        }
-        return sensorProx;
+        return gerenciadorSensores.getSensorProximidade();
     }
     /**
      * Identificação de qual obstáculo o robô está detectando.

@@ -56,12 +56,6 @@ public class RoboTerrestre extends Robo implements Veloz{
      * @return o sensor de velocidade que ele possui
      */
     public SensorVelocidade getSensorVelocidade(){ 
-        SensorVelocidade sensorVelocidade = null;
-        for (Sensor<?> sensor : this.getSensores()){
-            if (sensor instanceof SensorVelocidade){
-                sensorVelocidade = (SensorVelocidade) sensor;
-            }
-        }
-        return sensorVelocidade;
+        return gerenciadorSensores.getSensorVelocidade(); //Busca pelo sensor de velocidade do robô
     }
 } 

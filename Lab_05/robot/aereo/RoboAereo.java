@@ -73,13 +73,7 @@ public class RoboAereo extends Robo implements Manobravel{
      * @param robo
      * @return sensor de altitude
      */
-    public SensorAltitude getSensorAltitude(Robo robo){ 
-        SensorAltitude sensorAltitude = null;
-        for (Sensor<?> sensor : robo.getSensores()){
-            if (sensor instanceof SensorAltitude){
-                sensorAltitude = (SensorAltitude) sensor;
-            }
-        }
-        return sensorAltitude;
+    public SensorAltitude getSensorAltitude(){ 
+        return gerenciadorSensores.getSensorAltitude(); //Busca pelo sensor de altitude do robô
     }
 }

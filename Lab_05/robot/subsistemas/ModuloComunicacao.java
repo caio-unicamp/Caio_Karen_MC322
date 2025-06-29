@@ -9,11 +9,11 @@ import interfaces.Entidade;
 import robot.Robo;
 
 public class ModuloComunicacao implements Comunicavel {
-    private Robo roboPai; // Atributo para armazenar a interface comunicável, se necessário
+    private final Robo roboPai; // Atributo para armazenar a interface comunicável, se necessário
     public ModuloComunicacao(Robo roboPai) {
         this.roboPai = roboPai;
     }
-    
+
     /**
      * Envia uma mensagem para outro robô
      * @param destinatario o robô que receberá a mensagem
