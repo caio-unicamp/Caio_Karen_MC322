@@ -3,14 +3,15 @@ import ambiente.*;
 import robot.*;
 import excecoes.*;
 import sensores.*;
-import utils.CentralComunicacao;
 import enums.*;
 import interfaces.Comunicavel;
 import interfaces.Entidade;
+import robot.subsistemas.*;
 
 public class NannyMcphee extends Autonomo implements Comunicavel {
     private int numeroDeBebesCuidados; // Número de bebês que a Nanny já cuidou
     private Robo bebe; // Representa o bebê que está sendo cuidado pela Nanny
+    private ModuloComunicacao moduloComunicacao; // Módulo de comunicação para enviar e receber mensagens
     /**
      * Construtor da classe Babysitter.
      * Inicializa o babysitter com um nome, direção, coordenadas e número de bebês que está cuidando.
@@ -23,6 +24,7 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
         super(nome, direcao, x, y, z);
         this.bebe = null; // Inicializa o bebê como nulo, pois ainda não foi atribuído
         this.numeroDeBebesCuidados = 0; // Inicializa o número de bebês que foram cuidados
+        this.moduloComunicacao = new ModuloComunicacao(this); // Inicializa o módulo de comunicação do NannyMcphee
     }
     /**
      * Envia uma mensagem para outro robô
@@ -33,27 +35,7 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
      */
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se a nanny está ligada
-            throw new RoboDesligadoException(this.getNome());
-        }
-
-        if (destinatario == null) { //Verifica se o destinatário existe
-            throw new ErroComunicacaoException("Destinatário da mensagem não pode ser nulo.");
-        }else if (!(destinatario instanceof Comunicavel)){ //Verifica se o destinatário é comunicável
-            throw new ErroComunicacaoException("É muito difícil falar com crianças que não querem ouvir... não queria estar na sua situação"); //Se não for comunicável, lança uma exceção
-        }
-
-        if (destinatario instanceof Robo && ((Robo) destinatario).getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se quem receberá a mensagem está ligado
-            CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), ((Robo) destinatario).getNome(), "[TENTATIVA FALHA - DESTINATÁRIO DESLIGADO] " + mensagem); //Registra na central que não foi possível enviar a mensagem pois o destinatário estava desligado
-            throw new ErroComunicacaoException("O bebê " + ((Robo) destinatario).getNome() + " está dormindo no momento, melhor não acordar ele se não pode ficar de mal-humor.");
-        }
-        Comunicavel receptor = (Comunicavel) destinatario; //Faz o cast para comunicável
-        // Faz o destinatário receber a mensagem (caso ele esteja ligado)
-        receptor.receberMensagem(this.getNome(), mensagem); 
-        // Se o destinatário puder ser instanciado como um robô, busca seu nome, se não, trata como desconhecido
-        String nomeDestinatario = (receptor instanceof Robo) ? ((Robo) receptor).getNome() : "Desconhecido"; 
-        // Registra que a mensagem foi enviada.
-        CentralComunicacao.getInstancia().registrarMensagem(this.getNome(), nomeDestinatario, mensagem); 
+        moduloComunicacao.enviarMensagem(destinatario, mensagem); // Delegar a responsabilidade de enviar a mensagem para o módulo de comunicação 
     }
     /**
      * Recebe mensagens enviadas por outros robôs comunicáveis
@@ -63,10 +45,7 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
      */
     @Override
     public void receberMensagem(String remetente, String mensagem) throws RoboDesligadoException {
-        if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) { 
-            //Mesmo que após a conferência de envio tiver passado, se o robô destinatário não conseguir receber a mensagem, registra que a mensagem foi enviada porém não foi recebida 
-            throw new RoboDesligadoException("Nannys também ficam de saco cheio, é melhor dar um tempo para a " + this.getNome() + " descansar antes de voltar ao serviço.");
-        }
+        moduloComunicacao.receberMensagem(remetente, mensagem);
     }
     /**
      * Define o bebê que a Nanny está cuidando.
@@ -97,7 +76,7 @@ public class NannyMcphee extends Autonomo implements Comunicavel {
     @Override
     public void executarMissao(Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException {
         if (this.getEstadoRobo() == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException(this.getNome());
+            throw new RoboDesligadoException("Nannys também ficam de saco cheio, é melhor dar um tempo para a " + this.getNome() + " descansar antes de voltar ao serviço.");
         }
         for (Sensor<?> sensor :  this.getSensores()) {
             if (sensor.getBateria() == 0) {

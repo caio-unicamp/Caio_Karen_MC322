@@ -24,7 +24,7 @@ public class ModuloComunicacao implements Comunicavel {
     @Override
     public void enviarMensagem(Entidade destinatario, String mensagem) throws RoboDesligadoException, ErroComunicacaoException {
         if (roboPai.getEstadoRobo() == EstadoRobo.DESLIGADO) { //Checa se o drone está ligado
-            throw new RoboDesligadoException(roboPai.getNome());
+            throw new RoboDesligadoException(roboPai.getNome() + " está desligado e não pode enviar mensagens.");
         }
 
         if (destinatario == null) { //Verifica se o destinatário existe
