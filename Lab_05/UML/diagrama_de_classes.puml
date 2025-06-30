@@ -37,7 +37,7 @@ interface Fiscalizador <<Sensor>>
 
 enum EstadoRobo <<Robo>>
 
-class AlturaMaximaException <<Excecao>>
+class AlturaMaximaAtingidaException <<Excecao>>
 class RoboDesligadoException<<Excecao>>
 class SensorDesligadoException<<Excecao>>
 class ColisaoException<<Excecao>>
@@ -326,12 +326,12 @@ class Logger {
 ' =======================================================
 
 ' --- Herança ---
-JavaException <|-- AlturaMaximaAtingidaException
-JavaException <|-- ColisaoException
-JavaException <|-- ErroComunicacaoException
-JavaException <|-- RoboDesligadoException
-JavaException <|-- SensorDesligadoException
-JavaException <|-- VelocidadeMaximaAtingidaException
+Exception <|-- AlturaMaximaAtingidaException
+Exception <|-- ColisaoException
+Exception <|-- ErroComunicacaoException
+Exception <|-- RoboDesligadoException
+Exception <|-- SensorDesligadoException
+Exception <|-- VelocidadeMaximaAtingidaException
 
 Robo <|-- RoboAereo
 Robo <|-- RoboTerrestre
@@ -365,22 +365,41 @@ Robo "1" *-- "1" GerenciadorSensores
 Robo "1" *-- "1" ControleMovimento
 Aspirador "1" *-- "1" ModuloComunicacao
 Drone "1" *-- "1" ModuloComunicacao
+NannyMcphee "1" *-- "1" ModuloComunicacao
 Ambiente "1" o-- "*" Entidade
 Autonomo "1" o-- "0..1" Missao
-NannyMcphee "1" o-- "0..1" Robo
+NannyMcphee "1" o-- "0..1" Robo : cuida >
 
 ' --- Associações e Dependências ---
-Robo --> EstadoRobo
-Robo --> TipoEntidade
-Obstaculo --> TipoObstaculo
+Robo ..> EstadoRobo
+Robo ..> TipoEntidade
+Robo ..> Obstaculo
+Obstaculo ..> TipoObstaculo
 ControleMovimento ..> Ambiente
 GerenciadorSensores ..> "Sensor<T>"
-ModuloComunicacao ..> CentralComunicacao
+ModuloComunicacao ..> CentralComunicacao : <<uses>>
 Missao ..> Robo
 Missao ..> Ambiente
 MissaoProteger ..> Logger
+MissaoProteger ..> NannyMcphee
+MissaoProteger ..> Obstaculo
+Drone ..> Rover
 
-' --- Relacionamentos de Exceções ---
+' --- Dependências da Main ---
+Main ..> Ambiente
+Main ..> Drone
+Main ..> Passaro
+Main ..> Aspirador
+Main ..> Rover
+Main ..> NannyMcphee
+Main ..> ColisaoException
+Main ..> AlturaMaximaAtingidaException
+Main ..> SensorDesligadoException
+Main ..> ErroComunicacaoException
+Main ..> RoboDesligadoException
+Main ..> VelocidadeMaximaAtingidaException
+
+' --- Relacionamentos de Exceções (<<throws>>) ---
 GerenciadorSensores ..> RoboDesligadoException : <<throws>>
 GerenciadorSensores ..> SensorDesligadoException : <<throws>>
 
