@@ -10,7 +10,7 @@ import robot.Robo;
 import sensores.SensorProximidade;
 
 public class ControleMovimento {
-    private Robo roboPai;
+    private final Robo roboPai;
 
     public ControleMovimento(Robo roboPai) {
         this.roboPai = roboPai;

@@ -1,0 +1,405 @@
+@startuml diagrama_de_classes
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor #FFF3E0
+    ArrowColor Navy
+    BorderColor Navy
+    FontSize 12
+    FontName Arial
+    AttributeFontSize 11
+    FontStyle bold
+}
+skinparam class<<Geral>> {
+    BackgroundColor #E3F2FD
+}
+
+skinparam class<<Sensor>> {
+    BackgroundColor #F3E5F5
+}
+
+skinparam class<<Robo>> {
+    BackgroundColor #E8F5E9
+}
+
+skinparam class<<Excecao>>{
+    BackgroundColor #FFCDD2
+}
+
+skinparam class<<Subsistemas>>{
+    BackgroundColor #FFF9C4
+}
+
+interface Comunicavel <<Robo>>
+interface Sensoreavel <<Robo>>
+interface Veloz <<Robo>>
+interface Manobravel <<Robo>>
+interface Fiscalizador <<Sensor>>
+
+enum EstadoRobo <<Robo>>
+
+class AlturaMaximaException <<Excecao>>
+class RoboDesligadoException<<Excecao>>
+class SensorDesligadoException<<Excecao>>
+class ColisaoException<<Excecao>>
+class ErroComunicacaoException<<Excecao>>
+class VelocidadeMaximaAtingidaException<<Excecao>>
+
+class Drone <<Robo>>
+class Passaro <<Robo>>
+class Aspirador <<Robo>>
+class Rover <<Robo>>
+class NannyMcphee <<Robo>>
+class RoboAereo <<Robo>>
+class RoboTerrestre <<Robo>>
+class Autonomo <<Robo>>
+abstract class Robo <<Robo>>
+
+class ControleMovimento <<Subsistemas>>
+class GerenciadorSensores <<Subsistemas>>
+class ModuloComunicacao <<Subsistemas>>
+
+abstract class "Sensor<T>" <<Sensor>>
+class SensorAltitude <<Sensor>>
+class SensorProximidade <<Sensor>>
+class SensorVelocidade <<Sensor>>
+
+hide empty members
+left to right direction
+
+interface Entidade {
+    + getX() : int
+    + getY() : int
+    + getZ() : int
+    + setPosicao(x: int, y: int, z: int) : void
+    + getTipoEntidade() : TipoEntidade
+    + getDescricao() : String
+    + getSimbolo() : char
+    + getNome() : String
+}
+
+interface Sensoreavel {
+    + acionarSensores() : void
+}
+
+interface Comunicavel {
+    + enviarMensagem(destinatario: Entidade, mensagem: String) : void
+    + receberMensagem(remetente: String, mensagem: String) : void
+}
+
+interface Manobravel {
+    + subir(deltaZ: int, ambiente: Ambiente) : void
+    + descer(deltaZ: int, ambiente: Ambiente) : void
+}
+
+interface Veloz {
+    + getVelocidadeMaxima() : int
+    + setVelMaxima(velMax: int) : void
+    + getSensorVelocidade() : SensorVelocidade
+}
+
+interface Fiscalizador {
+    + isMuito(taxa: double) : boolean
+}
+
+interface Eliminador {
+    + eliminar(passosX: int, passosY: int, ambiente: Ambiente) : void
+}
+
+enum EstadoRobo {
+    LIGADO
+    DESLIGADO
+}
+
+enum TipoEntidade {
+    VAZIO
+    ROBO
+    OBSTACULO
+    DESCONHECIDO
+}
+
+enum TipoObstaculo {
+    BURACO_SEM_FUNDO
+    MINA_TERRESTRE
+    ARVORE
+    PORTAO
+}
+
+abstract class Robo implements Entidade, Sensoreavel {
+    - idRobo: String
+    - direcao: String
+    - estado: EstadoRobo
+    - tipoEntidade: TipoEntidade
+    - posicaoX: int
+    - posicaoY: int
+    - posicaoZ: int
+    - listaSensores: ArrayList<Sensor<?>>
+    - controleMovimento: ControleMovimento
+    # gerenciadorSensores: GerenciadorSensores
+    --
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente) : void
+    + acionarSensores(): void
+    + adicionarSensor(sensor> Sensor<?>): void
+    + removerSensor(sensor: Sensor<?>): void
+    + interacaoRoboObstaculo(ambiente: Ambiente, obstaculo: Obstaculo) : void
+    + roboParouNoObstaculo(ambiente: Ambiente, obstaculo: Obstaculo): void
+    + interacaoRoboObstaculo(ambiente: Ambiente, obstaculo: Obstaculo): void
+    + ligar() : void
+    + desligar() : void
+}
+
+class GerenciadorSensores {
+    - _roboPai: Robo
+    - _listaSensores: List<Sensor<?>>
+    - sensorProximidade: SensorProximidade
+    - sensorAltitude: SensorAltitude
+    - sensorVelocidade: SensorVelocidade
+    --
+    + adicionarSensor(sensor: Sensor<?>) : void
+    + removerSensor(sensor: Sensor<?>): void
+    + acionarSensores() : void
+}
+
+class ControleMovimento {
+    - _roboPai: Robo
+    --
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente) : void
+}
+
+class ModuloComunicacao implements Comunicavel {
+    - _roboPai: Robo
+    --
+    + enviarMensagem(destinatario: Entidade, mensagem: String): void
+    + receberMensagem(remetente: String, mensagem: String)
+}
+
+class RoboAereo extends Robo implements Manobravel {
+    - altitudeMaxima: int
+    - altitude: int
+    --
+    + subir(deltaZ: int, ambiente: Ambiente): void
+    + descer(deltaZ: int, ambiente: Ambiente): void
+    + moveuTudo(ambiente: Ambiente): boolean
+}
+class Drone extends RoboAereo implements Comunicavel {
+    - pacote: Rover
+    - tempoLocomocaoTerrestre: int
+    - moduloComunicacao: ModuloComunicacao
+    --
+    + enviarMensagem(destinatario: Entidade, mensagem: String): void
+    + receberMensagem(remetente: String, mensagem: String): void
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente): void
+    + entregarPacote(posFinalX: int, posFinalY: int, nome: String, amb: Ambiente) : void
+    + jaExisteRobo(Ambiente, ambiente): boolean
+    + adicionaPacote(pacote: Rover): void
+}
+class Passaro extends RoboAereo {
+    - qtdDesvios: int
+    - posicao: int[]
+    --
+    - desviar(ambiente: Ambiente):void
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente): void
+    + desviouXY(ambiente: Ambiente) : boolean
+    + desviouZ(ambiente: Ambiente) : boolean
+}
+
+class RoboTerrestre extends Robo implements Veloz {
+    - velocidadeMaxima: int
+    - tempoLocomocaoTerrestre: int
+    --
+    + mover(deltaX:int, deltaY: int, ambiente: Ambiente): void
+}
+class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador {
+    - robosEliminados: int
+    - moduloComunicacao: ModuloComunicacao
+    --
+    + enviarMensagem(destinatario: Entidade, mensagem: String): void
+    + receberMensagem(remetente: String, mensagem: String): void
+    + eliminar(passosX: int, passosY: int, ambiente: Ambiente): void
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente): void
+}
+class Rover extends RoboTerrestre {
+    - tempoLocomocaoTerrestre: int
+    - qtdRobosDerrubados: int
+    --
+    + mover(deltaX: int, deltaY: int, ambiente: Ambiente): void
+    + empurrarRobo(empurrado: Robo, deltaX: int, deltaY: int, amb: Ambiente) : void
+}
+
+abstract class Autonomo extends Robo {
+    # missao: Missao
+    --
+    + temMissao() : boolean
+    + {abstract} executarMissao(ambiente: Ambiente) : void
+}
+
+class NannyMcphee extends Autonomo implements Comunicavel {
+    - numeroDeBebesCuidados: int
+    - bebe: Robo
+    - moduloComunicacao: ModuloComunicacao
+    --
+    + enviarMensagem(destinatario: Entidade, mensagem: String): void
+    + receberMensagem(remetente: String, mensagem: String): void
+    + demitir() : void
+    + executarMissao(ambiente: Ambiente): void
+}
+
+abstract class "Sensor<T>" {
+    - raio: double
+    - bateria: int
+    - nomeSensor: String
+    --
+    {abstract} + monitorar(atributo: Object...): T
+    + recarregarBateria(carga: int): void
+    + consumirBateria(consumo: int): void
+    + isBateriaBaixa(): boolean
+}
+
+class SensorAltitude extends "Sensor<Integer>" implements Fiscalizador {
+    + monitorar(atributo: Object...): Integer
+    + porcentoAltura(altura: int, alturaMax: int): double
+    + porcentoAltura(altura: int, alturaMax: int) : double
+    + isMuito(taxa: double): boolean
+}
+class SensorProximidade extends "Sensor<Boolean>" {
+    - ultimoTipoDetectado: TipoEntidade
+    --
+    + monitorar(atributo: Object...): Boolean
+    + identificarRobo(x:int, y:int, z:int, amb:Ambiente, robo:Robo) : boolean
+    + identificarObstaculo(x:int, y:int, z:int, amb:Ambiente) : boolean
+}
+class SensorVelocidade extends "Sensor<Double>" implements Fiscalizador {
+    + monitorar(atributo: Object...): Double
+    + porcentoVelocidade(velocidade: double, velMax: double) : double
+    + isMuito(taxa: double): boolean
+}
+class Ambiente {
+    - _ambiente: String
+    - tamX: int
+    - tamY: int
+    - tamZ: int
+    - numRobosAmbiente: int
+    - numObstaculosAmbiente: int
+    - listaEntidades: ArrayList<Entidade>
+    - mapa: TipoEntidade[][][]
+    --
+    + dentroDosLimites(x: int, y: int, z: int): boolean
+    + inicializarMapa(tamX: int, tamY: int, tamZ: int): void
+    + adicionarEntidade(entidade: Entidade) : void
+    + removerEntidade(entidade: Entidade) : void
+    + estaOcupado(x:int, y:int, z:int) : boolean
+    + verificarColisao(entidade: Entidade): boolean
+    + vizualizarMapa(altura: int) : char[][]
+    + moverEntidade(entidade: Entidade, deltaX: int, deltaY: int, deltaZ: int): void
+}
+
+class Obstaculo implements Entidade {
+    - posX1: int
+    - posY1: int
+    - posX2: int
+    - posY2: int
+    - altura: int
+    - _tipoEntidadde: TipoEntidade
+    - _tipoObstaculo: TipoObstaculo
+}
+interface Missao {
+    + executar(r: Robo, a: Ambiente) : void
+}
+
+class MissaoProteger implements Missao {
+    + executar(robo: Rovo, ambiente: Ambiente)
+}
+class CentralComunicacao <<singleton>> {
+    - mensagens: List<String>
+    {static} - instancia: CentralComunicacao
+    --
+    + registrarMensagem(remetente: String, destinatario: String, msg: String) : void
+}
+
+class Logger {
+    {static} - LOG_FILE: String
+    --
+    {static} + log(message: String) : void
+    {static} + close() : void
+}
+' =======================================================
+' --- RELACIONAMENTOS ---
+' =======================================================
+
+' --- Herança ---
+JavaException <|-- AlturaMaximaAtingidaException
+JavaException <|-- ColisaoException
+JavaException <|-- ErroComunicacaoException
+JavaException <|-- RoboDesligadoException
+JavaException <|-- SensorDesligadoException
+JavaException <|-- VelocidadeMaximaAtingidaException
+
+Robo <|-- RoboAereo
+Robo <|-- RoboTerrestre
+RoboAereo <|-- Drone
+RoboAereo <|-- Passaro
+RoboTerrestre <|-- Aspirador
+RoboTerrestre <|-- Rover
+"Sensor<T>" <|-- SensorAltitude
+"Sensor<T>" <|-- SensorProximidade
+"Sensor<T>" <|-- SensorVelocidade
+Robo <|-- Autonomo
+Autonomo <|-- NannyMcphee
+Missao <|.. MissaoProteger
+
+' --- Implementação de Interfaces ---
+Entidade <|.. Robo
+Sensoreavel <|.. Robo
+Entidade <|.. Obstaculo
+Manobravel <|.. RoboAereo
+Veloz <|.. RoboTerrestre
+Fiscalizador <|.. SensorAltitude
+Fiscalizador <|.. SensorVelocidade
+Eliminador <|.. Aspirador
+Comunicavel <|.. Aspirador
+Comunicavel <|.. Drone
+Comunicavel <|.. NannyMcphee
+Comunicavel <|.. ModuloComunicacao
+
+' --- Composição e Agregação ---
+Robo "1" *-- "1" GerenciadorSensores
+Robo "1" *-- "1" ControleMovimento
+Aspirador "1" *-- "1" ModuloComunicacao
+Drone "1" *-- "1" ModuloComunicacao
+Ambiente "1" o-- "*" Entidade
+Autonomo "1" o-- "0..1" Missao
+NannyMcphee "1" o-- "0..1" Robo
+
+' --- Associações e Dependências ---
+Robo --> EstadoRobo
+Robo --> TipoEntidade
+Obstaculo --> TipoObstaculo
+ControleMovimento ..> Ambiente
+GerenciadorSensores ..> "Sensor<T>"
+ModuloComunicacao ..> CentralComunicacao
+Missao ..> Robo
+Missao ..> Ambiente
+MissaoProteger ..> Logger
+
+' --- Relacionamentos de Exceções ---
+GerenciadorSensores ..> RoboDesligadoException : <<throws>>
+GerenciadorSensores ..> SensorDesligadoException : <<throws>>
+
+ControleMovimento ..> RoboDesligadoException : <<throws>>
+ControleMovimento ..> SensorDesligadoException : <<throws>>
+ControleMovimento ..> ColisaoException : <<throws>>
+ControleMovimento ..> ErroComunicacaoException : <<throws>>
+
+ModuloComunicacao ..> RoboDesligadoException : <<throws>>
+ModuloComunicacao ..> ErroComunicacaoException : <<throws>>
+
+Manobravel ..> ColisaoException : <<throws>>
+Manobravel ..> SensorDesligadoException : <<throws>>
+Manobravel ..> RoboDesligadoException : <<throws>>
+Manobravel ..> ErroComunicacaoException : <<throws>>
+
+Drone ..> ColisaoException : <<throws>>
+Ambiente ..> ColisaoException : <<throws>>
+SensorAltitude ..> AlturaMaximaAtingidaException : <<throws>>
+SensorVelocidade ..> VelocidadeMaximaAtingidaException : <<throws>>
+
+@enduml
