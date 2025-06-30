@@ -1,6 +1,7 @@
 package robot;
 
 import interfaces.*;
+import robot.subsistemas.ControleMovimento;
 import robot.subsistemas.GerenciadorSensores;
 import sensores.*;
 import enums.*;
@@ -19,6 +20,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
     private int posicaoZ;   //coordenada Z no Ambiente no caso de robôs aéreos
     private ArrayList<Sensor<?>> listaSensores; //Lista de sensores do robô
     protected GerenciadorSensores gerenciadorSensores; //Gerenciador de sensores do robô
+    private ControleMovimento controleMovimento; //Controle de movimento do robô
     
     public Robo (String idRobo, String direcaoRobo, int x, int y, int z) { //Construtor para inicializar os atributos do robô aéreo;
         this.idRobo = idRobo;
@@ -30,6 +32,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
         this.estado = EstadoRobo.LIGADO; //Por padrão o robô está ligado
         this.tipoEntidade = TipoEntidade.ROBO; //Define o tipo da entidade como robô
         gerenciadorSensores = new GerenciadorSensores(this); //Inicializa o gerenciador de sensores do robô
+        controleMovimento = new ControleMovimento(this); //Inicializa o controle de movimento do robô
     }
     /**
      * Método para mover o robô no ambiente, de modo que ele anda primeiro no eixo X e depois no eixo Y.
@@ -42,70 +45,7 @@ public abstract class Robo implements Entidade, Sensoreavel{
      * @throws ErroComunicacaoException 
      */
     public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException {
-        //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
-        try{
-            acionarSensores();
-        }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
-            System.err.println(e.getMessage());
-            return; 
-        }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
-            System.err.println(e.getMessage());
-            return; 
-        }
-
-        SensorProximidade sensorProx = this.getSensorProximidade(); //Acessa o sensor de proximidade do robô
-
-        int posInicialX = this.getPosicao()[0];
-        int posInicialY = this.getPosicao()[1];
-        int[] passos = this.getPasso(deltaX, deltaY);
-        if (passos[0] == 0 && passos[1] == 0) {
-            return; // Evita chamadas infinitas
-        }
-        if (deltaX == 0 && deltaY == 0) { 
-            return; // O robô já chegou ao destino, então para a recursão
-        }
-
-        boolean moveu = false;
-        if (deltaX != 0 && ambiente.dentroDosLimites(deltaX + this.getPosicao()[1] , deltaY, deltaY) && !this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0] + passos[0], this.getPosicao()[1], ambiente))){ //Segue recursivamente no eixo x para analisar caso pare em algum obstáculo
-            this.setPosicao(this.getPosicao()[0] + passos[0], this.getPosicao()[1], this.getPosicao()[2]);
-            moveu = true;
-            mover(deltaX - passos[0], deltaY, ambiente);
-            return;
-        }else if (deltaY != 0 && ambiente.dentroDosLimites(deltaX, deltaY + this.getPosicao()[1] , deltaY) && !this.roboParouNoObstaculo(this.getObstaculoIdentificado(this.getPosicao()[0], this.getPosicao()[1] + passos[1], ambiente))){ //Depois de ter andado tudo em x ele segue recursivamente no eixo y analisando caso identifique algum obstáculo
-            this.setPosicao(this.getPosicao()[0], this.getPosicao()[1] + passos[1], this.getPosicao()[2]);
-            moveu = true;
-            this.mover(deltaX, deltaY - passos[1], ambiente);
-            return;
-        }
-        
-        int posAtualX = this.getPosicao()[0];
-        int posAtualY = this.getPosicao()[1];
-        if (posAtualX == posInicialX + deltaX && posAtualY == posInicialY + deltaY) {
-            return; // Se ele andou tudo, não há necessidade de verificar colisões
-        }
-
-        if (passos[0] != 0 && ambiente.dentroDosLimites(posAtualX + passos[0], posInicialY, this.getPosicao()[2])){ // Analisa se ele consegue andar em X
-            if (sensorProx.monitorar(posAtualX + passos[0], posAtualY, this.getPosicao()[2], ambiente, this)){
-                Obstaculo obstaculoIdenObstaculo = this.getObstaculoIdentificado(posAtualX + passos[0], posAtualY, ambiente);
-                if (this.roboParouNoObstaculo(obstaculoIdenObstaculo)){ // Se o robô identificar um obstáculo e for parado por ele, encerra o movimento
-                    if (sensorProx.getBateria() == 0){ // Se a bateria do sensor de proximidade acabar, aplica as interações de colisão com obstáculos
-                        this.interacaoRoboObstaculo(ambiente, obstaculoIdenObstaculo);
-                    }
-                }
-            }
-        }else if (passos[1] != 0 && ambiente.dentroDosLimites(posAtualX, posInicialY + passos[1], this.getPosicao()[2])){ // Analisa se ele consegue andar em Y
-            if (sensorProx.monitorar(posAtualX, posAtualY + passos[1], this.getPosicao()[2], ambiente, this)){
-                Obstaculo obstaculoIdenObstaculo = this.getObstaculoIdentificado(posAtualX, posAtualY + passos[1], ambiente);
-                if (this.roboParouNoObstaculo(obstaculoIdenObstaculo)){ // Se o robô identificar um obstáculo e for parado por ele, encerra o movimento
-                    if (sensorProx.getBateria() == 0){ // Se a bateria do sensor de proximidade acabar, aplica as interações de colisão com obstáculos
-                        this.interacaoRoboObstaculo(ambiente, obstaculoIdenObstaculo);
-                    }
-                }
-            }
-        }
-        if (!moveu){ //Se não conseguiu mover nem em X e nem em Y ele para a função
-            return;
-        }
+        controleMovimento.mover(deltaX, deltaY, ambiente); 
     }
     /**
      * Método que aciona os sensores do robô, verificando se o robô está ligado e se os sensores estão com bateria.

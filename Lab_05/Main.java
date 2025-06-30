@@ -1055,7 +1055,7 @@ public class Main {
      * @throws SensorDesligadoException 
      */
     public static void metodosRobosAereos(RoboAereo roboAereo, int subirOuDescer, Scanner scanner, Ambiente ambiente) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, RoboDesligadoException, ErroComunicacaoException{ 
-        if (roboAereo.getSensorAltitude(roboAereo).getBateria() == 0){
+        if (roboAereo.getSensorAltitude().getBateria() == 0){
             System.out.println("O sensor de altitude do seu robô está sem bateria, você não vai conseguir subir ou descer mais até recarregá-lo");
         }else{
             int deltaZ;
@@ -1067,13 +1067,13 @@ public class Main {
                 roboAereo.descer(deltaZ, ambiente);
             }
         }
-        if (roboAereo.getSensorAltitude(roboAereo).isBateriaBaixa()){
+        if (roboAereo.getSensorAltitude().isBateriaBaixa()){
             System.out.println("A bateria do seu sensor de altitude está baixa, se você não recarregá-lo ele pode parar de funcionar e você pode acabar caindo");
         }
         obstaculoAchado(roboAereo, ambiente);
         try{ //Trata AlturaMaximaAtingidaException
-            System.out.println("Você está atualmente a " + roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + "% da altura máxima do seu ambiente");
-            if (roboAereo.getSensorAltitude(roboAereo).isMuito(roboAereo.getSensorAltitude(roboAereo).porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
+            System.out.println("Você está atualmente a " + roboAereo.getSensorAltitude().porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]) + "% da altura máxima do seu ambiente");
+            if (roboAereo.getSensorAltitude().isMuito(roboAereo.getSensorAltitude().porcentoAltura(roboAereo.getPosicao()[2], ambiente.getLimites()[2]))){
                 System.out.println("O mito de Ícarus narra a história de um anjo que tentou voar muito perto do sol e acabou morrendo, cuidado para acabar não virando uma lenda da pior maneira");
             }
         }catch(AlturaMaximaAtingidaException e){
