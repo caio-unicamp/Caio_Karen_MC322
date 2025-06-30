@@ -19,7 +19,12 @@ public class SensorVelocidade extends Sensor<Double> implements Fiscalizador{
     @Override
     public Double monitorar(Object... atributo){//Método abstrato para monitorar a altura do robô
         this.consumirBateria(5); // Consome 5% da bateria a cada monitoramento
-        return (Math.pow((float) atributo[0],2) + Math.pow((float) atributo[1],2) / ((RoboTerrestre) atributo[2]).getTempoLocomocao()); 
+
+        float x = ((Integer) atributo[0]).floatValue();
+        float y = ((Integer) atributo[1]).floatValue();
+        RoboTerrestre robo = (RoboTerrestre) atributo[2];
+        
+        return (Math.pow(x, 2) + Math.pow(y, 2)) / robo.getTempoLocomocao(); 
     }
     /**
      * Analisa quão rápido o robô terrestre tentou se mover

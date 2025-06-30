@@ -70,7 +70,7 @@ public class Aspirador extends RoboTerrestre implements Comunicavel, Eliminador 
      * @throws ErroComunicacaoException 
      */
     @Override
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException { //Função para mover o aspirador e eliminar os robôs
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{ //Função para mover o aspirador e eliminar os robôs
         int posInicialX = this.getPosicao()[0];
         int posInicialY = this.getPosicao()[1];
         int[] passos = this.getPasso(deltaX, deltaY);

@@ -6,6 +6,7 @@ import excecoes.ColisaoException;
 import excecoes.ErroComunicacaoException;
 import excecoes.RoboDesligadoException;
 import excecoes.SensorDesligadoException;
+import excecoes.VelocidadeMaximaAtingidaException;
 import robot.Robo;
 import sensores.SensorProximidade;
 
@@ -25,18 +26,7 @@ public class ControleMovimento {
      * @throws ColisaoException
      * @throws ErroComunicacaoException 
      */
-    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException {
-        //Tratamento dos erros de sensor desligado e robô desligado ao tentar acionar os sensores 
-        try{
-            roboPai.acionarSensores();
-        }catch (RoboDesligadoException e) { //Se o robô estiver desligado, não consegue monitorar o ambiente
-            System.err.println(e.getMessage());
-            return; 
-        }catch (SensorDesligadoException e) { //Se algum sensor estiver desligado, não consegue monitorar o ambiente
-            System.err.println(e.getMessage());
-            return; 
-        }
-
+    public void mover(int deltaX, int deltaY, Ambiente ambiente) throws SensorDesligadoException, RoboDesligadoException, ColisaoException, ErroComunicacaoException{
         SensorProximidade sensorProx = roboPai.getSensorProximidade(); //Acessa o sensor de proximidade do robô
 
         int posInicialX = roboPai.getPosicao()[0];
