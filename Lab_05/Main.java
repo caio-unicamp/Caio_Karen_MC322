@@ -11,6 +11,7 @@ import robot.aereo.*;
 import robot.autonomos.NannyMcphee;
 import robot.terrestre.*;
 import sensores.*;
+import utils.CentralComunicacao;
 
 public class Main {
     public static void main(String[] args) throws ColisaoException, AlturaMaximaAtingidaException, SensorDesligadoException, ErroComunicacaoException, RoboDesligadoException{

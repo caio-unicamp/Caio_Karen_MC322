@@ -1,12 +1,12 @@
 package robot.subsistemas;
 
-import ambiente.CentralComunicacao;
 import enums.EstadoRobo;
 import excecoes.ErroComunicacaoException;
 import excecoes.RoboDesligadoException;
 import interfaces.Comunicavel;
 import interfaces.Entidade;
 import robot.Robo;
+import utils.CentralComunicacao;
 
 public class ModuloComunicacao implements Comunicavel {
     private final Robo roboPai; // Atributo para armazenar a interface comunicável, se necessário

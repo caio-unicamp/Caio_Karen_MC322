@@ -3,6 +3,7 @@ import ambiente.*;
 import robot.*;
 import excecoes.*;
 import sensores.*;
+import utils.CentralComunicacao;
 import enums.*;
 import interfaces.Comunicavel;
 import interfaces.Entidade;
