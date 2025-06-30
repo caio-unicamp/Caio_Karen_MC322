@@ -7,6 +7,7 @@ import excecoes.SensorDesligadoException;
 import robot.Robo;
 import robot.autonomos.NannyMcphee;
 import ambiente.Obstaculo;
+import utils.Logger;
 
 public class MissaoProteger implements Missao {
 
@@ -46,6 +47,7 @@ public class MissaoProteger implements Missao {
                 int targetX = deltaX - Integer.signum(deltaX);
                 int targetY = deltaY - Integer.signum(deltaY);
                 nanny.mover(targetX, targetY, ambiente);
+                Logger.log("Operação babá: "+ nanny.getNome() + " se moveu para proteger " + bebe.getNome() + " de perigos.");
             }
 
             // Lógica para evitar que o bebê seja destruído
@@ -60,7 +62,7 @@ public class MissaoProteger implements Missao {
                     switch (obstaculoPerigoso.getTipoObstaculo()) {
                         case MINA_TERRESTRE:
                         case BURACO_SEM_FUNDO:
-                            System.out.println("ALERTA! " + nanny.getNome() + " detectou perigo para " + bebe.getNome() + "!");
+                            Logger.log("ALERTA! " + nanny.getNome() + " detectou perigo para " + bebe.getNome() + "!");
                             // Move a Nanny para a posição do obstáculo para "bloquear" o caminho.
                             nanny.mover(obstaculoPerigoso.getX() - nanny.getX(), obstaculoPerigoso.getY() - nanny.getY(), ambiente);
                             break;
@@ -72,9 +74,9 @@ public class MissaoProteger implements Missao {
             }
 
         } catch (SensorDesligadoException | RoboDesligadoException | ColisaoException e) {
-            System.err.println("Nanny McPhee encontrou um problema ao proteger: " + e.getMessage());
+            Logger.log("Nanny McPhee encontrou um problema ao proteger: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Ocorreu um erro inesperado na MissaoProteger: " + e.getMessage());
+            Logger.log("Ocorreu um erro inesperado na MissaoProteger: " + e.getMessage());
         }
     }
 }
