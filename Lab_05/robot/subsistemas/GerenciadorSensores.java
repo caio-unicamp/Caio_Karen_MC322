@@ -56,7 +56,7 @@ public class GerenciadorSensores {
      */
     public void acionarSensores() throws SensorDesligadoException, RoboDesligadoException {
         if (roboPai.getEstadoRobo().equals(EstadoRobo.DESLIGADO)){ //Confere se o robô está desligado
-            throw new RoboDesligadoException(roboPai.getNome());
+            throw new RoboDesligadoException(roboPai.getNome() + " está desligado e não pode acionar os sensores.");
         }
         for (Sensor<?> sensor : listaSensores) { //Percorre a lista de sensores do robô
             if (sensor.getBateria() == 0){ //Se a bateria do sensor acabar, ele não consegue mais monitorar o ambiente
